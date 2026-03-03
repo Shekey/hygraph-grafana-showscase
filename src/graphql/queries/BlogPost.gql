@@ -1,0 +1,36 @@
+query GetBlogPosts {
+  blogPosts(stage: DRAFT, orderBy: publishedDate_DESC, first: 20) {
+    id
+    slug
+    title
+    category
+    publishedDate
+    readTime
+    summary
+    image {
+      url
+      width
+      height
+    }
+  }
+}
+
+query GetBlogPost($slug: String!) {
+  blogPost(where: { slug: $slug }, stage: DRAFT) {
+    id
+    slug
+    title
+    category
+    publishedDate
+    readTime
+    summary
+    image {
+      url
+      width
+      height
+    }
+    body {
+      html
+    }
+  }
+}

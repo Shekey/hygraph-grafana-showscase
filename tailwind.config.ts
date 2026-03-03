@@ -9,6 +9,12 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // HyBikes static palette
+        primary: '#121212',
+        secondary: '#F9F9F7',
+        accent: '#FF4F00',
+        muted: '#6B6B6B',
+        // Dynamic brand color system (CSS variable driven)
         brand: {
           DEFAULT: 'hsl(var(--color-brand-primary))',
           hover: 'hsl(var(--color-brand-hover))',

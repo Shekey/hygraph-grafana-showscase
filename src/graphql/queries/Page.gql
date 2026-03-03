@@ -1,14 +1,76 @@
 query GetPage($slug: String!, $locale: Locale!, $segmentName: String) {
-  pages(where: { slug: $slug }, locales: [$locale, en], stage: DRAFT, first: 1) {
+  pages(
+    where: { slug: $slug }
+    locales: [$locale, en]
+    stage: DRAFT
+    first: 1
+  ) {
     id
     title
     slug
     sections {
       __typename
+      ... on PageHeader {
+        id
+        subtitle
+        eyebrow
+        pageHeaderTitle: title
+      }
+      ... on BlogList {
+        id
+        blogListHeadline: headline
+        posts {
+          id
+          slug
+          title
+          category
+          publishedDate
+          readTime
+          summary
+          image {
+            url
+            width
+            height
+          }
+        }
+      }
+      ... on FeaturedArticle {
+        id
+        ctaLabel
+        imageRight
+        blogPost {
+          id
+          slug
+          title
+          category
+          publishedDate
+          readTime
+          summary
+          image {
+            url
+            width
+            height
+          }
+        }
+      }
+      ... on JobList {
+        id
+        jobs {
+          id
+          slug
+          title
+          department
+          location
+          jobType
+          summary
+        }
+      }
       ... on HeroSection {
         id
+        label
         headline
         subheadline
+        mediaText
         backgroundMedia {
           id
           url
@@ -33,7 +95,6 @@ query GetPage($slug: String!, $locale: Locale!, $segmentName: String) {
       }
       ... on FeatureGrid {
         id
-        title
         layout
         features {
           id
@@ -41,29 +102,28 @@ query GetPage($slug: String!, $locale: Locale!, $segmentName: String) {
           description {
             text
           }
-          icon {
-            id
-            url
-            width
-            height
-          }
         }
       }
-      ... on TestimonialCarousel {
+      ... on EditorialSection {
         id
-        title
-        testimonials {
+        eyebrow
+        editorialHeadline: headline
+        body {
+          html
+        }
+        image {
           id
-          quote
-          author
-          role
-          rating
-          avatar {
-            id
-            url
-            width
-            height
-          }
+          url
+          width
+          height
+        }
+        imageRight
+        ctaLabel
+        ctaHref
+        stats {
+          id
+          value
+          label
         }
       }
       ... on CTABlock {
@@ -90,17 +150,33 @@ query GetPage($slug: String!, $locale: Locale!, $segmentName: String) {
       }
       ... on ProductShowcase {
         id
-        title
         layout
-        productLine {
+        filterByAudience
+        displayFilters
+        showPrices
+        showStock
+        products {
           id
           slug
           name
+          tagline
+          category {
+            value
+          }
+          image {
+            url
+            width
+            height
+          }
+          externalProduct {
+            data {
+              calculated_price
+              sale_price
+              inventory_level
+              availability
+            }
+          }
         }
-        filterByAudience
-        showPrices
-        showStock
-        itemsPerRow
       }
       ... on StatsBar {
         id
@@ -108,24 +184,110 @@ query GetPage($slug: String!, $locale: Locale!, $segmentName: String) {
         statsLayout: layout
         backgroundColor
         stats {
+          id
           value
           label
-          icon {
-            id
-            url
-            width
-            height
-          }
+        }
+      }
+      ... on SectionHeader {
+        id
+        label
+        sectionHeadingHeadline: headline
+      }
+      ... on Timeline {
+        id
+        entries {
+          id
+          year
+          event
+        }
+      }
+      ... on ContactSection {
+        id
+        topics
+        nameLabel
+        namePlaceholder
+        emailLabel
+        emailPlaceholder
+        topicLabel
+        topicPlaceholder
+        messageLabel
+        messagePlaceholder
+        submitLabel
+        successHeadline
+        successBody
+        offices {
+          id
+          city
+          role
+          address
+          email
+          phone
         }
       }
     }
     variants(where: { segments_some: { name: $segmentName } }) {
       sections {
         __typename
+        ... on PageHeader {
+          id
+          eyebrow
+          pageHeaderTitle: title
+          subtitle
+        }
+        ... on BlogList {
+          id
+          posts {
+            id
+            slug
+            title
+            category
+            publishedDate
+            readTime
+            summary
+            image {
+              url
+              width
+              height
+            }
+          }
+        }
+        ... on FeaturedArticle {
+          id
+          ctaLabel
+          imageRight
+          blogPost {
+            id
+            slug
+            title
+            category
+            publishedDate
+            readTime
+            summary
+            image {
+              url
+              width
+              height
+            }
+          }
+        }
+        ... on JobList {
+          id
+          jobs {
+            id
+            slug
+            title
+            department
+            location
+            jobType
+            summary
+          }
+        }
         ... on HeroSection {
           id
           headline
           subheadline
+          mediaText
           backgroundMedia {
             id
             url
@@ -150,7 +312,6 @@ query GetPage($slug: String!, $locale: Locale!, $segmentName: String) {
         }
         ... on FeatureGrid {
           id
-          title
           layout
           features {
             id
@@ -158,29 +319,28 @@ query GetPage($slug: String!, $locale: Locale!, $segmentName: String) {
             description {
               text
             }
-            icon {
-              id
-              url
-              width
-              height
-            }
           }
         }
-        ... on TestimonialCarousel {
+        ... on EditorialSection {
           id
-          title
-          testimonials {
+          eyebrow
+          editorialHeadline: headline
+          body {
+            html
+          }
+          image {
             id
-            quote
-            author
-            role
-            rating
-            avatar {
-              id
-              url
-              width
-              height
-            }
+            url
+            width
+            height
+          }
+          imageRight
+          ctaLabel
+          ctaHref
+          stats {
+            id
+            value
+            label
           }
         }
         ... on CTABlock {
@@ -207,17 +367,33 @@ query GetPage($slug: String!, $locale: Locale!, $segmentName: String) {
         }
         ... on ProductShowcase {
           id
-          title
           layout
-          productLine {
+          filterByAudience
+          displayFilters
+          showPrices
+          showStock
+          products {
             id
             slug
             name
+            tagline
+            category {
+              value
+            }
+            image {
+              url
+              width
+              height
+            }
+            externalProduct {
+              data {
+                calculated_price
+                sale_price
+                inventory_level
+                availability
+              }
+            }
           }
-          filterByAudience
-          showPrices
-          showStock
-          itemsPerRow
         }
         ... on StatsBar {
           id
@@ -225,14 +401,45 @@ query GetPage($slug: String!, $locale: Locale!, $segmentName: String) {
           statsLayout: layout
           backgroundColor
           stats {
+            id
             value
             label
-            icon {
-              id
-              url
-              width
-              height
-            }
+          }
+        }
+        ... on SectionHeader {
+          id
+          label
+          sectionHeadingHeadline: headline
+        }
+        ... on Timeline {
+          id
+          entries {
+            id
+            year
+            event
+          }
+        }
+        ... on ContactSection {
+          id
+          topics
+          nameLabel
+          namePlaceholder
+          emailLabel
+          emailPlaceholder
+          topicLabel
+          topicPlaceholder
+          messageLabel
+          messagePlaceholder
+          submitLabel
+          successHeadline
+          successBody
+          offices {
+            id
+            city
+            role
+            address
+            email
+            phone
           }
         }
       }

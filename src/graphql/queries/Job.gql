@@ -1,0 +1,29 @@
+query GetJobs {
+  jobs(stage: DRAFT, first: 20) {
+    id
+    slug
+    title
+    department
+    location
+    jobType
+    summary
+  }
+}
+
+query GetJob($slug: String!) {
+  job(where: { slug: $slug }, stage: DRAFT) {
+    id
+    slug
+    title
+    department
+    location
+    jobType
+    summary
+    description {
+      html
+    }
+    responsibilities
+    requirements
+    niceToHave
+  }
+}

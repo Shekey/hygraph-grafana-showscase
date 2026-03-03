@@ -4,20 +4,41 @@ query GetSiteSettings($locale: Locale!) {
     siteName
     brandColor
     contactEmail
+    announcement {
+      html
+    }
     footerText {
       text
     }
-    logo {
-      id
-      url
-      width
-      height
-    }
+    footerSubscribeTitle
+    footerSubscribeSubtitle
     socialLinks {
       id
       platform
       url
       handle
+    }
+    mainNavigation {
+      id
+      items {
+        id
+        label
+        pageLink {
+          id
+          slug
+        }
+      }
+    }
+    footerNavigation {
+      id
+      items {
+        id
+        label
+        pageLink {
+          id
+          slug
+        }
+      }
     }
   }
 }

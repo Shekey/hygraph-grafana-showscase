@@ -1,80 +1,78 @@
 /**
- * CTA Block Component - Call-to-action section
- * Conversion-focused section with headline, description, and buttons
- * Enhanced with scroll-triggered animations
+ * CTA Block Component - hybikes design
+ * Dark background (#121212), orange button, centered text
  */
 
-'use client';
-
-import Button from '@/components/ui/Button';
-import { useScrollAnimation } from '@/hooks/useScrollAnimation';
+import Link from 'next/link';
 import type { GetPageQuery } from '@/types/hygraph-generated';
+import type { Locale } from '@/lib/utils/locale';
 
 type CTABlockType = Extract<GetPageQuery['pages'][0]['sections'][0], { __typename?: 'CTABlock' }>;
-import type { Locale } from '@/lib/utils/locale';
 
 interface CTABlockProps {
   section: CTABlockType;
   locale: Locale;
 }
 
-function getBackgroundClasses(backgroundColor: string): string {
-  switch (backgroundColor) {
-    case 'PRIMARY':
-      return 'bg-gradient-brand text-white';
-    case 'SECONDARY':
-      return 'bg-gradient-subtle dark:bg-gray-800 text-gray-900 dark:text-white';
-    case 'LIGHT':
-      return 'bg-brand-light dark:bg-brand/20 text-gray-900 dark:text-white';
-    case 'DARK':
-      return 'bg-gray-900 dark:bg-black text-white';
-    default:
-      return 'bg-gradient-brand text-white';
-  }
-}
-
-export default function CTABlock({ section, locale }: CTABlockProps) {
-  const backgroundClasses = getBackgroundClasses(section.backgroundColor);
-  const { ref, isVisible } = useScrollAnimation({ threshold: 0.3 });
+export default function CTABlock({ section }: CTABlockProps) {
+  const isDark = section.backgroundColor === 'DARK' || section.backgroundColor === 'PRIMARY';
 
   return (
     <section
-      ref={ref}
-      className={`relative py-20 md:py-28 overflow-hidden ${backgroundClasses}`}
+      className="border-b border-primary"
+      style={{ backgroundColor: isDark ? '#121212' : '#F9F9F7' }}
     >
-      {/* Decorative background elements for PRIMARY variant */}
-      {section.backgroundColor === 'PRIMARY' && (
-        <>
-          <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
-        </>
-      )}
-
-      <div className="container mx-auto px-4 relative z-10">
-        <div
-          className={`max-w-3xl mx-auto text-center ${
-            isVisible ? 'animate-fade-in-up' : 'opacity-0'
-          }`}
+      <div
+        className="p-8 md:p-12 lg:p-20 text-center flex flex-col items-center"
+        style={{ color: isDark ? '#F9F9F7' : '#121212' }}
+      >
+        <p
+          className="uppercase tracking-[0.2em] mb-6"
+          style={{ fontSize: '0.65rem', fontWeight: 700, color: isDark ? 'rgba(249,249,247,0.4)' : '#6B6B6B' }}
         >
-          {/* Headline */}
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display mb-6">
-            {section.headline}
-          </h2>
+          Ready to ride?
+        </p>
 
-          {/* Description */}
-          {section.description && (
-            <p className="text-lg md:text-xl mb-10 opacity-90 font-light leading-relaxed">
-              {section.description.text}
-            </p>
+        <h2
+          className="mb-8 max-w-3xl"
+          style={{ color: isDark ? '#F9F9F7' : '#121212' }}
+        >
+          {section.headline.replace(/\.$/, '')}
+          <span className="text-accent">.</span>
+        </h2>
+
+        {section.description && (
+          <p
+            className="max-w-lg mb-10"
+            style={{ lineHeight: 1.7, color: isDark ? 'rgba(249,249,247,0.6)' : '#6B6B6B' }}
+          >
+            {section.description.text}
+          </p>
+        )}
+
+        <div className="flex flex-wrap justify-center gap-3">
+          <Link
+            href={section.primaryButton.href}
+            className="inline-flex items-center gap-3 bg-accent text-white px-10 py-5 uppercase tracking-[0.1em] hover:bg-accent/90 transition-colors"
+            style={{ fontSize: '0.75rem', fontWeight: 700 }}
+          >
+            {section.primaryButton.label}
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </Link>
+          {section.secondaryButton && (
+            <Link
+              href={section.secondaryButton.href}
+              className="inline-flex items-center gap-3 border px-10 py-5 uppercase tracking-[0.1em] transition-colors"
+              style={{
+                fontSize: '0.75rem',
+                fontWeight: 700,
+                borderColor: isDark ? 'rgba(249,249,247,0.3)' : '#121212',
+                color: isDark ? '#F9F9F7' : '#121212',
+              }}
+            >
+              {section.secondaryButton.label}
+            </Link>
           )}
-
-          {/* Buttons */}
-          <div className="flex flex-wrap justify-center gap-4">
-            <Button cta={section.primaryButton} />
-            {section.secondaryButton && (
-              <Button cta={section.secondaryButton} />
-            )}
-          </div>
         </div>
       </div>
     </section>

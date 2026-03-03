@@ -10,29 +10,9 @@ query GetNavigation($identifier: String!, $locale: Locale!) {
     items {
       id
       label
-      linkType
       pageLink {
         id
         slug
-      }
-      productLineLink {
-        id
-        slug
-      }
-      externalUrl
-      children {
-        id
-        label
-        linkType
-        pageLink {
-          id
-          slug
-        }
-        productLineLink {
-          id
-          slug
-        }
-        externalUrl
       }
     }
   }

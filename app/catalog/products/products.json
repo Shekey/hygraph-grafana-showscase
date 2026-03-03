@@ -1,0 +1,98 @@
+{
+  "143": {
+    "name": "Aero One",
+    "sku": "HYB-AERO-143",
+    "price": 3299,
+    "sale_price": 2969.10,
+    "weight": 7.2,
+    "description": "<p>The Aero One is our flagship road racing machine. Every gram is justified, every curve optimised in the wind tunnel.</p>",
+    "colors": [
+      { "id": 11, "label": "Signal Red",   "code": "RE" },
+      { "id": 12, "label": "Carbon Black", "code": "BK" },
+      { "id": 13, "label": "Pearl White",  "code": "WH" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "RE-S": 4,  "RE-M": 8,  "RE-L": 6,  "RE-XL": 3,
+      "BK-S": 5,  "BK-M": 12, "BK-L": 9,  "BK-XL": 4,
+      "WH-S": 2,  "WH-M": 7,  "WH-L": 5,  "WH-XL": 1
+    }
+  },
+  "112": {
+    "name": "Commuter S",
+    "sku": "HYB-COMM-112",
+    "price": 1899,
+    "sale_price": null,
+    "weight": 11.4,
+    "description": "<p>Commuter S strips away everything unnecessary. What remains is the fastest, most reliable way to move through the city.</p>",
+    "colors": [
+      { "id": 14, "label": "Midnight Black", "code": "BK" },
+      { "id": 15, "label": "Steel Blue",     "code": "BL" },
+      { "id": 16, "label": "Chalk White",    "code": "WH" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "BK-S": 10, "BK-M": 18, "BK-L": 14, "BK-XL": 7,
+      "BL-S": 6,  "BL-M": 11, "BL-L": 9,  "BL-XL": 3,
+      "WH-S": 4,  "WH-M": 8,  "WH-L": 6,  "WH-XL": 2
+    }
+  },
+  "140": {
+    "name": "Volt E1",
+    "sku": "HYB-VOLT-140",
+    "price": 4499,
+    "sale_price": null,
+    "weight": 22.5,
+    "description": "<p>The Volt E1 redefines what an e-bike can be. With a 750Wh battery and intelligent motor management, range anxiety is a thing of the past.</p>",
+    "colors": [
+      { "id": 17, "label": "Graphite Grey", "code": "GR" },
+      { "id": 18, "label": "Forest Green",  "code": "GN" },
+      { "id": 19, "label": "Storm Blue",    "code": "SB" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "GR-S": 3, "GR-M": 9,  "GR-L": 7, "GR-XL": 4,
+      "GN-S": 5, "GN-M": 10, "GN-L": 8, "GN-XL": 3,
+      "SB-S": 2, "SB-M": 6,  "SB-L": 4, "SB-XL": 0
+    }
+  },
+  "141": {
+    "name": "Terra",
+    "sku": "HYB-TERR-141",
+    "price": 2799,
+    "sale_price": null,
+    "weight": 9.1,
+    "description": "<p>Terra goes where other bikes won't. Titanium frame, wide tyre clearance, and SRAM AXS wireless shifting for when the road runs out.</p>",
+    "colors": [
+      { "id": 20, "label": "Titanium Silver", "code": "SI" },
+      { "id": 21, "label": "Matte Black",     "code": "BK" },
+      { "id": 22, "label": "Terracotta",      "code": "TC" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "SI-S": 3, "SI-M": 7, "SI-L": 5, "SI-XL": 2,
+      "BK-S": 4, "BK-M": 9, "BK-L": 7, "BK-XL": 3,
+      "TC-S": 2, "TC-M": 5, "TC-L": 3, "TC-XL": 1
+    }
+  }
+}

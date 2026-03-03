@@ -1,52 +1,48 @@
-query GetProduct($id: ID!, $locale: Locale!) {
-  product(where: { id: $id }, locales: [$locale, en], stage: DRAFT) {
+query GetProductBySlug($slug: String!, $locale: Locale!) {
+  product(where: { slug: $slug }, locales: [$locale, en], stage: DRAFT) {
     id
+    slug
     name
-    baseProductId
-    color
-    size
+    tagline
     description {
       text
-      html
-    }
-    images {
-      id
-      url
-      width
-      height
     }
     category {
       value
     }
+    image {
+      url
+      width
+      height
+    }
+    productFeatures
+    featured
     specifications {
-      name
-      weight
+      frame
       motor
       battery
       range
-      frame
-      brakes
+      weight
+      groupset
       gears
+      brakes
       suspension
       wheelSize
+      wheels
     }
     externalProductId
     externalProduct {
       data {
-        id
-        name
-        sku
         calculated_price
+        sale_price
         inventory_level
         availability
-        description
         variants {
-          id
-          sku
           calculated_price
-          inventory_level
           option_values {
+            id
             label
+            option_id
             option_display_name
           }
         }

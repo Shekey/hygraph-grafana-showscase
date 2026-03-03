@@ -18,6 +18,7 @@ export function middleware(request: NextRequest) {
   // - Next.js internals (_next/*)
   const shouldSkip =
     pathname.startsWith('/api') ||
+    pathname.startsWith('/catalog') ||
     pathname.startsWith('/_next') ||
     pathname.startsWith('/favicon.ico') ||
     pathname.match(/\.(png|jpg|jpeg|gif|svg|ico|webp|avif)$/);

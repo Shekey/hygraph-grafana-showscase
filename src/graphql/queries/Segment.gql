@@ -1,0 +1,6 @@
+query GetSegments {
+  segments(stage: DRAFT) {
+    id
+    name
+  }
+}

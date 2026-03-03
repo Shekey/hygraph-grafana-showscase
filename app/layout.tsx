@@ -5,7 +5,20 @@
  */
 
 import type { Metadata } from 'next';
+import { Space_Grotesk, Inter } from 'next/font/google';
 import '@/styles/globals.css';
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-space-grotesk',
+});
+
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-inter',
+});
 import { hygraphRequest } from '@/lib/hygraph/client';
 import {
   GetSiteSettingsDocument,
@@ -49,7 +62,7 @@ export default async function RootLayout({
   const themeCSS = themeVariablesToCSS(themeVars);
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable}`} suppressHydrationWarning>
       <head>
         {/* Inject dynamic theme CSS variables */}
         <style

@@ -1,71 +1,186 @@
-/**
- * Navigation Component - Site header with main navigation
- * Fetches navigation data from Hygraph
- */
+"use client";
 
-import { hygraphRequest } from '@/lib/hygraph/client';
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { ShoppingBag, Menu, X, ChevronDown } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
 import {
-  GetNavigationDocument,
-  GetSiteSettingsDocument,
-  type GetNavigationQuery,
-  type GetNavigationQueryVariables,
-  type GetSiteSettingsQuery,
-  type GetSiteSettingsQueryVariables,
-} from '@/types/hygraph-generated';
-import LocaleSwitcher from './LocaleSwitcher';
-import NavigationItems from './NavigationItems';
-import Logo from './Logo';
-import DarkModeToggle from './DarkModeToggle';
-import type { Locale } from '@/lib/utils/locale';
+  SUPPORTED_LOCALES,
+  LOCALE_NAMES,
+  type Locale,
+} from "@/lib/utils/locale";
+import { buildHref } from "@/lib/utils/navigation";
+import type { GetSiteSettingsQuery } from "@/types/hygraph-generated";
 
 interface NavigationProps {
   locale: Locale;
+  siteSettings: GetSiteSettingsQuery["allSiteSettings"][0] | null;
 }
 
-export default async function Navigation({ locale }: NavigationProps) {
-  // Fetch navigation and site settings
-  let navData: GetNavigationQuery | null = null;
-  let siteSettings: GetSiteSettingsQuery['allSiteSettings'][0] | null = null;
+export default function Navigation({ locale, siteSettings }: NavigationProps) {
+  const navItems = siteSettings?.mainNavigation?.items ?? [];
+  const pathname = usePathname();
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [localeOpen, setLocaleOpen] = useState(false);
+  const localeRef = useRef<HTMLDivElement>(null);
 
-  try {
-    const [nav, settings] = await Promise.all([
-      hygraphRequest<GetNavigationQuery>(GetNavigationDocument, {
-        identifier: 'main-nav',
-        locale,
-      } as GetNavigationQueryVariables),
-      hygraphRequest<GetSiteSettingsQuery>(GetSiteSettingsDocument, {
-        locale,
-      } as GetSiteSettingsQueryVariables),
-    ]);
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (localeRef.current && !localeRef.current.contains(e.target as Node)) {
+        setLocaleOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
-    navData = nav;
-    siteSettings = (settings.allSiteSettings && settings.allSiteSettings.length > 0)
-      ? settings.allSiteSettings[0]
-      : null;
-  } catch (error) {
-    console.error('Failed to fetch navigation:', error);
+  function switchLocalePath(newLocale: Locale) {
+    const segments = pathname.split("/");
+    segments[1] = newLocale;
+    return segments.join("/");
   }
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-gray-200 dark:border-gray-800 bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg shadow-soft dark:shadow-none">
-      <div className="container mx-auto flex items-center justify-between px-4 py-4">
+    <nav className="sticky top-0 z-50 bg-secondary border-b border-t border-primary">
+      <div className="flex items-stretch h-[56px]">
         {/* Logo */}
-        <Logo locale={locale} siteName={siteSettings?.siteName || 'HyBike'} />
+        <Link
+          href={`/${locale}`}
+          className="flex items-center px-6 border-r border-primary hover:bg-primary hover:text-secondary transition-colors"
+        >
+          <span
+            className="uppercase"
+            style={{ fontWeight: 900, fontSize: "1rem" }}
+          >
+            {siteSettings?.siteName}
+            <span className="text-accent">.</span>
+          </span>
+        </Link>
 
-        {/* Navigation Items */}
-        <div className="hidden items-center gap-1 md:flex">
-          <NavigationItems
-            items={navData?.navigations?.[0]?.items || []}
-            locale={locale}
-          />
+        {/* Desktop Nav Links */}
+        <div className="hidden md:flex items-stretch">
+          {navItems.map((item) => {
+            const href = buildHref(item, locale);
+            const isActive = pathname === href;
+            return (
+              <Link
+                key={item.id}
+                href={href}
+                className={`flex items-center px-6 border-r border-primary transition-colors hover:bg-primary hover:text-secondary ${
+                  isActive ? "bg-primary text-secondary" : ""
+                }`}
+                style={{
+                  fontSize: "0.75rem",
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  fontWeight: 500,
+                }}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
         </div>
 
-        {/* Right side: Dark Mode Toggle + Locale Switcher */}
-        <div className="flex items-center gap-3">
-          <DarkModeToggle />
-          <LocaleSwitcher />
+        {/* Spacer */}
+        <div className="flex-1" />
+
+        {/* Locale Picker */}
+        <div className="relative" ref={localeRef}>
+          <button
+            onClick={() => setLocaleOpen(!localeOpen)}
+            className="flex items-center gap-1.5 px-4 h-full border-l border-primary hover:bg-primary hover:text-secondary transition-colors"
+            style={{
+              fontSize: "0.75rem",
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              fontWeight: 500,
+            }}
+          >
+            <span>{locale.toUpperCase()}</span>
+            <ChevronDown
+              size={11}
+              strokeWidth={2}
+              className={`transition-transform ${
+                localeOpen ? "rotate-180" : ""
+              }`}
+            />
+          </button>
+          {localeOpen && (
+            <div className="absolute right-0 top-full z-50 bg-secondary border-l border-r border-b border-primary min-w-[160px]">
+              {SUPPORTED_LOCALES.map((l) => (
+                <Link
+                  key={l}
+                  href={switchLocalePath(l)}
+                  onClick={() => setLocaleOpen(false)}
+                  className={`flex items-center gap-3 px-4 py-3 border-b border-primary last:border-b-0 hover:bg-primary hover:text-secondary transition-colors ${
+                    l === locale ? "bg-primary text-secondary" : ""
+                  }`}
+                  style={{
+                    fontSize: "0.75rem",
+                    letterSpacing: "0.1em",
+                    textTransform: "uppercase",
+                    fontWeight: 500,
+                  }}
+                >
+                  <span>{LOCALE_NAMES[l]}</span>
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
+
+        {/* Cart */}
+        <Link
+          href={`/${locale}/collection`}
+          className="flex items-center px-6 border-l border-primary hover:bg-primary hover:text-secondary transition-colors gap-2"
+          style={{
+            fontSize: "0.75rem",
+            letterSpacing: "0.1em",
+            textTransform: "uppercase",
+            fontWeight: 500,
+          }}
+        >
+          <ShoppingBag size={16} strokeWidth={1.5} />
+          <span className="hidden sm:inline">Cart (0)</span>
+        </Link>
+
+        {/* Mobile Menu Button */}
+        <button
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="md:hidden flex items-center px-5 border-l border-primary hover:bg-primary hover:text-secondary transition-colors"
+        >
+          {mobileOpen ? <X size={18} /> : <Menu size={18} />}
+        </button>
       </div>
+
+      {/* Mobile Menu */}
+      {mobileOpen && (
+        <div className="md:hidden border-t border-primary">
+          {navItems.map((item) => {
+            const href = buildHref(item, locale);
+            const isActive = pathname === href;
+            return (
+              <Link
+                key={item.id}
+                href={href}
+                onClick={() => setMobileOpen(false)}
+                className={`block px-6 py-4 border-b border-primary transition-colors hover:bg-primary hover:text-secondary ${
+                  isActive ? "bg-primary text-secondary" : ""
+                }`}
+                style={{
+                  fontSize: "0.75rem",
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  fontWeight: 500,
+                }}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
+        </div>
+      )}
     </nav>
   );
 }

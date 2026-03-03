@@ -1,8 +1,9 @@
 'use client';
 
 import { createContext, useContext, useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
-export type Audience = 'COMMUTERS' | 'SPORTS_ENTHUSIASTS' | 'DEFAULT';
+export type Audience = string;
 
 interface AudienceContextType {
   audience: Audience;
@@ -35,14 +36,13 @@ function getCookie(name: string): string | null {
 }
 
 export function AudienceProvider({ children }: { children: React.ReactNode }) {
-  const [audience, setAudienceState] = useState<Audience>('DEFAULT');
+  const [audience, setAudienceState] = useState<Audience>('Default');
+  const router = useRouter();
 
   // Load from cookie (or fallback to localStorage) on mount
   useEffect(() => {
-    const cookieValue = getCookie('hybike-audience') as Audience;
-    const stored = cookieValue || (localStorage.getItem('hybike-audience') as Audience);
-
-    if (stored && ['COMMUTERS', 'SPORTS_ENTHUSIASTS', 'DEFAULT'].includes(stored)) {
+    const stored = getCookie('hybike-audience') || localStorage.getItem('hybike-audience');
+    if (stored) {
       setAudienceState(stored);
     }
   }, []);
@@ -51,8 +51,8 @@ export function AudienceProvider({ children }: { children: React.ReactNode }) {
     setAudienceState(newAudience);
     localStorage.setItem('hybike-audience', newAudience);
     setCookie('hybike-audience', newAudience);
-    // Force page reload to refetch with new audience
-    window.location.reload();
+    // Soft-refresh server components with the new cookie, no full page reload
+    router.refresh();
   };
 
   return (

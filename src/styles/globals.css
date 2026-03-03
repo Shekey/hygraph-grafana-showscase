@@ -4,38 +4,49 @@
 
 @layer base {
   :root {
-    /* Default brand colors (will be overridden by dynamic theme) */
-    --color-brand-primary: 199 89% 48%; /* #0EA5E9 - Sky blue */
-    --color-brand-hover: 199 89% 42%;
-    --color-brand-active: 199 89% 38%;
-    --color-brand-light: 199 89% 88%;
-    --color-brand-dark: 199 89% 28%;
-    /* Display font variable */
-    --font-display: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
-      sans-serif;
-  }
-
-  * {
-    @apply border-gray-200 dark:border-gray-800;
+    /* Default brand color: Signal Orange (#FF4F00) — overridden by Hygraph SiteSettings.brandColor */
+    --color-brand-primary: 19 100% 50%;
+    --color-brand-hover: 19 100% 44%;
+    --color-brand-active: 19 100% 38%;
+    --color-brand-light: 19 100% 88%;
+    --color-brand-dark: 19 100% 30%;
+    /* Inter + Space Grotesk loaded via next/font, variables set on <html> */
+    --font-display: var(--font-inter), 'Inter', var(--font-space-grotesk), 'Space Grotesk', 'Helvetica', sans-serif;
   }
 
   /* Enhanced focus states for accessibility */
   *:focus-visible {
-    @apply outline-none ring-2 ring-brand ring-offset-2 ring-offset-white dark:ring-offset-gray-900;
+    @apply outline-none ring-2 ring-accent ring-offset-2;
   }
 
   body {
-    @apply bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-200;
+    background-color: #F9F9F7;
+    color: #121212;
+    font-family: var(--font-inter), 'Inter', var(--font-space-grotesk), 'Space Grotesk', 'Helvetica', sans-serif;
   }
 
-  /* Typography improvements */
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    @apply text-balance font-display;
+  /* HyBikes typography scale — sized to match hybikes reference (12rem × 14px base = 168px h1 max) */
+  h1 {
+    font-size: clamp(3rem, 10vw, 10.5rem);
+    font-weight: 900;
+    line-height: 0.9;
+    text-transform: uppercase;
+    letter-spacing: -0.05em;
+  }
+
+  h2 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 900;
+    line-height: 0.95;
+    text-transform: uppercase;
+    letter-spacing: -0.04em;
+  }
+
+  h3 {
+    font-size: clamp(1.125rem, 2vw, 1.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
   }
 }
 

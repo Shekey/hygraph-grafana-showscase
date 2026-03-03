@@ -1,86 +1,92 @@
 query GetProducts($locale: Locale!) {
-  products(
-    locales: [$locale, en]
-    stage: DRAFT
-    first: 20
-  ) {
+  products(locales: [$locale, en], stage: DRAFT, first: 20) {
     id
+    slug
     name
-    baseProductId
-    color
-    description {
-      text
+    tagline
+    category {
+      value
     }
-    images {
-      id
+    image {
       url
       width
       height
     }
+    productFeatures
+    featured
+    specifications {
+      frame
+      motor
+      battery
+      range
+      weight
+      groupset
+      gears
+      brakes
+      suspension
+      wheelSize
+      wheels
+    }
     externalProductId
     externalProduct {
       data {
-        id
-        name
-        sku
         calculated_price
+        sale_price
         inventory_level
         availability
-        variants {
-          id
-          sku
-          calculated_price
-          inventory_level
-          option_values {
-            label
-            option_display_name
-          }
-        }
       }
     }
   }
 }
 
-query GetProductsByCategory($locale: Locale!, $categoryValue: String!) {
+query GetFeaturedProducts($locale: Locale!) {
   products(
     locales: [$locale, en]
     stage: DRAFT
-    first: 20
-    where: { category: { value: $categoryValue } }
+    first: 4
+    where: { featured: true }
   ) {
     id
+    slug
     name
-    baseProductId
-    color
-    description {
-      text
+    tagline
+    category {
+      value
     }
-    images {
-      id
+    image {
       url
       width
       height
     }
-    externalProductId
+    productFeatures
+    specifications {
+      frame
+      motor
+      battery
+      range
+      weight
+      groupset
+      gears
+      brakes
+      suspension
+      wheelSize
+      wheels
+    }
     externalProduct {
       data {
-        id
-        name
-        sku
         calculated_price
+        sale_price
         inventory_level
         availability
-        variants {
-          id
-          sku
-          calculated_price
-          inventory_level
-          option_values {
-            label
-            option_display_name
-          }
-        }
       }
+    }
+  }
+}
+
+query GetProductCategories {
+  products(stage: DRAFT, first: 100) {
+    category {
+      value
     }
   }
 }
