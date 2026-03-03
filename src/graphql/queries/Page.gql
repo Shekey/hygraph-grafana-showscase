@@ -180,9 +180,7 @@ query GetPage($slug: String!, $locale: Locale!, $segmentName: String) {
       }
       ... on StatsBar {
         id
-        title
         statsLayout: layout
-        backgroundColor
         stats {
           id
           value
@@ -397,9 +395,7 @@ query GetPage($slug: String!, $locale: Locale!, $segmentName: String) {
         }
         ... on StatsBar {
           id
-          title
           statsLayout: layout
-          backgroundColor
           stats {
             id
             value
