@@ -1,5 +1,5 @@
-query GetBlogPosts {
-  blogPosts(stage: DRAFT, orderBy: publishedDate_DESC, first: 20) {
+query GetArticles {
+  articles(stage: DRAFT, orderBy: publishedDate_DESC, first: 20) {
     id
     slug
     title
@@ -15,8 +15,8 @@ query GetBlogPosts {
   }
 }
 
-query GetBlogPost($slug: String!) {
-  blogPost(where: { slug: $slug }, stage: DRAFT) {
+query GetArticle($slug: String!) {
+  article(where: { slug: $slug }, stage: DRAFT) {
     id
     slug
     title

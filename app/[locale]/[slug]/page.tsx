@@ -17,7 +17,7 @@ import EditorialSection from "@/components/sections/EditorialSection";
 import CTABlock from "@/components/sections/CTABlock";
 import ProductShowcase from "@/components/sections/ProductShowcase";
 import StatsBar from "@/components/sections/StatsBar";
-import BlogList from "@/components/sections/BlogList";
+import ArticleList from "@/components/sections/ArticleList";
 import FeaturedArticle from "@/components/sections/FeaturedArticle";
 import JobList from "@/components/sections/JobList";
 import SectionHeader from "@/components/sections/SectionHeader";
@@ -72,10 +72,10 @@ function isStatsBar(
   return section.__typename === "StatsBar";
 }
 
-function isBlogList(
+function isArticleList(
   section: PageSection
-): section is Extract<PageSection, { __typename?: "BlogList" }> {
-  return section.__typename === "BlogList";
+): section is Extract<PageSection, { __typename?: "ArticleList" }> {
+  return section.__typename === "ArticleList";
 }
 
 function isJobList(
@@ -149,7 +149,6 @@ export async function generateMetadata({
         : undefined,
     };
   } catch (error) {
-    console.log("EHRE:E:E:EE::");
     console.error("Failed to generate metadata:", error);
     return { title: "Page" };
   }
@@ -186,8 +185,8 @@ export default async function Page({ params }: PageProps) {
       if (isPageHeader(section)) {
         return <PageHeader key={section.id} section={section} />;
       }
-      if (isBlogList(section)) {
-        return <BlogList key={section.id} section={section} />;
+      if (isArticleList(section)) {
+        return <ArticleList key={section.id} section={section} />;
       }
       if (isFeaturedArticle(section)) {
         return (

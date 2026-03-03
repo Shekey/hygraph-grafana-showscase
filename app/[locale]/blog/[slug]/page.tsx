@@ -1,75 +1,75 @@
 /**
- * Blog Post Detail Page - Shows a single article by slug
+ * Article Detail Page - Shows a single article by slug
  */
 
 import { notFound } from 'next/navigation';
 import { isValidLocale } from '@/lib/utils/locale';
 import { hygraphRequest } from '@/lib/hygraph/client';
 import {
-  GetBlogPostDocument,
-  GetBlogPostsDocument,
-  type GetBlogPostQuery,
-  type GetBlogPostQueryVariables,
-  type GetBlogPostsQuery,
+  GetArticleDocument,
+  GetArticlesDocument,
+  type GetArticleQuery,
+  type GetArticleQueryVariables,
+  type GetArticlesQuery,
 } from '@/types/hygraph-generated';
-import BlogPostView from '@/components/pages/BlogPostView';
-import type { Post } from '@/types/hybike';
+import ArticleView from '@/components/pages/ArticleView';
+import type { Article } from '@/types/hybike';
 import type { Metadata } from 'next';
 
-interface BlogPostPageProps {
+interface ArticlePageProps {
   params: Promise<{ locale: string; slug: string }>;
 }
 
-export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: ArticlePageProps): Promise<Metadata> {
   const { slug } = await params;
 
   try {
-    const data = await hygraphRequest<GetBlogPostQuery>(
-      GetBlogPostDocument,
-      { slug } as GetBlogPostQueryVariables,
+    const data = await hygraphRequest<GetArticleQuery>(
+      GetArticleDocument,
+      { slug } as GetArticleQueryVariables,
     );
-    const post = data.blogPost;
-    if (!post) return { title: 'Post Not Found' };
+    const article = data.article;
+    if (!article) return { title: 'Article Not Found' };
 
     return {
-      title: `${post.title} | HyBikes Journal`,
-      description: post.summary,
+      title: `${article.title} | HyBikes Journal`,
+      description: article.summary,
     };
   } catch {
     return { title: 'Journal | HyBikes' };
   }
 }
 
-export default async function BlogPostPage({ params }: BlogPostPageProps) {
+export default async function ArticlePage({ params }: ArticlePageProps) {
   const { locale, slug } = await params;
 
   if (!isValidLocale(locale)) {
     notFound();
   }
 
-  let post: Post | null = null;
-  let allPosts: Post[] = [];
+  let article: Article | null = null;
+  let allArticles: Article[] = [];
 
   try {
-    const [postData, allPostsData] = await Promise.all([
-      hygraphRequest<GetBlogPostQuery>(
-        GetBlogPostDocument,
-        { slug } as GetBlogPostQueryVariables,
+    const [articleData, allArticlesData] = await Promise.all([
+      hygraphRequest<GetArticleQuery>(
+        GetArticleDocument,
+        { slug } as GetArticleQueryVariables,
       ),
-      hygraphRequest<GetBlogPostsQuery>(GetBlogPostsDocument, {}),
+      hygraphRequest<GetArticlesQuery>(GetArticlesDocument, {}),
     ]);
 
-    post = postData.blogPost as unknown as Post;
-    allPosts = (allPostsData.blogPosts ?? []) as unknown as Post[];
+    article = articleData.article as unknown as Article;
+    allArticles = (allArticlesData.articles ?? []) as unknown as Article[];
   } catch (error) {
-    console.error('Failed to fetch blog post:', error);
+    console.error('Failed to fetch article:', error);
   }
 
-  if (!post) {
+  if (!article) {
     notFound();
   }
 
-  return <BlogPostView post={post} allPosts={allPosts} />;
+  return <ArticleView article={article} allArticles={allArticles} />;
 }
 
 export const revalidate = 300;

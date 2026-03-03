@@ -3,21 +3,21 @@
 import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useParams } from "next/navigation";
-import type { Post } from "@/types/hybike";
+import type { Article } from "@/types/hybike";
 
-interface BlogPostViewProps {
-  post: Post;
-  allPosts: Post[];
+interface ArticleViewProps {
+  article: Article;
+  allArticles: Article[];
 }
 
-export default function BlogPostView({ post, allPosts }: BlogPostViewProps) {
+export default function ArticleView({ article, allArticles }: ArticleViewProps) {
   const params = useParams();
   const locale = (params.locale as string) || "en";
 
-  const index = allPosts.findIndex((p) => p.slug === post.slug);
-  const prev = index > 0 ? allPosts[index - 1] : null;
+  const index = allArticles.findIndex((a) => a.slug === article.slug);
+  const prev = index > 0 ? allArticles[index - 1] : null;
   const next =
-    index >= 0 && index < allPosts.length - 1 ? allPosts[index + 1] : null;
+    index >= 0 && index < allArticles.length - 1 ? allArticles[index + 1] : null;
 
   return (
     <div>
@@ -36,11 +36,11 @@ export default function BlogPostView({ post, allPosts }: BlogPostViewProps) {
       </div>
 
       {/* Cover */}
-      {post.image?.url && (
+      {article.image?.url && (
         <section className="border-b border-primary">
           <img
-            src={post.image?.url}
-            alt={post.title}
+            src={article.image?.url}
+            alt={article.title}
             className="w-full object-cover max-h-[520px]"
           />
         </section>
@@ -55,18 +55,18 @@ export default function BlogPostView({ post, allPosts }: BlogPostViewProps) {
                 className="bg-accent text-white px-3 py-1 uppercase tracking-[0.15em]"
                 style={{ fontSize: "0.6rem", fontWeight: 700 }}
               >
-                {post.category}
+                {article.category}
               </span>
             </div>
             <h1>
-              {post.title}
+              {article.title}
               <span className="text-accent">.</span>
             </h1>
             <p
               className="text-muted mt-8 max-w-[600px]"
               style={{ lineHeight: 1.7, fontSize: "1.1rem" }}
             >
-              {post.summary}
+              {article.summary}
             </p>
           </div>
           <div className="lg:col-span-4 p-8 md:p-12 lg:p-16 flex flex-col gap-4">
@@ -77,9 +77,9 @@ export default function BlogPostView({ post, allPosts }: BlogPostViewProps) {
               >
                 Published
               </p>
-              <p style={{ fontWeight: 600 }}>{post.publishedDate}</p>
+              <p style={{ fontWeight: 600 }}>{article.publishedDate}</p>
             </div>
-            {post.readTime && (
+            {article.readTime && (
               <div>
                 <p
                   className="uppercase tracking-[0.15em] text-muted mb-1"
@@ -87,7 +87,7 @@ export default function BlogPostView({ post, allPosts }: BlogPostViewProps) {
                 >
                   Read time
                 </p>
-                <p style={{ fontWeight: 600 }}>{post.readTime}</p>
+                <p style={{ fontWeight: 600 }}>{article.readTime}</p>
               </div>
             )}
           </div>
@@ -95,14 +95,14 @@ export default function BlogPostView({ post, allPosts }: BlogPostViewProps) {
       </section>
 
       {/* Article body */}
-      {post.body?.html && (
+      {article.body?.html && (
         <section className="border-b border-primary">
           <div className="grid grid-cols-1 lg:grid-cols-12">
             <div className="lg:col-span-8 lg:border-r border-primary">
               <div
                 className="px-8 md:px-12 lg:px-16 py-6 md:py-12 text-muted [&_h2]:text-primary [&_h2]:text-2xl [&_h2]:leading-snug [&_h2]:mt-12 [&_h2]:mb-4 [&_h3]:text-primary [&_h3]:text-xl [&_h3]:leading-snug [&_h3]:mt-10 [&_h3]:mb-3 [&_h4]:text-primary [&_h4]:text-base [&_h4]:font-bold [&_h4]:leading-normal [&_h4]:mt-8 [&_h4]:mb-2"
                 style={{ lineHeight: 1.85, fontSize: "1rem" }}
-                dangerouslySetInnerHTML={{ __html: post.body.html }}
+                dangerouslySetInnerHTML={{ __html: article.body.html }}
               />
             </div>
 
@@ -115,8 +115,8 @@ export default function BlogPostView({ post, allPosts }: BlogPostViewProps) {
                 More articles
               </p>
               <div className="space-y-4">
-                {allPosts
-                  .filter((p) => p.slug !== post.slug)
+                {allArticles
+                  .filter((a) => a.slug !== article.slug)
                   .map((other) => (
                     <Link
                       key={other.id}

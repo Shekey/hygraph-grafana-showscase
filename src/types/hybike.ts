@@ -47,7 +47,7 @@ export interface Bike {
   featured?: boolean | null;
 }
 
-export interface Post {
+export interface Article {
   id: string;
   slug: string;
   title: string;

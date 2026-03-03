@@ -16,7 +16,7 @@ query GetPage($slug: String!, $locale: Locale!, $segmentName: String) {
         eyebrow
         pageHeaderTitle: title
       }
-      ... on BlogList {
+      ... on ArticleList {
         id
         blogListHeadline: headline
         posts {
@@ -233,7 +233,7 @@ query GetPage($slug: String!, $locale: Locale!, $segmentName: String) {
           pageHeaderTitle: title
           subtitle
         }
-        ... on BlogList {
+        ... on ArticleList {
           id
           posts {
             id
