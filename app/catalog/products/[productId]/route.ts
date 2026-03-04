@@ -64,10 +64,18 @@ export async function GET(
   const def = PRODUCTS[productIdStr];
 
   if (!def) {
-    return NextResponse.json(
-      { errors: [{ status: 404, title: "Product not found" }] },
-      { status: 404 }
-    );
+    return NextResponse.json({
+      data: null,
+      metadata: {
+        pagination: {
+          total: 0,
+          count: 0,
+          per_page: 0,
+          current_page: 0,
+          total_pages: 0,
+        },
+      },
+    });
   }
 
   const productId = parseInt(productIdStr, 10);
