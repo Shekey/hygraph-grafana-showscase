@@ -5,6 +5,7 @@
  */
 
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import { isValidLocale, type Locale } from "@/lib/utils/locale";
 import Navigation from "@/components/ui/Navigation";
 import Footer from "@/components/ui/Footer";
@@ -79,7 +80,7 @@ export default async function LocaleLayout({
             siteSettings={siteSettings}
             bikeCategories={bikeCategories}
           />
-          <SegmentSwitcher segments={segments} />
+          <Suspense><SegmentSwitcher segments={segments} /></Suspense>
         </div>
       </SegmentProvider>
     </SiteSettingsProvider>

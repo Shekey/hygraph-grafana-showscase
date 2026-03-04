@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect } from "react";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export type SegmentId = string | null;
 
@@ -33,33 +33,16 @@ function getCookie(name: string): string | null {
   return null;
 }
 
-function isInIframe(): boolean {
-  try {
-    return window.self !== window.top;
-  } catch {
-    return true;
-  }
-}
-
 export function SegmentProvider({ children }: { children: React.ReactNode }) {
   const [segmentId, setSegmentIdState] = useState<SegmentId>(null);
   const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   useEffect(() => {
     const stored =
       getCookie("hybike-segment") || localStorage.getItem("hybike-segment");
-    if (!stored) return;
 
-    setSegmentIdState(stored);
-
-    // In cross-site iframes cookies are blocked — push segment into URL so the
-    // server can read it from searchParams instead.
-    if (isInIframe() && !searchParams.get("segment")) {
-      const params = new URLSearchParams(searchParams.toString());
-      params.set("segment", stored);
-      router.replace(`${pathname}?${params.toString()}`);
+    if (stored) {
+      setSegmentIdState(stored);
     }
   }, []);
 
