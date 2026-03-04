@@ -21495,7 +21495,7 @@ export type GetNavigationQuery = { __typename?: 'Query', navigations: Array<{ __
 export type GetPageQueryVariables = Exact<{
   slug: Scalars['String']['input'];
   locale: Locale;
-  segmentName?: InputMaybe<Scalars['String']['input']>;
+  segmentId?: InputMaybe<Scalars['ID']['input']>;
 }>;
 
 
@@ -21634,7 +21634,7 @@ export const GetNavigationDocument = gql`
 }
     `;
 export const GetPageDocument = gql`
-    query GetPage($slug: String!, $locale: Locale!, $segmentName: String) {
+    query GetPage($slug: String!, $locale: Locale!, $segmentId: ID) {
   pages(where: {slug: $slug}, locales: [$locale, en], stage: DRAFT, first: 1) {
     id
     title
@@ -21853,7 +21853,7 @@ export const GetPageDocument = gql`
         }
       }
     }
-    variants(where: {segments_some: {name: $segmentName}}) {
+    variants(where: {segments_some: {id: $segmentId}}) {
       sections {
         __typename
         ... on PageHeader {

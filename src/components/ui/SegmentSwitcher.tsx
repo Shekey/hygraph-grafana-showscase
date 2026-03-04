@@ -2,7 +2,8 @@
 
 import { useState, useRef, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
-import { useAudience } from "@/lib/context/AudienceContext";
+import { useSegment } from "@/lib/context/SegmentContext";
+import { useSearchParams } from "next/navigation";
 import type { GetSegmentsQuery } from "@/types/hygraph-generated";
 
 type Segment = GetSegmentsQuery["segments"][0];
@@ -12,7 +13,8 @@ interface SegmentSwitcherProps {
 }
 
 export default function SegmentSwitcher({ segments }: SegmentSwitcherProps) {
-  const { audience, setAudience } = useAudience();
+  const { segmentId, setSegmentId } = useSegment();
+  const searchParams = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -26,8 +28,13 @@ export default function SegmentSwitcher({ segments }: SegmentSwitcherProps) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Hide when segment is controlled via URL (preview/iframe mode)
+  if (searchParams.get("segment")) {
+    return null;
+  }
+
   const activeSegment =
-    segments.find((s) => s.name === audience) ??
+    segments.find((s) => s.id === segmentId) ??
     segments.find((s) => s.name === "Default");
 
   return (
@@ -36,7 +43,6 @@ export default function SegmentSwitcher({ segments }: SegmentSwitcherProps) {
         className="bg-primary text-secondary border border-primary"
         style={{ width: "320px" }}
       >
-        {/* Header label */}
         <div className="px-4 py-2 border-b border-secondary/20 flex items-center gap-2">
           <span className="w-1.5 h-1.5 rounded-full bg-green-500 inline-block" />
           <span
@@ -62,7 +68,9 @@ export default function SegmentSwitcher({ segments }: SegmentSwitcherProps) {
             fontWeight: 700,
           }}
         >
-          <span className="text-accent">{activeSegment?.name ?? audience}</span>
+          <span className="text-accent">
+            {activeSegment?.name ?? "Default"}
+          </span>
           <ChevronDown
             size={11}
             strokeWidth={2}
@@ -75,12 +83,14 @@ export default function SegmentSwitcher({ segments }: SegmentSwitcherProps) {
         {isOpen && (
           <div className="border-t border-secondary/20">
             {segments
-              .filter((s) => s.name !== audience)
+              .filter((s) => s.id !== activeSegment?.id)
               .map((segment) => (
                 <button
                   key={segment.id}
                   onClick={() => {
-                    setAudience(segment.name);
+                    setSegmentId(
+                      segment.id === activeSegment?.id ? null : segment.id
+                    );
                     setIsOpen(false);
                   }}
                   className="w-full text-left px-4 py-3 border-b border-secondary/10 last:border-b-0 transition-colors hover:bg-secondary/10 text-secondary/60"

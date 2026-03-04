@@ -113,6 +113,7 @@ interface PageProps {
     locale: string;
     slug: string;
   }>;
+  searchParams: Promise<{ segment?: string }>;
 }
 
 export async function generateMetadata({
@@ -124,7 +125,7 @@ export async function generateMetadata({
     const data = await hygraphRequest<GetPageQuery>(GetPageDocument, {
       slug,
       locale,
-      segmentName: undefined,
+      segmentId: undefined,
     } as GetPageQueryVariables);
 
     const page = data.pages?.[0];
@@ -154,19 +155,19 @@ export async function generateMetadata({
   }
 }
 
-export default async function Page({ params }: PageProps) {
+export default async function Page({ params, searchParams }: PageProps) {
   const { locale, slug } = await params;
+  const { segment: segmentIdFromUrl } = await searchParams;
 
-  // Read segment from cookie for variant selection
+  // URL param takes precedence (iframe/preview); fall back to cookie (standalone)
   const cookieStore = await cookies();
-  const audienceCookie = cookieStore.get("hybike-audience")?.value;
-  const segmentName =
-    audienceCookie && audienceCookie !== "Default" ? audienceCookie : undefined;
+  const segmentId =
+    segmentIdFromUrl ?? cookieStore.get("hybike-segment")?.value ?? undefined;
 
   const data = await hygraphRequest<GetPageQuery>(GetPageDocument, {
     slug,
     locale,
-    segmentName,
+    segmentId,
   } as GetPageQueryVariables);
 
   const page = data?.pages?.[0];
@@ -183,10 +184,14 @@ export default async function Page({ params }: PageProps) {
   function renderSections() {
     return displaySections.map((section) => {
       if (isPageHeader(section)) {
-        return <PageHeader key={section.id} section={section} pageId={page.id} />;
+        return (
+          <PageHeader key={section.id} section={section} pageId={page.id} />
+        );
       }
       if (isArticleList(section)) {
-        return <ArticleList key={section.id} section={section} pageId={page.id} />;
+        return (
+          <ArticleList key={section.id} section={section} pageId={page.id} />
+        );
       }
       if (isFeaturedArticle(section)) {
         return (
@@ -207,10 +212,18 @@ export default async function Page({ params }: PageProps) {
         );
       }
       if (isFeatureGrid(section)) {
-        return <FeatureGrid key={section.id} section={section} pageId={page.id} />;
+        return (
+          <FeatureGrid key={section.id} section={section} pageId={page.id} />
+        );
       }
       if (isEditorialSection(section)) {
-        return <EditorialSection key={section.id} section={section} pageId={page.id} />;
+        return (
+          <EditorialSection
+            key={section.id}
+            section={section}
+            pageId={page.id}
+          />
+        );
       }
       if (isCTABlock(section)) {
         return (
@@ -232,13 +245,17 @@ export default async function Page({ params }: PageProps) {
         );
       }
       if (isSectionHeader(section)) {
-        return <SectionHeader key={section.id} section={section} pageId={page.id} />;
+        return (
+          <SectionHeader key={section.id} section={section} pageId={page.id} />
+        );
       }
       if (isTimeline(section)) {
         return <Timeline key={section.id} section={section} pageId={page.id} />;
       }
       if (isContactSection(section)) {
-        return <ContactSection key={section.id} section={section} pageId={page.id} />;
+        return (
+          <ContactSection key={section.id} section={section} pageId={page.id} />
+        );
       }
       if (isStatsBar(section)) {
         return (

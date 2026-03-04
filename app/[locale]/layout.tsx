@@ -9,7 +9,7 @@ import { isValidLocale, type Locale } from "@/lib/utils/locale";
 import Navigation from "@/components/ui/Navigation";
 import Footer from "@/components/ui/Footer";
 import AnnouncementBanner from "@/components/ui/AnnouncementBanner";
-import { AudienceProvider } from "@/lib/context/AudienceContext";
+import { SegmentProvider } from "@/lib/context/SegmentContext";
 import { SiteSettingsProvider } from "@/lib/context/SiteSettingsContext";
 import SegmentSwitcher from "@/components/ui/SegmentSwitcher";
 import { hygraphRequest } from "@/lib/hygraph/client";
@@ -67,7 +67,7 @@ export default async function LocaleLayout({
 
   return (
     <SiteSettingsProvider siteSettings={siteSettings}>
-      <AudienceProvider>
+      <SegmentProvider>
         <div className="flex min-h-screen flex-col">
           {siteSettings?.announcement?.html && (
             <AnnouncementBanner html={siteSettings.announcement.html} entryId={siteSettings.id} />
@@ -81,7 +81,7 @@ export default async function LocaleLayout({
           />
           <SegmentSwitcher segments={segments} />
         </div>
-      </AudienceProvider>
+      </SegmentProvider>
     </SiteSettingsProvider>
   );
 }

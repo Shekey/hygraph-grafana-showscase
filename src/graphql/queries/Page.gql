@@ -1,4 +1,4 @@
-query GetPage($slug: String!, $locale: Locale!, $segmentName: String) {
+query GetPage($slug: String!, $locale: Locale!, $segmentId: ID) {
   pages(
     where: { slug: $slug }
     locales: [$locale, en]
@@ -222,7 +222,7 @@ query GetPage($slug: String!, $locale: Locale!, $segmentName: String) {
         }
       }
     }
-    variants(where: { segments_some: { name: $segmentName } }) {
+    variants(where: { segments_some: { id: $segmentId } }) {
       sections {
         __typename
         ... on PageHeader {
