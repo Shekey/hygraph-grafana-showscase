@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 
@@ -11,8 +12,23 @@ const HygraphPreview = dynamic(
   { ssr: false }
 );
 
+function checkIsInIframe(): boolean {
+  try {
+    return window.self !== window.top;
+  } catch {
+    return true; // cross-origin iframe blocks access to window.top
+  }
+}
+
 export function LivePreview({ children }: { children: React.ReactNode }) {
   const router = useRouter();
+  const [isInIframe, setIsInIframe] = useState(false);
+
+  useEffect(() => {
+    setIsInIframe(checkIsInIframe());
+  }, []);
+
+  if (!isInIframe) return <>{children}</>;
 
   return (
     <HygraphPreview
