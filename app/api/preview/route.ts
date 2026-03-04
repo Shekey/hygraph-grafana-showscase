@@ -5,6 +5,10 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { PREVIEW_COOKIE_NAME } from '@/lib/utils/preview';
+import {
+  HYGRAPH_ENDPOINT_COOKIE_NAME,
+  parseAndValidateHygraphEndpoint,
+} from '@/lib/hygraph/endpoint';
 
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
@@ -23,12 +27,18 @@ export async function GET(request: NextRequest) {
   // Get preview parameters
   const slug = searchParams.get('slug') || 'home';
   const locale = searchParams.get('locale') || 'en';
+  const endpointParam = searchParams.get('endpoint');
+  const endpointOverride = parseAndValidateHygraphEndpoint(endpointParam);
 
   // Construct preview URL
   const previewUrl = `/${locale}/${slug === 'home' ? '' : slug}`;
 
   // Create response with redirect
-  const response = NextResponse.redirect(new URL(previewUrl, request.url));
+  const redirectUrl = new URL(previewUrl, request.url);
+  if (endpointOverride) {
+    redirectUrl.searchParams.set('endpoint', endpointOverride);
+  }
+  const response = NextResponse.redirect(redirectUrl);
 
   // Set preview cookie with preview data
   const previewData = JSON.stringify({ locale, slug });
@@ -37,7 +47,18 @@ export async function GET(request: NextRequest) {
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'none', // Required for Hygraph iframe
     maxAge: 60 * 60, // 1 hour
+    path: '/',
   });
+
+  if (endpointOverride) {
+    response.cookies.set(HYGRAPH_ENDPOINT_COOKIE_NAME, endpointOverride, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'none', // Required for Hygraph iframe
+      maxAge: 60 * 60, // 1 hour
+      path: '/',
+    });
+  }
 
   return response;
 }
