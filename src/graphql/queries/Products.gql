@@ -1,5 +1,5 @@
-query GetProducts($locale: Locale!) {
-  products(locales: [$locale, en], stage: DRAFT, first: 20) {
+query GetProducts($locale: Locale!, $first: Int = 20) {
+  products(locales: [$locale, en], stage: DRAFT, first: $first) {
     id
     slug
     name
@@ -87,31 +87,6 @@ query GetProductCategories {
   products(stage: DRAFT, first: 100) {
     category {
       value
-    }
-  }
-}
-
-query GetProductShowcaseProducts($locale: Locale!) {
-  products(locales: [$locale, en], stage: DRAFT, first: 100) {
-    id
-    slug
-    name
-    tagline
-    category {
-      value
-    }
-    image {
-      url
-      width
-      height
-    }
-    externalProduct {
-      data {
-        calculated_price
-        sale_price
-        inventory_level
-        availability
-      }
     }
   }
 }
