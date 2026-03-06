@@ -12,12 +12,14 @@ const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-space-grotesk",
+  display: "swap",
 });
 
 const inter = Inter({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700", "900"],
   variable: "--font-inter",
+  display: "swap",
 });
 import { hygraphRequest } from "@/lib/hygraph/client";
 import {
