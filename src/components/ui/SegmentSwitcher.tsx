@@ -3,7 +3,6 @@
 import { useState, useRef, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
 import { useSegment } from "@/lib/context/SegmentContext";
-import { useSearchParams } from "next/navigation";
 import type { GetSegmentsQuery } from "@/types/hygraph-generated";
 
 type Segment = GetSegmentsQuery["segments"][0];
@@ -14,7 +13,6 @@ interface SegmentSwitcherProps {
 
 export default function SegmentSwitcher({ segments }: SegmentSwitcherProps) {
   const { segmentId, setSegmentId } = useSegment();
-  const searchParams = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -27,11 +25,6 @@ export default function SegmentSwitcher({ segments }: SegmentSwitcherProps) {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
-  // Hide when segment is controlled via URL (preview/iframe mode)
-  if (searchParams.get("segment")) {
-    return null;
-  }
 
   const activeSegment =
     segments.find((s) => s.id === segmentId) ??

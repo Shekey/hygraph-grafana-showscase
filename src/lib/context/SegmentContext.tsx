@@ -1,7 +1,7 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { createContext, useContext } from "react";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
 export type SegmentId = string | null;
 
@@ -12,49 +12,22 @@ interface SegmentContextType {
 
 const SegmentContext = createContext<SegmentContextType | undefined>(undefined);
 
-function setCookie(name: string, value: string, days: number = 365) {
-  const expires = new Date();
-  expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
-  document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
-}
-
-function deleteCookie(name: string) {
-  document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/`;
-}
-
-function getCookie(name: string): string | null {
-  const nameEQ = `${name}=`;
-  const ca = document.cookie.split(";");
-  for (let i = 0; i < ca.length; i++) {
-    let c = ca[i];
-    while (c.charAt(0) === " ") c = c.substring(1, c.length);
-    if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
-  }
-  return null;
-}
-
 export function SegmentProvider({ children }: { children: React.ReactNode }) {
-  const [segmentId, setSegmentIdState] = useState<SegmentId>(null);
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-  useEffect(() => {
-    const stored =
-      getCookie("hybike-segment") || localStorage.getItem("hybike-segment");
-
-    if (stored) {
-      setSegmentIdState(stored);
-    }
-  }, []);
+  const segmentId = searchParams.get("segment") ?? null;
 
   const setSegmentId = (id: SegmentId) => {
-    setSegmentIdState(id);
+    const params = new URLSearchParams(searchParams.toString());
     if (id) {
-      localStorage.setItem("hybike-segment", id);
-      setCookie("hybike-segment", id);
+      params.set("segment", id);
     } else {
-      localStorage.removeItem("hybike-segment");
-      deleteCookie("hybike-segment");
+      params.delete("segment");
     }
+    const query = params.toString();
+    router.replace(pathname + (query ? `?${query}` : ""));
     router.refresh();
   };
 
