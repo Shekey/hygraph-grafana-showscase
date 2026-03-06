@@ -90,3 +90,28 @@ query GetProductCategories {
     }
   }
 }
+
+query GetProductShowcaseProducts($locale: Locale!) {
+  products(locales: [$locale, en], stage: DRAFT, first: 100) {
+    id
+    slug
+    name
+    tagline
+    category {
+      value
+    }
+    image {
+      url
+      width
+      height
+    }
+    externalProduct {
+      data {
+        calculated_price
+        sale_price
+        inventory_level
+        availability
+      }
+    }
+  }
+}

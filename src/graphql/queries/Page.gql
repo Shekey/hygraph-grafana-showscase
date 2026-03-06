@@ -153,28 +153,6 @@ query GetPage($slug: String!, $locale: Locale!, $segmentId: ID) {
         displayFilters
         showPrices
         showStock
-        products {
-          id
-          slug
-          name
-          tagline
-          category {
-            value
-          }
-          image {
-            url
-            width
-            height
-          }
-          externalProduct {
-            data {
-              calculated_price
-              sale_price
-              inventory_level
-              availability
-            }
-          }
-        }
       }
       ... on StatsBar {
         id
@@ -366,28 +344,6 @@ query GetPage($slug: String!, $locale: Locale!, $segmentId: ID) {
           displayFilters
           showPrices
           showStock
-          products {
-            id
-            slug
-            name
-            tagline
-            category {
-              value
-            }
-            image {
-              url
-              width
-              height
-            }
-            externalProduct {
-              data {
-                calculated_price
-                sale_price
-                inventory_level
-                availability
-              }
-            }
-          }
         }
         ... on StatsBar {
           id
