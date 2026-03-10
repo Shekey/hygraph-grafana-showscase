@@ -35,6 +35,8 @@ export type Article = Entity & Node & {
   __typename?: 'Article';
   body: RichText;
   category: Scalars['String']['output'];
+  /** Modular article content blocks */
+  content: Array<ArticlecontentUnion>;
   /** The time the document was created */
   createdAt: Scalars['DateTime']['output'];
   /** User that created this document */
@@ -72,6 +74,18 @@ export type Article = Entity & Node & {
    *
    */
   variants: Array<ArticleVariant>;
+};
+
+
+/** Articles with rich text body */
+export type ArticleContentArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  forceParentLocale?: InputMaybe<Scalars['Boolean']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  locales?: InputMaybe<Array<Locale>>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -193,6 +207,7 @@ export type ArticleCreateInput = {
   category: Scalars['String']['input'];
   cmm8y2yzs0hd307ui5smd13ya?: InputMaybe<FeaturedArticleCreateManyInlineInput>;
   cmm8z85sg001u08vzfkqu2nyw?: InputMaybe<ArticleListCreateManyInlineInput>;
+  content?: InputMaybe<ArticlecontentUnionCreateManyInlineInput>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   image: AssetCreateOneInlineInput;
   /** Inline mutations for managing document localizations excluding the default locale */
@@ -247,6 +262,461 @@ export type ArticleEdge = {
   cursor: Scalars['String']['output'];
   /** The item at the end of the edge. */
   node: Article;
+};
+
+/** Image with caption and optional descriptive text */
+export type ArticleImageSection = Entity & {
+  __typename?: 'ArticleImageSection';
+  /** Caption displayed below the image */
+  caption?: Maybe<Scalars['String']['output']>;
+  /** The unique identifier */
+  id: Scalars['ID']['output'];
+  /** The image to display */
+  image?: Maybe<Asset>;
+  /** System Locale field */
+  locale: Locale;
+  /** Get the other localizations for this document */
+  localizations: Array<ArticleImageSection>;
+  /** System stage field */
+  stage: Stage;
+  /** Optional descriptive text next to the image */
+  text?: Maybe<RichText>;
+  /** System updatedAt field */
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+};
+
+
+/** Image with caption and optional descriptive text */
+export type ArticleImageSectionImageArgs = {
+  forceParentLocale?: InputMaybe<Scalars['Boolean']['input']>;
+  locales?: InputMaybe<Array<Locale>>;
+  where?: InputMaybe<AssetSingleRelationWhereInput>;
+};
+
+
+/** Image with caption and optional descriptive text */
+export type ArticleImageSectionLocalizationsArgs = {
+  includeCurrent?: Scalars['Boolean']['input'];
+  locales?: Array<Locale>;
+};
+
+
+/** Image with caption and optional descriptive text */
+export type ArticleImageSectionUpdatedAtArgs = {
+  variation?: SystemDateTimeFieldVariation;
+};
+
+export type ArticleImageSectionConnectInput = {
+  /** Allow to specify document position in list of connected documents, will default to appending at end of list */
+  position?: InputMaybe<ConnectPositionInput>;
+  /** Document to connect */
+  where: ArticleImageSectionWhereUniqueInput;
+};
+
+/** A connection to a list of items. */
+export type ArticleImageSectionConnection = {
+  __typename?: 'ArticleImageSectionConnection';
+  aggregate: Aggregate;
+  /** A list of edges. */
+  edges: Array<ArticleImageSectionEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+};
+
+export type ArticleImageSectionCreateInput = {
+  /** caption input for default locale (en) */
+  caption?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<AssetCreateOneInlineInput>;
+  /** Inline mutations for managing document localizations excluding the default locale */
+  localizations?: InputMaybe<ArticleImageSectionCreateLocalizationsInput>;
+  /** text input for default locale (en) */
+  text?: InputMaybe<Scalars['RichTextAST']['input']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
+};
+
+export type ArticleImageSectionCreateLocalizationDataInput = {
+  caption?: InputMaybe<Scalars['String']['input']>;
+  text?: InputMaybe<Scalars['RichTextAST']['input']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
+};
+
+export type ArticleImageSectionCreateLocalizationInput = {
+  /** Localization input */
+  data: ArticleImageSectionCreateLocalizationDataInput;
+  locale: Locale;
+};
+
+export type ArticleImageSectionCreateLocalizationsInput = {
+  /** Create localizations for the newly-created document */
+  create?: InputMaybe<Array<ArticleImageSectionCreateLocalizationInput>>;
+};
+
+export type ArticleImageSectionCreateManyInlineInput = {
+  /** Create and connect multiple existing ArticleImageSection documents */
+  create?: InputMaybe<Array<ArticleImageSectionCreateInput>>;
+};
+
+export type ArticleImageSectionCreateOneInlineInput = {
+  /** Create and connect one ArticleImageSection document */
+  create?: InputMaybe<ArticleImageSectionCreateInput>;
+};
+
+export type ArticleImageSectionCreateWithPositionInput = {
+  /** Document to create */
+  data: ArticleImageSectionCreateInput;
+  /** Position in the list of existing component instances, will default to appending at the end of list */
+  position?: InputMaybe<ConnectPositionInput>;
+};
+
+/** An edge in a connection. */
+export type ArticleImageSectionEdge = {
+  __typename?: 'ArticleImageSectionEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String']['output'];
+  /** The item at the end of the edge. */
+  node: ArticleImageSection;
+};
+
+/** Identifies documents */
+export type ArticleImageSectionManyWhereInput = {
+  /** Logical AND on all given filters. */
+  AND?: InputMaybe<Array<ArticleImageSectionWhereInput>>;
+  /** Logical NOT on all given filters combined by AND. */
+  NOT?: InputMaybe<Array<ArticleImageSectionWhereInput>>;
+  /** Logical OR on all given filters. */
+  OR?: InputMaybe<Array<ArticleImageSectionWhereInput>>;
+  /** Contains search across all appropriate fields. */
+  _search?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  /** All values containing the given string. */
+  id_contains?: InputMaybe<Scalars['ID']['input']>;
+  /** All values ending with the given string. */
+  id_ends_with?: InputMaybe<Scalars['ID']['input']>;
+  /** All values that are contained in given list. */
+  id_in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Any other value that exists and is not equal to the given value. */
+  id_not?: InputMaybe<Scalars['ID']['input']>;
+  /** All values not containing the given string. */
+  id_not_contains?: InputMaybe<Scalars['ID']['input']>;
+  /** All values not ending with the given string */
+  id_not_ends_with?: InputMaybe<Scalars['ID']['input']>;
+  /** All values that are not contained in given list. */
+  id_not_in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** All values not starting with the given string. */
+  id_not_starts_with?: InputMaybe<Scalars['ID']['input']>;
+  /** All values starting with the given string. */
+  id_starts_with?: InputMaybe<Scalars['ID']['input']>;
+  image?: InputMaybe<AssetWhereInput>;
+  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values greater than the given value. */
+  updatedAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values greater than or equal the given value. */
+  updatedAt_gte?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values that are contained in given list. */
+  updatedAt_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
+  /** All values less than the given value. */
+  updatedAt_lt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values less than or equal the given value. */
+  updatedAt_lte?: InputMaybe<Scalars['DateTime']['input']>;
+  /** Any other value that exists and is not equal to the given value. */
+  updatedAt_not?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values that are not contained in given list. */
+  updatedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
+};
+
+export type ArticleImageSectionOrderByInput =
+  | 'caption_ASC'
+  | 'caption_DESC'
+  | 'id_ASC'
+  | 'id_DESC'
+  | 'updatedAt_ASC'
+  | 'updatedAt_DESC';
+
+export type ArticleImageSectionParent = Article | ArticleVariant;
+
+export type ArticleImageSectionParentConnectInput = {
+  Article?: InputMaybe<ArticleConnectInput>;
+  ArticleVariant?: InputMaybe<ArticleVariantConnectInput>;
+};
+
+export type ArticleImageSectionParentCreateInput = {
+  Article?: InputMaybe<ArticleCreateInput>;
+  ArticleVariant?: InputMaybe<ArticleVariantCreateInput>;
+};
+
+export type ArticleImageSectionParentCreateManyInlineInput = {
+  /** Connect multiple existing ArticleImageSectionParent documents */
+  connect?: InputMaybe<Array<ArticleImageSectionParentWhereUniqueInput>>;
+  /** Create and connect multiple existing ArticleImageSectionParent documents */
+  create?: InputMaybe<Array<ArticleImageSectionParentCreateInput>>;
+};
+
+export type ArticleImageSectionParentCreateOneInlineInput = {
+  /** Connect one existing ArticleImageSectionParent document */
+  connect?: InputMaybe<ArticleImageSectionParentWhereUniqueInput>;
+  /** Create and connect one ArticleImageSectionParent document */
+  create?: InputMaybe<ArticleImageSectionParentCreateInput>;
+};
+
+export type ArticleImageSectionParentUpdateInput = {
+  Article?: InputMaybe<ArticleUpdateInput>;
+  ArticleVariant?: InputMaybe<ArticleVariantUpdateInput>;
+};
+
+export type ArticleImageSectionParentUpdateManyInlineInput = {
+  /** Connect multiple existing ArticleImageSectionParent documents */
+  connect?: InputMaybe<Array<ArticleImageSectionParentConnectInput>>;
+  /** Create and connect multiple ArticleImageSectionParent documents */
+  create?: InputMaybe<Array<ArticleImageSectionParentCreateInput>>;
+  /** Delete multiple ArticleImageSectionParent documents */
+  delete?: InputMaybe<Array<ArticleImageSectionParentWhereUniqueInput>>;
+  /** Disconnect multiple ArticleImageSectionParent documents */
+  disconnect?: InputMaybe<Array<ArticleImageSectionParentWhereUniqueInput>>;
+  /** Override currently-connected documents with multiple existing ArticleImageSectionParent documents */
+  set?: InputMaybe<Array<ArticleImageSectionParentWhereUniqueInput>>;
+  /** Update multiple ArticleImageSectionParent documents */
+  update?: InputMaybe<Array<ArticleImageSectionParentUpdateWithNestedWhereUniqueInput>>;
+  /** Upsert multiple ArticleImageSectionParent documents */
+  upsert?: InputMaybe<Array<ArticleImageSectionParentUpsertWithNestedWhereUniqueInput>>;
+};
+
+export type ArticleImageSectionParentUpdateManyWithNestedWhereInput = {
+  Article?: InputMaybe<ArticleUpdateManyWithNestedWhereInput>;
+  ArticleVariant?: InputMaybe<ArticleVariantUpdateManyWithNestedWhereInput>;
+};
+
+export type ArticleImageSectionParentUpdateOneInlineInput = {
+  /** Connect existing ArticleImageSectionParent document */
+  connect?: InputMaybe<ArticleImageSectionParentWhereUniqueInput>;
+  /** Create and connect one ArticleImageSectionParent document */
+  create?: InputMaybe<ArticleImageSectionParentCreateInput>;
+  /** Delete currently connected ArticleImageSectionParent document */
+  delete?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Disconnect currently connected ArticleImageSectionParent document */
+  disconnect?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Update single ArticleImageSectionParent document */
+  update?: InputMaybe<ArticleImageSectionParentUpdateWithNestedWhereUniqueInput>;
+  /** Upsert single ArticleImageSectionParent document */
+  upsert?: InputMaybe<ArticleImageSectionParentUpsertWithNestedWhereUniqueInput>;
+};
+
+export type ArticleImageSectionParentUpdateWithNestedWhereUniqueInput = {
+  Article?: InputMaybe<ArticleUpdateWithNestedWhereUniqueInput>;
+  ArticleVariant?: InputMaybe<ArticleVariantUpdateWithNestedWhereUniqueInput>;
+};
+
+export type ArticleImageSectionParentUpsertWithNestedWhereUniqueInput = {
+  Article?: InputMaybe<ArticleUpsertWithNestedWhereUniqueInput>;
+  ArticleVariant?: InputMaybe<ArticleVariantUpsertWithNestedWhereUniqueInput>;
+};
+
+export type ArticleImageSectionParentWhereInput = {
+  Article?: InputMaybe<ArticleWhereInput>;
+  ArticleVariant?: InputMaybe<ArticleVariantWhereInput>;
+};
+
+export type ArticleImageSectionParentWhereUniqueInput = {
+  Article?: InputMaybe<ArticleWhereUniqueInput>;
+  ArticleVariant?: InputMaybe<ArticleVariantWhereUniqueInput>;
+};
+
+export type ArticleImageSectionUpdateInput = {
+  /** caption input for default locale (en) */
+  caption?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<AssetUpdateOneInlineInput>;
+  /** Manage document localizations */
+  localizations?: InputMaybe<ArticleImageSectionUpdateLocalizationsInput>;
+  /** text input for default locale (en) */
+  text?: InputMaybe<Scalars['RichTextAST']['input']>;
+};
+
+export type ArticleImageSectionUpdateLocalizationDataInput = {
+  caption?: InputMaybe<Scalars['String']['input']>;
+  text?: InputMaybe<Scalars['RichTextAST']['input']>;
+};
+
+export type ArticleImageSectionUpdateLocalizationInput = {
+  data: ArticleImageSectionUpdateLocalizationDataInput;
+  locale: Locale;
+};
+
+export type ArticleImageSectionUpdateLocalizationsInput = {
+  /** Localizations to create */
+  create?: InputMaybe<Array<ArticleImageSectionCreateLocalizationInput>>;
+  /** Localizations to delete */
+  delete?: InputMaybe<Array<Locale>>;
+  /** Localizations to update */
+  update?: InputMaybe<Array<ArticleImageSectionUpdateLocalizationInput>>;
+  upsert?: InputMaybe<Array<ArticleImageSectionUpsertLocalizationInput>>;
+};
+
+export type ArticleImageSectionUpdateManyInlineInput = {
+  /** Create and connect multiple ArticleImageSection component instances */
+  create?: InputMaybe<Array<ArticleImageSectionCreateWithPositionInput>>;
+  /** Delete multiple ArticleImageSection documents */
+  delete?: InputMaybe<Array<ArticleImageSectionWhereUniqueInput>>;
+  /** Update multiple ArticleImageSection component instances */
+  update?: InputMaybe<Array<ArticleImageSectionUpdateWithNestedWhereUniqueAndPositionInput>>;
+  /** Upsert multiple ArticleImageSection component instances */
+  upsert?: InputMaybe<Array<ArticleImageSectionUpsertWithNestedWhereUniqueAndPositionInput>>;
+};
+
+export type ArticleImageSectionUpdateManyInput = {
+  /** caption input for default locale (en) */
+  caption?: InputMaybe<Scalars['String']['input']>;
+  /** Optional updates to localizations */
+  localizations?: InputMaybe<ArticleImageSectionUpdateManyLocalizationsInput>;
+  /** text input for default locale (en) */
+  text?: InputMaybe<Scalars['RichTextAST']['input']>;
+};
+
+export type ArticleImageSectionUpdateManyLocalizationDataInput = {
+  caption?: InputMaybe<Scalars['String']['input']>;
+  text?: InputMaybe<Scalars['RichTextAST']['input']>;
+};
+
+export type ArticleImageSectionUpdateManyLocalizationInput = {
+  data: ArticleImageSectionUpdateManyLocalizationDataInput;
+  locale: Locale;
+};
+
+export type ArticleImageSectionUpdateManyLocalizationsInput = {
+  /** Localizations to update */
+  update?: InputMaybe<Array<ArticleImageSectionUpdateManyLocalizationInput>>;
+};
+
+export type ArticleImageSectionUpdateManyWithNestedWhereInput = {
+  /** Update many input */
+  data: ArticleImageSectionUpdateManyInput;
+  /** Document search */
+  where: ArticleImageSectionWhereInput;
+};
+
+export type ArticleImageSectionUpdateOneInlineInput = {
+  /** Create and connect one ArticleImageSection document */
+  create?: InputMaybe<ArticleImageSectionCreateInput>;
+  /** Delete currently connected ArticleImageSection document */
+  delete?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Update single ArticleImageSection document */
+  update?: InputMaybe<ArticleImageSectionUpdateWithNestedWhereUniqueInput>;
+  /** Upsert single ArticleImageSection document */
+  upsert?: InputMaybe<ArticleImageSectionUpsertWithNestedWhereUniqueInput>;
+};
+
+export type ArticleImageSectionUpdateWithNestedWhereUniqueAndPositionInput = {
+  /** Document to update */
+  data?: InputMaybe<ArticleImageSectionUpdateInput>;
+  /** Position in the list of existing component instances, will default to appending at the end of list */
+  position?: InputMaybe<ConnectPositionInput>;
+  /** Unique component instance search */
+  where: ArticleImageSectionWhereUniqueInput;
+};
+
+export type ArticleImageSectionUpdateWithNestedWhereUniqueInput = {
+  /** Document to update */
+  data: ArticleImageSectionUpdateInput;
+  /** Unique document search */
+  where: ArticleImageSectionWhereUniqueInput;
+};
+
+export type ArticleImageSectionUpsertInput = {
+  /** Create document if it didn't exist */
+  create: ArticleImageSectionCreateInput;
+  /** Update document if it exists */
+  update: ArticleImageSectionUpdateInput;
+};
+
+export type ArticleImageSectionUpsertLocalizationInput = {
+  create: ArticleImageSectionCreateLocalizationDataInput;
+  locale: Locale;
+  update: ArticleImageSectionUpdateLocalizationDataInput;
+};
+
+export type ArticleImageSectionUpsertWithNestedWhereUniqueAndPositionInput = {
+  /** Document to upsert */
+  data?: InputMaybe<ArticleImageSectionUpsertInput>;
+  /** Position in the list of existing component instances, will default to appending at the end of list */
+  position?: InputMaybe<ConnectPositionInput>;
+  /** Unique component instance search */
+  where: ArticleImageSectionWhereUniqueInput;
+};
+
+export type ArticleImageSectionUpsertWithNestedWhereUniqueInput = {
+  /** Upsert data */
+  data: ArticleImageSectionUpsertInput;
+  /** Unique document search */
+  where: ArticleImageSectionWhereUniqueInput;
+};
+
+/** Identifies documents */
+export type ArticleImageSectionWhereInput = {
+  /** Logical AND on all given filters. */
+  AND?: InputMaybe<Array<ArticleImageSectionWhereInput>>;
+  /** Logical NOT on all given filters combined by AND. */
+  NOT?: InputMaybe<Array<ArticleImageSectionWhereInput>>;
+  /** Logical OR on all given filters. */
+  OR?: InputMaybe<Array<ArticleImageSectionWhereInput>>;
+  /** Contains search across all appropriate fields. */
+  _search?: InputMaybe<Scalars['String']['input']>;
+  caption?: InputMaybe<Scalars['String']['input']>;
+  /** All values containing the given string. */
+  caption_contains?: InputMaybe<Scalars['String']['input']>;
+  /** All values ending with the given string. */
+  caption_ends_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values that are contained in given list. */
+  caption_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** Any other value that exists and is not equal to the given value. */
+  caption_not?: InputMaybe<Scalars['String']['input']>;
+  /** All values not containing the given string. */
+  caption_not_contains?: InputMaybe<Scalars['String']['input']>;
+  /** All values not ending with the given string */
+  caption_not_ends_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values that are not contained in given list. */
+  caption_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** All values not starting with the given string. */
+  caption_not_starts_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values starting with the given string. */
+  caption_starts_with?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  /** All values containing the given string. */
+  id_contains?: InputMaybe<Scalars['ID']['input']>;
+  /** All values ending with the given string. */
+  id_ends_with?: InputMaybe<Scalars['ID']['input']>;
+  /** All values that are contained in given list. */
+  id_in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Any other value that exists and is not equal to the given value. */
+  id_not?: InputMaybe<Scalars['ID']['input']>;
+  /** All values not containing the given string. */
+  id_not_contains?: InputMaybe<Scalars['ID']['input']>;
+  /** All values not ending with the given string */
+  id_not_ends_with?: InputMaybe<Scalars['ID']['input']>;
+  /** All values that are not contained in given list. */
+  id_not_in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** All values not starting with the given string. */
+  id_not_starts_with?: InputMaybe<Scalars['ID']['input']>;
+  /** All values starting with the given string. */
+  id_starts_with?: InputMaybe<Scalars['ID']['input']>;
+  image?: InputMaybe<AssetWhereInput>;
+  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values greater than the given value. */
+  updatedAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values greater than or equal the given value. */
+  updatedAt_gte?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values that are contained in given list. */
+  updatedAt_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
+  /** All values less than the given value. */
+  updatedAt_lt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values less than or equal the given value. */
+  updatedAt_lte?: InputMaybe<Scalars['DateTime']['input']>;
+  /** Any other value that exists and is not equal to the given value. */
+  updatedAt_not?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values that are not contained in given list. */
+  updatedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
+};
+
+/** References ArticleImageSection record uniquely */
+export type ArticleImageSectionWhereUniqueInput = {
+  id?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type ArticleList = Entity & {
@@ -726,6 +1196,10 @@ export type ArticleManyWhereInput = {
   category_not_starts_with?: InputMaybe<Scalars['String']['input']>;
   /** All values starting with the given string. */
   category_starts_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values in which the union is empty. */
+  content_empty?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Matches if the modular component contains at least one connection to the item provided to the filter */
+  content_some?: InputMaybe<ArticlecontentUnionWhereInput>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
   createdAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -880,11 +1354,875 @@ export type ArticleOrderByInput =
   | 'updatedAt_ASC'
   | 'updatedAt_DESC';
 
+/** A rich text paragraph block for article content */
+export type ArticleParagraph = Entity & {
+  __typename?: 'ArticleParagraph';
+  /** The unique identifier */
+  id: Scalars['ID']['output'];
+  /** System Locale field */
+  locale: Locale;
+  /** Get the other localizations for this document */
+  localizations: Array<ArticleParagraph>;
+  /** System stage field */
+  stage: Stage;
+  /** The paragraph content */
+  text: RichText;
+  /** System updatedAt field */
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+};
+
+
+/** A rich text paragraph block for article content */
+export type ArticleParagraphLocalizationsArgs = {
+  includeCurrent?: Scalars['Boolean']['input'];
+  locales?: Array<Locale>;
+};
+
+
+/** A rich text paragraph block for article content */
+export type ArticleParagraphUpdatedAtArgs = {
+  variation?: SystemDateTimeFieldVariation;
+};
+
+export type ArticleParagraphConnectInput = {
+  /** Allow to specify document position in list of connected documents, will default to appending at end of list */
+  position?: InputMaybe<ConnectPositionInput>;
+  /** Document to connect */
+  where: ArticleParagraphWhereUniqueInput;
+};
+
+/** A connection to a list of items. */
+export type ArticleParagraphConnection = {
+  __typename?: 'ArticleParagraphConnection';
+  aggregate: Aggregate;
+  /** A list of edges. */
+  edges: Array<ArticleParagraphEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+};
+
+export type ArticleParagraphCreateInput = {
+  /** Inline mutations for managing document localizations excluding the default locale */
+  localizations?: InputMaybe<ArticleParagraphCreateLocalizationsInput>;
+  /** text input for default locale (en) */
+  text: Scalars['RichTextAST']['input'];
+  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
+};
+
+export type ArticleParagraphCreateLocalizationDataInput = {
+  text: Scalars['RichTextAST']['input'];
+  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
+};
+
+export type ArticleParagraphCreateLocalizationInput = {
+  /** Localization input */
+  data: ArticleParagraphCreateLocalizationDataInput;
+  locale: Locale;
+};
+
+export type ArticleParagraphCreateLocalizationsInput = {
+  /** Create localizations for the newly-created document */
+  create?: InputMaybe<Array<ArticleParagraphCreateLocalizationInput>>;
+};
+
+export type ArticleParagraphCreateManyInlineInput = {
+  /** Create and connect multiple existing ArticleParagraph documents */
+  create?: InputMaybe<Array<ArticleParagraphCreateInput>>;
+};
+
+export type ArticleParagraphCreateOneInlineInput = {
+  /** Create and connect one ArticleParagraph document */
+  create?: InputMaybe<ArticleParagraphCreateInput>;
+};
+
+export type ArticleParagraphCreateWithPositionInput = {
+  /** Document to create */
+  data: ArticleParagraphCreateInput;
+  /** Position in the list of existing component instances, will default to appending at the end of list */
+  position?: InputMaybe<ConnectPositionInput>;
+};
+
+/** An edge in a connection. */
+export type ArticleParagraphEdge = {
+  __typename?: 'ArticleParagraphEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String']['output'];
+  /** The item at the end of the edge. */
+  node: ArticleParagraph;
+};
+
+/** Identifies documents */
+export type ArticleParagraphManyWhereInput = {
+  /** Logical AND on all given filters. */
+  AND?: InputMaybe<Array<ArticleParagraphWhereInput>>;
+  /** Logical NOT on all given filters combined by AND. */
+  NOT?: InputMaybe<Array<ArticleParagraphWhereInput>>;
+  /** Logical OR on all given filters. */
+  OR?: InputMaybe<Array<ArticleParagraphWhereInput>>;
+  /** Contains search across all appropriate fields. */
+  _search?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  /** All values containing the given string. */
+  id_contains?: InputMaybe<Scalars['ID']['input']>;
+  /** All values ending with the given string. */
+  id_ends_with?: InputMaybe<Scalars['ID']['input']>;
+  /** All values that are contained in given list. */
+  id_in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Any other value that exists and is not equal to the given value. */
+  id_not?: InputMaybe<Scalars['ID']['input']>;
+  /** All values not containing the given string. */
+  id_not_contains?: InputMaybe<Scalars['ID']['input']>;
+  /** All values not ending with the given string */
+  id_not_ends_with?: InputMaybe<Scalars['ID']['input']>;
+  /** All values that are not contained in given list. */
+  id_not_in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** All values not starting with the given string. */
+  id_not_starts_with?: InputMaybe<Scalars['ID']['input']>;
+  /** All values starting with the given string. */
+  id_starts_with?: InputMaybe<Scalars['ID']['input']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values greater than the given value. */
+  updatedAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values greater than or equal the given value. */
+  updatedAt_gte?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values that are contained in given list. */
+  updatedAt_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
+  /** All values less than the given value. */
+  updatedAt_lt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values less than or equal the given value. */
+  updatedAt_lte?: InputMaybe<Scalars['DateTime']['input']>;
+  /** Any other value that exists and is not equal to the given value. */
+  updatedAt_not?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values that are not contained in given list. */
+  updatedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
+};
+
+export type ArticleParagraphOrderByInput =
+  | 'id_ASC'
+  | 'id_DESC'
+  | 'updatedAt_ASC'
+  | 'updatedAt_DESC';
+
+export type ArticleParagraphParent = Article | ArticleVariant;
+
+export type ArticleParagraphParentConnectInput = {
+  Article?: InputMaybe<ArticleConnectInput>;
+  ArticleVariant?: InputMaybe<ArticleVariantConnectInput>;
+};
+
+export type ArticleParagraphParentCreateInput = {
+  Article?: InputMaybe<ArticleCreateInput>;
+  ArticleVariant?: InputMaybe<ArticleVariantCreateInput>;
+};
+
+export type ArticleParagraphParentCreateManyInlineInput = {
+  /** Connect multiple existing ArticleParagraphParent documents */
+  connect?: InputMaybe<Array<ArticleParagraphParentWhereUniqueInput>>;
+  /** Create and connect multiple existing ArticleParagraphParent documents */
+  create?: InputMaybe<Array<ArticleParagraphParentCreateInput>>;
+};
+
+export type ArticleParagraphParentCreateOneInlineInput = {
+  /** Connect one existing ArticleParagraphParent document */
+  connect?: InputMaybe<ArticleParagraphParentWhereUniqueInput>;
+  /** Create and connect one ArticleParagraphParent document */
+  create?: InputMaybe<ArticleParagraphParentCreateInput>;
+};
+
+export type ArticleParagraphParentUpdateInput = {
+  Article?: InputMaybe<ArticleUpdateInput>;
+  ArticleVariant?: InputMaybe<ArticleVariantUpdateInput>;
+};
+
+export type ArticleParagraphParentUpdateManyInlineInput = {
+  /** Connect multiple existing ArticleParagraphParent documents */
+  connect?: InputMaybe<Array<ArticleParagraphParentConnectInput>>;
+  /** Create and connect multiple ArticleParagraphParent documents */
+  create?: InputMaybe<Array<ArticleParagraphParentCreateInput>>;
+  /** Delete multiple ArticleParagraphParent documents */
+  delete?: InputMaybe<Array<ArticleParagraphParentWhereUniqueInput>>;
+  /** Disconnect multiple ArticleParagraphParent documents */
+  disconnect?: InputMaybe<Array<ArticleParagraphParentWhereUniqueInput>>;
+  /** Override currently-connected documents with multiple existing ArticleParagraphParent documents */
+  set?: InputMaybe<Array<ArticleParagraphParentWhereUniqueInput>>;
+  /** Update multiple ArticleParagraphParent documents */
+  update?: InputMaybe<Array<ArticleParagraphParentUpdateWithNestedWhereUniqueInput>>;
+  /** Upsert multiple ArticleParagraphParent documents */
+  upsert?: InputMaybe<Array<ArticleParagraphParentUpsertWithNestedWhereUniqueInput>>;
+};
+
+export type ArticleParagraphParentUpdateManyWithNestedWhereInput = {
+  Article?: InputMaybe<ArticleUpdateManyWithNestedWhereInput>;
+  ArticleVariant?: InputMaybe<ArticleVariantUpdateManyWithNestedWhereInput>;
+};
+
+export type ArticleParagraphParentUpdateOneInlineInput = {
+  /** Connect existing ArticleParagraphParent document */
+  connect?: InputMaybe<ArticleParagraphParentWhereUniqueInput>;
+  /** Create and connect one ArticleParagraphParent document */
+  create?: InputMaybe<ArticleParagraphParentCreateInput>;
+  /** Delete currently connected ArticleParagraphParent document */
+  delete?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Disconnect currently connected ArticleParagraphParent document */
+  disconnect?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Update single ArticleParagraphParent document */
+  update?: InputMaybe<ArticleParagraphParentUpdateWithNestedWhereUniqueInput>;
+  /** Upsert single ArticleParagraphParent document */
+  upsert?: InputMaybe<ArticleParagraphParentUpsertWithNestedWhereUniqueInput>;
+};
+
+export type ArticleParagraphParentUpdateWithNestedWhereUniqueInput = {
+  Article?: InputMaybe<ArticleUpdateWithNestedWhereUniqueInput>;
+  ArticleVariant?: InputMaybe<ArticleVariantUpdateWithNestedWhereUniqueInput>;
+};
+
+export type ArticleParagraphParentUpsertWithNestedWhereUniqueInput = {
+  Article?: InputMaybe<ArticleUpsertWithNestedWhereUniqueInput>;
+  ArticleVariant?: InputMaybe<ArticleVariantUpsertWithNestedWhereUniqueInput>;
+};
+
+export type ArticleParagraphParentWhereInput = {
+  Article?: InputMaybe<ArticleWhereInput>;
+  ArticleVariant?: InputMaybe<ArticleVariantWhereInput>;
+};
+
+export type ArticleParagraphParentWhereUniqueInput = {
+  Article?: InputMaybe<ArticleWhereUniqueInput>;
+  ArticleVariant?: InputMaybe<ArticleVariantWhereUniqueInput>;
+};
+
+export type ArticleParagraphUpdateInput = {
+  /** Manage document localizations */
+  localizations?: InputMaybe<ArticleParagraphUpdateLocalizationsInput>;
+  /** text input for default locale (en) */
+  text?: InputMaybe<Scalars['RichTextAST']['input']>;
+};
+
+export type ArticleParagraphUpdateLocalizationDataInput = {
+  text?: InputMaybe<Scalars['RichTextAST']['input']>;
+};
+
+export type ArticleParagraphUpdateLocalizationInput = {
+  data: ArticleParagraphUpdateLocalizationDataInput;
+  locale: Locale;
+};
+
+export type ArticleParagraphUpdateLocalizationsInput = {
+  /** Localizations to create */
+  create?: InputMaybe<Array<ArticleParagraphCreateLocalizationInput>>;
+  /** Localizations to delete */
+  delete?: InputMaybe<Array<Locale>>;
+  /** Localizations to update */
+  update?: InputMaybe<Array<ArticleParagraphUpdateLocalizationInput>>;
+  upsert?: InputMaybe<Array<ArticleParagraphUpsertLocalizationInput>>;
+};
+
+export type ArticleParagraphUpdateManyInlineInput = {
+  /** Create and connect multiple ArticleParagraph component instances */
+  create?: InputMaybe<Array<ArticleParagraphCreateWithPositionInput>>;
+  /** Delete multiple ArticleParagraph documents */
+  delete?: InputMaybe<Array<ArticleParagraphWhereUniqueInput>>;
+  /** Update multiple ArticleParagraph component instances */
+  update?: InputMaybe<Array<ArticleParagraphUpdateWithNestedWhereUniqueAndPositionInput>>;
+  /** Upsert multiple ArticleParagraph component instances */
+  upsert?: InputMaybe<Array<ArticleParagraphUpsertWithNestedWhereUniqueAndPositionInput>>;
+};
+
+export type ArticleParagraphUpdateManyInput = {
+  /** Optional updates to localizations */
+  localizations?: InputMaybe<ArticleParagraphUpdateManyLocalizationsInput>;
+  /** text input for default locale (en) */
+  text?: InputMaybe<Scalars['RichTextAST']['input']>;
+};
+
+export type ArticleParagraphUpdateManyLocalizationDataInput = {
+  text?: InputMaybe<Scalars['RichTextAST']['input']>;
+};
+
+export type ArticleParagraphUpdateManyLocalizationInput = {
+  data: ArticleParagraphUpdateManyLocalizationDataInput;
+  locale: Locale;
+};
+
+export type ArticleParagraphUpdateManyLocalizationsInput = {
+  /** Localizations to update */
+  update?: InputMaybe<Array<ArticleParagraphUpdateManyLocalizationInput>>;
+};
+
+export type ArticleParagraphUpdateManyWithNestedWhereInput = {
+  /** Update many input */
+  data: ArticleParagraphUpdateManyInput;
+  /** Document search */
+  where: ArticleParagraphWhereInput;
+};
+
+export type ArticleParagraphUpdateOneInlineInput = {
+  /** Create and connect one ArticleParagraph document */
+  create?: InputMaybe<ArticleParagraphCreateInput>;
+  /** Delete currently connected ArticleParagraph document */
+  delete?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Update single ArticleParagraph document */
+  update?: InputMaybe<ArticleParagraphUpdateWithNestedWhereUniqueInput>;
+  /** Upsert single ArticleParagraph document */
+  upsert?: InputMaybe<ArticleParagraphUpsertWithNestedWhereUniqueInput>;
+};
+
+export type ArticleParagraphUpdateWithNestedWhereUniqueAndPositionInput = {
+  /** Document to update */
+  data?: InputMaybe<ArticleParagraphUpdateInput>;
+  /** Position in the list of existing component instances, will default to appending at the end of list */
+  position?: InputMaybe<ConnectPositionInput>;
+  /** Unique component instance search */
+  where: ArticleParagraphWhereUniqueInput;
+};
+
+export type ArticleParagraphUpdateWithNestedWhereUniqueInput = {
+  /** Document to update */
+  data: ArticleParagraphUpdateInput;
+  /** Unique document search */
+  where: ArticleParagraphWhereUniqueInput;
+};
+
+export type ArticleParagraphUpsertInput = {
+  /** Create document if it didn't exist */
+  create: ArticleParagraphCreateInput;
+  /** Update document if it exists */
+  update: ArticleParagraphUpdateInput;
+};
+
+export type ArticleParagraphUpsertLocalizationInput = {
+  create: ArticleParagraphCreateLocalizationDataInput;
+  locale: Locale;
+  update: ArticleParagraphUpdateLocalizationDataInput;
+};
+
+export type ArticleParagraphUpsertWithNestedWhereUniqueAndPositionInput = {
+  /** Document to upsert */
+  data?: InputMaybe<ArticleParagraphUpsertInput>;
+  /** Position in the list of existing component instances, will default to appending at the end of list */
+  position?: InputMaybe<ConnectPositionInput>;
+  /** Unique component instance search */
+  where: ArticleParagraphWhereUniqueInput;
+};
+
+export type ArticleParagraphUpsertWithNestedWhereUniqueInput = {
+  /** Upsert data */
+  data: ArticleParagraphUpsertInput;
+  /** Unique document search */
+  where: ArticleParagraphWhereUniqueInput;
+};
+
+/** Identifies documents */
+export type ArticleParagraphWhereInput = {
+  /** Logical AND on all given filters. */
+  AND?: InputMaybe<Array<ArticleParagraphWhereInput>>;
+  /** Logical NOT on all given filters combined by AND. */
+  NOT?: InputMaybe<Array<ArticleParagraphWhereInput>>;
+  /** Logical OR on all given filters. */
+  OR?: InputMaybe<Array<ArticleParagraphWhereInput>>;
+  /** Contains search across all appropriate fields. */
+  _search?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  /** All values containing the given string. */
+  id_contains?: InputMaybe<Scalars['ID']['input']>;
+  /** All values ending with the given string. */
+  id_ends_with?: InputMaybe<Scalars['ID']['input']>;
+  /** All values that are contained in given list. */
+  id_in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Any other value that exists and is not equal to the given value. */
+  id_not?: InputMaybe<Scalars['ID']['input']>;
+  /** All values not containing the given string. */
+  id_not_contains?: InputMaybe<Scalars['ID']['input']>;
+  /** All values not ending with the given string */
+  id_not_ends_with?: InputMaybe<Scalars['ID']['input']>;
+  /** All values that are not contained in given list. */
+  id_not_in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** All values not starting with the given string. */
+  id_not_starts_with?: InputMaybe<Scalars['ID']['input']>;
+  /** All values starting with the given string. */
+  id_starts_with?: InputMaybe<Scalars['ID']['input']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values greater than the given value. */
+  updatedAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values greater than or equal the given value. */
+  updatedAt_gte?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values that are contained in given list. */
+  updatedAt_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
+  /** All values less than the given value. */
+  updatedAt_lt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values less than or equal the given value. */
+  updatedAt_lte?: InputMaybe<Scalars['DateTime']['input']>;
+  /** Any other value that exists and is not equal to the given value. */
+  updatedAt_not?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values that are not contained in given list. */
+  updatedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
+};
+
+/** References ArticleParagraph record uniquely */
+export type ArticleParagraphWhereUniqueInput = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+};
+
+/** Highlights a product with custom headline and descriptive text */
+export type ArticleProductCallout = Entity & {
+  __typename?: 'ArticleProductCallout';
+  /** Custom headline for the product callout */
+  headline: Scalars['String']['output'];
+  /** The unique identifier */
+  id: Scalars['ID']['output'];
+  /** System Locale field */
+  locale: Locale;
+  /** Get the other localizations for this document */
+  localizations: Array<ArticleProductCallout>;
+  /** The product to highlight */
+  product?: Maybe<Product>;
+  /** System stage field */
+  stage: Stage;
+  /** Descriptive text for the product callout */
+  text?: Maybe<RichText>;
+  /** System updatedAt field */
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+};
+
+
+/** Highlights a product with custom headline and descriptive text */
+export type ArticleProductCalloutLocalizationsArgs = {
+  includeCurrent?: Scalars['Boolean']['input'];
+  locales?: Array<Locale>;
+};
+
+
+/** Highlights a product with custom headline and descriptive text */
+export type ArticleProductCalloutProductArgs = {
+  forceParentLocale?: InputMaybe<Scalars['Boolean']['input']>;
+  locales?: InputMaybe<Array<Locale>>;
+};
+
+
+/** Highlights a product with custom headline and descriptive text */
+export type ArticleProductCalloutUpdatedAtArgs = {
+  variation?: SystemDateTimeFieldVariation;
+};
+
+export type ArticleProductCalloutConnectInput = {
+  /** Allow to specify document position in list of connected documents, will default to appending at end of list */
+  position?: InputMaybe<ConnectPositionInput>;
+  /** Document to connect */
+  where: ArticleProductCalloutWhereUniqueInput;
+};
+
+/** A connection to a list of items. */
+export type ArticleProductCalloutConnection = {
+  __typename?: 'ArticleProductCalloutConnection';
+  aggregate: Aggregate;
+  /** A list of edges. */
+  edges: Array<ArticleProductCalloutEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+};
+
+export type ArticleProductCalloutCreateInput = {
+  /** headline input for default locale (en) */
+  headline: Scalars['String']['input'];
+  /** Inline mutations for managing document localizations excluding the default locale */
+  localizations?: InputMaybe<ArticleProductCalloutCreateLocalizationsInput>;
+  product?: InputMaybe<ProductCreateOneInlineInput>;
+  /** text input for default locale (en) */
+  text?: InputMaybe<Scalars['RichTextAST']['input']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
+};
+
+export type ArticleProductCalloutCreateLocalizationDataInput = {
+  headline: Scalars['String']['input'];
+  text?: InputMaybe<Scalars['RichTextAST']['input']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
+};
+
+export type ArticleProductCalloutCreateLocalizationInput = {
+  /** Localization input */
+  data: ArticleProductCalloutCreateLocalizationDataInput;
+  locale: Locale;
+};
+
+export type ArticleProductCalloutCreateLocalizationsInput = {
+  /** Create localizations for the newly-created document */
+  create?: InputMaybe<Array<ArticleProductCalloutCreateLocalizationInput>>;
+};
+
+export type ArticleProductCalloutCreateManyInlineInput = {
+  /** Create and connect multiple existing ArticleProductCallout documents */
+  create?: InputMaybe<Array<ArticleProductCalloutCreateInput>>;
+};
+
+export type ArticleProductCalloutCreateOneInlineInput = {
+  /** Create and connect one ArticleProductCallout document */
+  create?: InputMaybe<ArticleProductCalloutCreateInput>;
+};
+
+export type ArticleProductCalloutCreateWithPositionInput = {
+  /** Document to create */
+  data: ArticleProductCalloutCreateInput;
+  /** Position in the list of existing component instances, will default to appending at the end of list */
+  position?: InputMaybe<ConnectPositionInput>;
+};
+
+/** An edge in a connection. */
+export type ArticleProductCalloutEdge = {
+  __typename?: 'ArticleProductCalloutEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String']['output'];
+  /** The item at the end of the edge. */
+  node: ArticleProductCallout;
+};
+
+/** Identifies documents */
+export type ArticleProductCalloutManyWhereInput = {
+  /** Logical AND on all given filters. */
+  AND?: InputMaybe<Array<ArticleProductCalloutWhereInput>>;
+  /** Logical NOT on all given filters combined by AND. */
+  NOT?: InputMaybe<Array<ArticleProductCalloutWhereInput>>;
+  /** Logical OR on all given filters. */
+  OR?: InputMaybe<Array<ArticleProductCalloutWhereInput>>;
+  /** Contains search across all appropriate fields. */
+  _search?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  /** All values containing the given string. */
+  id_contains?: InputMaybe<Scalars['ID']['input']>;
+  /** All values ending with the given string. */
+  id_ends_with?: InputMaybe<Scalars['ID']['input']>;
+  /** All values that are contained in given list. */
+  id_in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Any other value that exists and is not equal to the given value. */
+  id_not?: InputMaybe<Scalars['ID']['input']>;
+  /** All values not containing the given string. */
+  id_not_contains?: InputMaybe<Scalars['ID']['input']>;
+  /** All values not ending with the given string */
+  id_not_ends_with?: InputMaybe<Scalars['ID']['input']>;
+  /** All values that are not contained in given list. */
+  id_not_in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** All values not starting with the given string. */
+  id_not_starts_with?: InputMaybe<Scalars['ID']['input']>;
+  /** All values starting with the given string. */
+  id_starts_with?: InputMaybe<Scalars['ID']['input']>;
+  product?: InputMaybe<ProductWhereInput>;
+  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values greater than the given value. */
+  updatedAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values greater than or equal the given value. */
+  updatedAt_gte?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values that are contained in given list. */
+  updatedAt_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
+  /** All values less than the given value. */
+  updatedAt_lt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values less than or equal the given value. */
+  updatedAt_lte?: InputMaybe<Scalars['DateTime']['input']>;
+  /** Any other value that exists and is not equal to the given value. */
+  updatedAt_not?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values that are not contained in given list. */
+  updatedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
+};
+
+export type ArticleProductCalloutOrderByInput =
+  | 'headline_ASC'
+  | 'headline_DESC'
+  | 'id_ASC'
+  | 'id_DESC'
+  | 'updatedAt_ASC'
+  | 'updatedAt_DESC';
+
+export type ArticleProductCalloutParent = Article | ArticleVariant;
+
+export type ArticleProductCalloutParentConnectInput = {
+  Article?: InputMaybe<ArticleConnectInput>;
+  ArticleVariant?: InputMaybe<ArticleVariantConnectInput>;
+};
+
+export type ArticleProductCalloutParentCreateInput = {
+  Article?: InputMaybe<ArticleCreateInput>;
+  ArticleVariant?: InputMaybe<ArticleVariantCreateInput>;
+};
+
+export type ArticleProductCalloutParentCreateManyInlineInput = {
+  /** Connect multiple existing ArticleProductCalloutParent documents */
+  connect?: InputMaybe<Array<ArticleProductCalloutParentWhereUniqueInput>>;
+  /** Create and connect multiple existing ArticleProductCalloutParent documents */
+  create?: InputMaybe<Array<ArticleProductCalloutParentCreateInput>>;
+};
+
+export type ArticleProductCalloutParentCreateOneInlineInput = {
+  /** Connect one existing ArticleProductCalloutParent document */
+  connect?: InputMaybe<ArticleProductCalloutParentWhereUniqueInput>;
+  /** Create and connect one ArticleProductCalloutParent document */
+  create?: InputMaybe<ArticleProductCalloutParentCreateInput>;
+};
+
+export type ArticleProductCalloutParentUpdateInput = {
+  Article?: InputMaybe<ArticleUpdateInput>;
+  ArticleVariant?: InputMaybe<ArticleVariantUpdateInput>;
+};
+
+export type ArticleProductCalloutParentUpdateManyInlineInput = {
+  /** Connect multiple existing ArticleProductCalloutParent documents */
+  connect?: InputMaybe<Array<ArticleProductCalloutParentConnectInput>>;
+  /** Create and connect multiple ArticleProductCalloutParent documents */
+  create?: InputMaybe<Array<ArticleProductCalloutParentCreateInput>>;
+  /** Delete multiple ArticleProductCalloutParent documents */
+  delete?: InputMaybe<Array<ArticleProductCalloutParentWhereUniqueInput>>;
+  /** Disconnect multiple ArticleProductCalloutParent documents */
+  disconnect?: InputMaybe<Array<ArticleProductCalloutParentWhereUniqueInput>>;
+  /** Override currently-connected documents with multiple existing ArticleProductCalloutParent documents */
+  set?: InputMaybe<Array<ArticleProductCalloutParentWhereUniqueInput>>;
+  /** Update multiple ArticleProductCalloutParent documents */
+  update?: InputMaybe<Array<ArticleProductCalloutParentUpdateWithNestedWhereUniqueInput>>;
+  /** Upsert multiple ArticleProductCalloutParent documents */
+  upsert?: InputMaybe<Array<ArticleProductCalloutParentUpsertWithNestedWhereUniqueInput>>;
+};
+
+export type ArticleProductCalloutParentUpdateManyWithNestedWhereInput = {
+  Article?: InputMaybe<ArticleUpdateManyWithNestedWhereInput>;
+  ArticleVariant?: InputMaybe<ArticleVariantUpdateManyWithNestedWhereInput>;
+};
+
+export type ArticleProductCalloutParentUpdateOneInlineInput = {
+  /** Connect existing ArticleProductCalloutParent document */
+  connect?: InputMaybe<ArticleProductCalloutParentWhereUniqueInput>;
+  /** Create and connect one ArticleProductCalloutParent document */
+  create?: InputMaybe<ArticleProductCalloutParentCreateInput>;
+  /** Delete currently connected ArticleProductCalloutParent document */
+  delete?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Disconnect currently connected ArticleProductCalloutParent document */
+  disconnect?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Update single ArticleProductCalloutParent document */
+  update?: InputMaybe<ArticleProductCalloutParentUpdateWithNestedWhereUniqueInput>;
+  /** Upsert single ArticleProductCalloutParent document */
+  upsert?: InputMaybe<ArticleProductCalloutParentUpsertWithNestedWhereUniqueInput>;
+};
+
+export type ArticleProductCalloutParentUpdateWithNestedWhereUniqueInput = {
+  Article?: InputMaybe<ArticleUpdateWithNestedWhereUniqueInput>;
+  ArticleVariant?: InputMaybe<ArticleVariantUpdateWithNestedWhereUniqueInput>;
+};
+
+export type ArticleProductCalloutParentUpsertWithNestedWhereUniqueInput = {
+  Article?: InputMaybe<ArticleUpsertWithNestedWhereUniqueInput>;
+  ArticleVariant?: InputMaybe<ArticleVariantUpsertWithNestedWhereUniqueInput>;
+};
+
+export type ArticleProductCalloutParentWhereInput = {
+  Article?: InputMaybe<ArticleWhereInput>;
+  ArticleVariant?: InputMaybe<ArticleVariantWhereInput>;
+};
+
+export type ArticleProductCalloutParentWhereUniqueInput = {
+  Article?: InputMaybe<ArticleWhereUniqueInput>;
+  ArticleVariant?: InputMaybe<ArticleVariantWhereUniqueInput>;
+};
+
+export type ArticleProductCalloutUpdateInput = {
+  /** headline input for default locale (en) */
+  headline?: InputMaybe<Scalars['String']['input']>;
+  /** Manage document localizations */
+  localizations?: InputMaybe<ArticleProductCalloutUpdateLocalizationsInput>;
+  product?: InputMaybe<ProductUpdateOneInlineInput>;
+  /** text input for default locale (en) */
+  text?: InputMaybe<Scalars['RichTextAST']['input']>;
+};
+
+export type ArticleProductCalloutUpdateLocalizationDataInput = {
+  headline?: InputMaybe<Scalars['String']['input']>;
+  text?: InputMaybe<Scalars['RichTextAST']['input']>;
+};
+
+export type ArticleProductCalloutUpdateLocalizationInput = {
+  data: ArticleProductCalloutUpdateLocalizationDataInput;
+  locale: Locale;
+};
+
+export type ArticleProductCalloutUpdateLocalizationsInput = {
+  /** Localizations to create */
+  create?: InputMaybe<Array<ArticleProductCalloutCreateLocalizationInput>>;
+  /** Localizations to delete */
+  delete?: InputMaybe<Array<Locale>>;
+  /** Localizations to update */
+  update?: InputMaybe<Array<ArticleProductCalloutUpdateLocalizationInput>>;
+  upsert?: InputMaybe<Array<ArticleProductCalloutUpsertLocalizationInput>>;
+};
+
+export type ArticleProductCalloutUpdateManyInlineInput = {
+  /** Create and connect multiple ArticleProductCallout component instances */
+  create?: InputMaybe<Array<ArticleProductCalloutCreateWithPositionInput>>;
+  /** Delete multiple ArticleProductCallout documents */
+  delete?: InputMaybe<Array<ArticleProductCalloutWhereUniqueInput>>;
+  /** Update multiple ArticleProductCallout component instances */
+  update?: InputMaybe<Array<ArticleProductCalloutUpdateWithNestedWhereUniqueAndPositionInput>>;
+  /** Upsert multiple ArticleProductCallout component instances */
+  upsert?: InputMaybe<Array<ArticleProductCalloutUpsertWithNestedWhereUniqueAndPositionInput>>;
+};
+
+export type ArticleProductCalloutUpdateManyInput = {
+  /** headline input for default locale (en) */
+  headline?: InputMaybe<Scalars['String']['input']>;
+  /** Optional updates to localizations */
+  localizations?: InputMaybe<ArticleProductCalloutUpdateManyLocalizationsInput>;
+  /** text input for default locale (en) */
+  text?: InputMaybe<Scalars['RichTextAST']['input']>;
+};
+
+export type ArticleProductCalloutUpdateManyLocalizationDataInput = {
+  headline?: InputMaybe<Scalars['String']['input']>;
+  text?: InputMaybe<Scalars['RichTextAST']['input']>;
+};
+
+export type ArticleProductCalloutUpdateManyLocalizationInput = {
+  data: ArticleProductCalloutUpdateManyLocalizationDataInput;
+  locale: Locale;
+};
+
+export type ArticleProductCalloutUpdateManyLocalizationsInput = {
+  /** Localizations to update */
+  update?: InputMaybe<Array<ArticleProductCalloutUpdateManyLocalizationInput>>;
+};
+
+export type ArticleProductCalloutUpdateManyWithNestedWhereInput = {
+  /** Update many input */
+  data: ArticleProductCalloutUpdateManyInput;
+  /** Document search */
+  where: ArticleProductCalloutWhereInput;
+};
+
+export type ArticleProductCalloutUpdateOneInlineInput = {
+  /** Create and connect one ArticleProductCallout document */
+  create?: InputMaybe<ArticleProductCalloutCreateInput>;
+  /** Delete currently connected ArticleProductCallout document */
+  delete?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Update single ArticleProductCallout document */
+  update?: InputMaybe<ArticleProductCalloutUpdateWithNestedWhereUniqueInput>;
+  /** Upsert single ArticleProductCallout document */
+  upsert?: InputMaybe<ArticleProductCalloutUpsertWithNestedWhereUniqueInput>;
+};
+
+export type ArticleProductCalloutUpdateWithNestedWhereUniqueAndPositionInput = {
+  /** Document to update */
+  data?: InputMaybe<ArticleProductCalloutUpdateInput>;
+  /** Position in the list of existing component instances, will default to appending at the end of list */
+  position?: InputMaybe<ConnectPositionInput>;
+  /** Unique component instance search */
+  where: ArticleProductCalloutWhereUniqueInput;
+};
+
+export type ArticleProductCalloutUpdateWithNestedWhereUniqueInput = {
+  /** Document to update */
+  data: ArticleProductCalloutUpdateInput;
+  /** Unique document search */
+  where: ArticleProductCalloutWhereUniqueInput;
+};
+
+export type ArticleProductCalloutUpsertInput = {
+  /** Create document if it didn't exist */
+  create: ArticleProductCalloutCreateInput;
+  /** Update document if it exists */
+  update: ArticleProductCalloutUpdateInput;
+};
+
+export type ArticleProductCalloutUpsertLocalizationInput = {
+  create: ArticleProductCalloutCreateLocalizationDataInput;
+  locale: Locale;
+  update: ArticleProductCalloutUpdateLocalizationDataInput;
+};
+
+export type ArticleProductCalloutUpsertWithNestedWhereUniqueAndPositionInput = {
+  /** Document to upsert */
+  data?: InputMaybe<ArticleProductCalloutUpsertInput>;
+  /** Position in the list of existing component instances, will default to appending at the end of list */
+  position?: InputMaybe<ConnectPositionInput>;
+  /** Unique component instance search */
+  where: ArticleProductCalloutWhereUniqueInput;
+};
+
+export type ArticleProductCalloutUpsertWithNestedWhereUniqueInput = {
+  /** Upsert data */
+  data: ArticleProductCalloutUpsertInput;
+  /** Unique document search */
+  where: ArticleProductCalloutWhereUniqueInput;
+};
+
+/** Identifies documents */
+export type ArticleProductCalloutWhereInput = {
+  /** Logical AND on all given filters. */
+  AND?: InputMaybe<Array<ArticleProductCalloutWhereInput>>;
+  /** Logical NOT on all given filters combined by AND. */
+  NOT?: InputMaybe<Array<ArticleProductCalloutWhereInput>>;
+  /** Logical OR on all given filters. */
+  OR?: InputMaybe<Array<ArticleProductCalloutWhereInput>>;
+  /** Contains search across all appropriate fields. */
+  _search?: InputMaybe<Scalars['String']['input']>;
+  headline?: InputMaybe<Scalars['String']['input']>;
+  /** All values containing the given string. */
+  headline_contains?: InputMaybe<Scalars['String']['input']>;
+  /** All values ending with the given string. */
+  headline_ends_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values that are contained in given list. */
+  headline_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** Any other value that exists and is not equal to the given value. */
+  headline_not?: InputMaybe<Scalars['String']['input']>;
+  /** All values not containing the given string. */
+  headline_not_contains?: InputMaybe<Scalars['String']['input']>;
+  /** All values not ending with the given string */
+  headline_not_ends_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values that are not contained in given list. */
+  headline_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** All values not starting with the given string. */
+  headline_not_starts_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values starting with the given string. */
+  headline_starts_with?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  /** All values containing the given string. */
+  id_contains?: InputMaybe<Scalars['ID']['input']>;
+  /** All values ending with the given string. */
+  id_ends_with?: InputMaybe<Scalars['ID']['input']>;
+  /** All values that are contained in given list. */
+  id_in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Any other value that exists and is not equal to the given value. */
+  id_not?: InputMaybe<Scalars['ID']['input']>;
+  /** All values not containing the given string. */
+  id_not_contains?: InputMaybe<Scalars['ID']['input']>;
+  /** All values not ending with the given string */
+  id_not_ends_with?: InputMaybe<Scalars['ID']['input']>;
+  /** All values that are not contained in given list. */
+  id_not_in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** All values not starting with the given string. */
+  id_not_starts_with?: InputMaybe<Scalars['ID']['input']>;
+  /** All values starting with the given string. */
+  id_starts_with?: InputMaybe<Scalars['ID']['input']>;
+  product?: InputMaybe<ProductWhereInput>;
+  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values greater than the given value. */
+  updatedAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values greater than or equal the given value. */
+  updatedAt_gte?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values that are contained in given list. */
+  updatedAt_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
+  /** All values less than the given value. */
+  updatedAt_lt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values less than or equal the given value. */
+  updatedAt_lte?: InputMaybe<Scalars['DateTime']['input']>;
+  /** Any other value that exists and is not equal to the given value. */
+  updatedAt_not?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values that are not contained in given list. */
+  updatedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
+};
+
+/** References ArticleProductCallout record uniquely */
+export type ArticleProductCalloutWhereUniqueInput = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+};
+
 export type ArticleUpdateInput = {
   body?: InputMaybe<Scalars['RichTextAST']['input']>;
   category?: InputMaybe<Scalars['String']['input']>;
   cmm8y2yzs0hd307ui5smd13ya?: InputMaybe<FeaturedArticleUpdateManyInlineInput>;
   cmm8z85sg001u08vzfkqu2nyw?: InputMaybe<ArticleListUpdateManyInlineInput>;
+  content?: InputMaybe<ArticlecontentUnionUpdateManyInlineInput>;
   image?: InputMaybe<AssetUpdateOneInlineInput>;
   /** Manage document localizations */
   localizations?: InputMaybe<ArticleUpdateLocalizationsInput>;
@@ -1016,6 +2354,8 @@ export type ArticleUpsertWithNestedWhereUniqueInput = {
 export type ArticleVariant = Entity & Node & {
   __typename?: 'ArticleVariant';
   body: RichText;
+  /** Modular article content blocks */
+  content: Array<ArticlecontentUnion>;
   /** The time the document was created */
   createdAt: Scalars['DateTime']['output'];
   /** User that created this document */
@@ -1049,6 +2389,18 @@ export type ArticleVariant = Entity & Node & {
   updatedAt: Scalars['DateTime']['output'];
   /** User that last updated this document */
   updatedBy?: Maybe<User>;
+};
+
+
+/** Articles with rich text body */
+export type ArticleVariantContentArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  forceParentLocale?: InputMaybe<Scalars['Boolean']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  locales?: InputMaybe<Array<Locale>>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -1159,6 +2511,7 @@ export type ArticleVariantConnection = {
 
 export type ArticleVariantCreateInput = {
   body: Scalars['RichTextAST']['input'];
+  content?: InputMaybe<ArticlecontentUnionCreateManyInlineInput>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** Inline mutations for managing document localizations excluding the default locale */
   localizations?: InputMaybe<ArticleVariantCreateLocalizationsInput>;
@@ -1218,6 +2571,10 @@ export type ArticleVariantManyWhereInput = {
   OR?: InputMaybe<Array<ArticleVariantWhereInput>>;
   /** Contains search across all appropriate fields. */
   _search?: InputMaybe<Scalars['String']['input']>;
+  /** All values in which the union is empty. */
+  content_empty?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Matches if the modular component contains at least one connection to the item provided to the filter */
+  content_some?: InputMaybe<ArticlecontentUnionWhereInput>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
   createdAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -1312,6 +2669,7 @@ export type ArticleVariantOrderByInput =
 
 export type ArticleVariantUpdateInput = {
   body?: InputMaybe<Scalars['RichTextAST']['input']>;
+  content?: InputMaybe<ArticlecontentUnionUpdateManyInlineInput>;
   /** Manage document localizations */
   localizations?: InputMaybe<ArticleVariantUpdateLocalizationsInput>;
   main?: InputMaybe<ArticleUpdateOneInlineInput>;
@@ -1439,6 +2797,10 @@ export type ArticleVariantWhereInput = {
   OR?: InputMaybe<Array<ArticleVariantWhereInput>>;
   /** Contains search across all appropriate fields. */
   _search?: InputMaybe<Scalars['String']['input']>;
+  /** All values in which the union is empty. */
+  content_empty?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Matches if the modular component contains at least one connection to the item provided to the filter */
+  content_some?: InputMaybe<ArticlecontentUnionWhereInput>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
   createdAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -1609,6 +2971,10 @@ export type ArticleWhereInput = {
   category_not_starts_with?: InputMaybe<Scalars['String']['input']>;
   /** All values starting with the given string. */
   category_starts_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values in which the union is empty. */
+  content_empty?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Matches if the modular component contains at least one connection to the item provided to the filter */
+  content_some?: InputMaybe<ArticlecontentUnionWhereInput>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
   createdAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -1799,6 +3165,106 @@ export type ArticleWhereUniqueInput = {
   slug?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type ArticlecontentUnion = ArticleImageSection | ArticleParagraph | ArticleProductCallout;
+
+export type ArticlecontentUnionConnectInput = {
+  ArticleImageSection?: InputMaybe<ArticleImageSectionConnectInput>;
+  ArticleParagraph?: InputMaybe<ArticleParagraphConnectInput>;
+  ArticleProductCallout?: InputMaybe<ArticleProductCalloutConnectInput>;
+};
+
+export type ArticlecontentUnionCreateInput = {
+  ArticleImageSection?: InputMaybe<ArticleImageSectionCreateInput>;
+  ArticleParagraph?: InputMaybe<ArticleParagraphCreateInput>;
+  ArticleProductCallout?: InputMaybe<ArticleProductCalloutCreateInput>;
+};
+
+export type ArticlecontentUnionCreateManyInlineInput = {
+  /** Create and connect multiple existing ArticlecontentUnion documents */
+  create?: InputMaybe<Array<ArticlecontentUnionCreateInput>>;
+};
+
+export type ArticlecontentUnionCreateOneInlineInput = {
+  /** Create and connect one ArticlecontentUnion document */
+  create?: InputMaybe<ArticlecontentUnionCreateInput>;
+};
+
+export type ArticlecontentUnionCreateWithPositionInput = {
+  ArticleImageSection?: InputMaybe<ArticleImageSectionCreateWithPositionInput>;
+  ArticleParagraph?: InputMaybe<ArticleParagraphCreateWithPositionInput>;
+  ArticleProductCallout?: InputMaybe<ArticleProductCalloutCreateWithPositionInput>;
+};
+
+export type ArticlecontentUnionUpdateInput = {
+  ArticleImageSection?: InputMaybe<ArticleImageSectionUpdateInput>;
+  ArticleParagraph?: InputMaybe<ArticleParagraphUpdateInput>;
+  ArticleProductCallout?: InputMaybe<ArticleProductCalloutUpdateInput>;
+};
+
+export type ArticlecontentUnionUpdateManyInlineInput = {
+  /** Create and connect multiple ArticlecontentUnion component instances */
+  create?: InputMaybe<Array<ArticlecontentUnionCreateWithPositionInput>>;
+  /** Delete multiple ArticlecontentUnion documents */
+  delete?: InputMaybe<Array<ArticlecontentUnionWhereUniqueInput>>;
+  /** Update multiple ArticlecontentUnion component instances */
+  update?: InputMaybe<Array<ArticlecontentUnionUpdateWithNestedWhereUniqueAndPositionInput>>;
+  /** Upsert multiple ArticlecontentUnion component instances */
+  upsert?: InputMaybe<Array<ArticlecontentUnionUpsertWithNestedWhereUniqueAndPositionInput>>;
+};
+
+export type ArticlecontentUnionUpdateManyWithNestedWhereInput = {
+  ArticleImageSection?: InputMaybe<ArticleImageSectionUpdateManyWithNestedWhereInput>;
+  ArticleParagraph?: InputMaybe<ArticleParagraphUpdateManyWithNestedWhereInput>;
+  ArticleProductCallout?: InputMaybe<ArticleProductCalloutUpdateManyWithNestedWhereInput>;
+};
+
+export type ArticlecontentUnionUpdateOneInlineInput = {
+  /** Create and connect one ArticlecontentUnion document */
+  create?: InputMaybe<ArticlecontentUnionCreateInput>;
+  /** Delete currently connected ArticlecontentUnion document */
+  delete?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Update single ArticlecontentUnion document */
+  update?: InputMaybe<ArticlecontentUnionUpdateWithNestedWhereUniqueInput>;
+  /** Upsert single ArticlecontentUnion document */
+  upsert?: InputMaybe<ArticlecontentUnionUpsertWithNestedWhereUniqueInput>;
+};
+
+export type ArticlecontentUnionUpdateWithNestedWhereUniqueAndPositionInput = {
+  ArticleImageSection?: InputMaybe<ArticleImageSectionUpdateWithNestedWhereUniqueAndPositionInput>;
+  ArticleParagraph?: InputMaybe<ArticleParagraphUpdateWithNestedWhereUniqueAndPositionInput>;
+  ArticleProductCallout?: InputMaybe<ArticleProductCalloutUpdateWithNestedWhereUniqueAndPositionInput>;
+};
+
+export type ArticlecontentUnionUpdateWithNestedWhereUniqueInput = {
+  ArticleImageSection?: InputMaybe<ArticleImageSectionUpdateWithNestedWhereUniqueInput>;
+  ArticleParagraph?: InputMaybe<ArticleParagraphUpdateWithNestedWhereUniqueInput>;
+  ArticleProductCallout?: InputMaybe<ArticleProductCalloutUpdateWithNestedWhereUniqueInput>;
+};
+
+export type ArticlecontentUnionUpsertWithNestedWhereUniqueAndPositionInput = {
+  ArticleImageSection?: InputMaybe<ArticleImageSectionUpsertWithNestedWhereUniqueAndPositionInput>;
+  ArticleParagraph?: InputMaybe<ArticleParagraphUpsertWithNestedWhereUniqueAndPositionInput>;
+  ArticleProductCallout?: InputMaybe<ArticleProductCalloutUpsertWithNestedWhereUniqueAndPositionInput>;
+};
+
+export type ArticlecontentUnionUpsertWithNestedWhereUniqueInput = {
+  ArticleImageSection?: InputMaybe<ArticleImageSectionUpsertWithNestedWhereUniqueInput>;
+  ArticleParagraph?: InputMaybe<ArticleParagraphUpsertWithNestedWhereUniqueInput>;
+  ArticleProductCallout?: InputMaybe<ArticleProductCalloutUpsertWithNestedWhereUniqueInput>;
+};
+
+export type ArticlecontentUnionWhereInput = {
+  ArticleImageSection?: InputMaybe<ArticleImageSectionWhereInput>;
+  ArticleParagraph?: InputMaybe<ArticleParagraphWhereInput>;
+  ArticleProductCallout?: InputMaybe<ArticleProductCalloutWhereInput>;
+};
+
+export type ArticlecontentUnionWhereUniqueInput = {
+  ArticleImageSection?: InputMaybe<ArticleImageSectionWhereUniqueInput>;
+  ArticleParagraph?: InputMaybe<ArticleParagraphWhereUniqueInput>;
+  ArticleProductCallout?: InputMaybe<ArticleProductCalloutWhereUniqueInput>;
+};
+
 /** Asset system model */
 export type Asset = Entity & Node & {
   __typename?: 'Asset';
@@ -1974,6 +3440,7 @@ export type AssetConnection = {
 };
 
 export type AssetCreateInput = {
+  articleImageSections?: InputMaybe<ArticleImageSectionCreateManyInlineInput>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   ctaBlockBackgroundImage?: InputMaybe<CtaBlockCreateManyInlineInput>;
   fileName?: InputMaybe<Scalars['String']['input']>;
@@ -2166,6 +3633,7 @@ export type AssetTransformationInput = {
 };
 
 export type AssetUpdateInput = {
+  articleImageSections?: InputMaybe<ArticleImageSectionUpdateManyInlineInput>;
   ctaBlockBackgroundImage?: InputMaybe<CtaBlockUpdateManyInlineInput>;
   fileName?: InputMaybe<Scalars['String']['input']>;
   heroSectionBackgroundMedia?: InputMaybe<HeroSectionUpdateManyInlineInput>;
@@ -5262,7 +6730,13 @@ export type Entity = {
 export type EntityTypeName =
   /** Articles with rich text body */
   | 'Article'
+  /** Image with caption and optional descriptive text */
+  | 'ArticleImageSection'
   | 'ArticleList'
+  /** A rich text paragraph block for article content */
+  | 'ArticleParagraph'
+  /** Highlights a product with custom headline and descriptive text */
+  | 'ArticleProductCallout'
   /** Articles with rich text body */
   | 'ArticleVariant'
   /** Asset system model */
@@ -13665,6 +15139,7 @@ export type ProductConnection = {
 };
 
 export type ProductCreateInput = {
+  articleProductCallouts?: InputMaybe<ArticleProductCalloutCreateManyInlineInput>;
   baseProductId: Scalars['String']['input'];
   category: TaxonomyNodeInput;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -15178,6 +16653,7 @@ export type ProductSpecificationWhereUniqueInput = {
 };
 
 export type ProductUpdateInput = {
+  articleProductCallouts?: InputMaybe<ArticleProductCalloutUpdateManyInlineInput>;
   baseProductId?: InputMaybe<Scalars['String']['input']>;
   category?: InputMaybe<TaxonomyNodeInput>;
   /** description input for default locale (en) */
@@ -22119,7 +23595,7 @@ export type GetArticleQueryVariables = Exact<{
 }>;
 
 
-export type GetArticleQuery = { __typename?: 'Query', article?: { __typename?: 'Article', id: string, slug: string, title: string, category: string, publishedDate: string, readTime?: string | null, summary: string, image: { __typename?: 'Asset', url: string, width?: number | null, height?: number | null }, body: { __typename?: 'RichText', html: string }, variants: Array<{ __typename?: 'ArticleVariant', title: string, summary: string, body: { __typename?: 'RichText', html: string } }> } | null };
+export type GetArticleQuery = { __typename?: 'Query', article?: { __typename?: 'Article', id: string, slug: string, title: string, category: string, publishedDate: string, readTime?: string | null, summary: string, image: { __typename?: 'Asset', url: string, width?: number | null, height?: number | null }, body: { __typename?: 'RichText', html: string }, content: Array<{ __typename: 'ArticleImageSection', id: string, caption?: string | null, image?: { __typename?: 'Asset', url: string, width?: number | null, height?: number | null } | null, imageSectionText?: { __typename?: 'RichText', html: string } | null } | { __typename: 'ArticleParagraph', id: string, paragraphText: { __typename?: 'RichText', html: string } } | { __typename: 'ArticleProductCallout', id: string, headline: string, calloutText?: { __typename?: 'RichText', html: string } | null, product?: { __typename?: 'Product', id: string, slug: string, name: string, image?: { __typename?: 'Asset', url: string, width?: number | null, height?: number | null } | null } | null }>, variants: Array<{ __typename?: 'ArticleVariant', title: string, summary: string, body: { __typename?: 'RichText', html: string }, content: Array<{ __typename: 'ArticleImageSection', id: string, caption?: string | null, image?: { __typename?: 'Asset', url: string, width?: number | null, height?: number | null } | null, imageSectionText?: { __typename?: 'RichText', html: string } | null } | { __typename: 'ArticleParagraph', id: string, paragraphText: { __typename?: 'RichText', html: string } } | { __typename: 'ArticleProductCallout', id: string, headline: string, calloutText?: { __typename?: 'RichText', html: string } | null, product?: { __typename?: 'Product', id: string, slug: string, name: string, image?: { __typename?: 'Asset', url: string, width?: number | null, height?: number | null } | null } | null }> }> } | null };
 
 export type GetJobsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -22227,11 +23703,91 @@ export const GetArticleDocument = gql`
     body {
       html
     }
+    content {
+      ... on ArticleParagraph {
+        __typename
+        id
+        paragraphText: text {
+          html
+        }
+      }
+      ... on ArticleImageSection {
+        __typename
+        id
+        image {
+          url
+          width
+          height
+        }
+        caption
+        imageSectionText: text {
+          html
+        }
+      }
+      ... on ArticleProductCallout {
+        __typename
+        id
+        headline
+        calloutText: text {
+          html
+        }
+        product {
+          id
+          slug
+          name
+          image {
+            url
+            width
+            height
+          }
+        }
+      }
+    }
     variants(where: {segments_some: {id: $segmentId}}) {
       title
       summary
       body {
         html
+      }
+      content {
+        ... on ArticleParagraph {
+          __typename
+          id
+          paragraphText: text {
+            html
+          }
+        }
+        ... on ArticleImageSection {
+          __typename
+          id
+          image {
+            url
+            width
+            height
+          }
+          caption
+          imageSectionText: text {
+            html
+          }
+        }
+        ... on ArticleProductCallout {
+          __typename
+          id
+          headline
+          calloutText: text {
+            html
+          }
+          product {
+            id
+            slug
+            name
+            image {
+              url
+              width
+              height
+            }
+          }
+        }
       }
     }
   }

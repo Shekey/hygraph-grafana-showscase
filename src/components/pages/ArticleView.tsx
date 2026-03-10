@@ -1,14 +1,161 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useParams } from "next/navigation";
-import type { Article } from "@/types/hybike";
+import type {
+  GetArticleQuery,
+  GetArticlesQuery,
+} from "@/types/hygraph-generated";
 import { createPreviewAttributes } from "@hygraph/preview-sdk/core";
+
+type Article = NonNullable<GetArticleQuery["article"]>;
+type ArticleListItem = GetArticlesQuery["articles"][number];
+type ContentBlock = Article["content"][number];
 
 interface ArticleViewProps {
   article: Article;
-  allArticles: Article[];
+  allArticles: ArticleListItem[];
+}
+
+function ContentBlockRenderer({
+  block,
+  locale,
+  articleId,
+}: {
+  block: ContentBlock;
+  locale: string;
+  articleId: string;
+}) {
+  // Component chain links the parent entry to this component instance
+  const componentChain = [{ fieldApiId: "content", instanceId: block.id }];
+
+  switch (block.__typename) {
+    case "ArticleParagraph":
+      return (
+        <div
+          {...createPreviewAttributes({
+            entryId: articleId,
+            fieldApiId: "text",
+            componentChain,
+          })}
+          className="text-muted [&_h2]:text-primary [&_h2]:text-2xl [&_h2]:leading-snug [&_h2]:mt-12 [&_h2]:mb-4 [&_h3]:text-primary [&_h3]:text-xl [&_h3]:leading-snug [&_h3]:mt-10 [&_h3]:mb-3 [&_h4]:text-primary [&_h4]:text-base [&_h4]:font-bold [&_h4]:leading-normal [&_h4]:mt-8 [&_h4]:mb-2"
+          style={{ lineHeight: 1.85, fontSize: "1rem" }}
+          dangerouslySetInnerHTML={{ __html: block.paragraphText.html }}
+        />
+      );
+
+    case "ArticleImageSection":
+      return (
+        <div className="my-8">
+          {block.image?.url && (
+            <div
+              {...createPreviewAttributes({
+                entryId: articleId,
+                fieldApiId: "image",
+                componentChain,
+              })}
+            >
+              <Image
+                src={block.image.url}
+                alt={block.caption || ""}
+                width={block.image.width || 800}
+                height={block.image.height || 450}
+                className="w-full object-cover"
+              />
+            </div>
+          )}
+          {block.caption && (
+            <p
+              {...createPreviewAttributes({
+                entryId: articleId,
+                fieldApiId: "caption",
+                componentChain,
+              })}
+              className="text-muted mt-2 text-center"
+              style={{ fontSize: "0.85rem" }}
+            >
+              {block.caption}
+            </p>
+          )}
+          {block.imageSectionText?.html && (
+            <div
+              {...createPreviewAttributes({
+                entryId: articleId,
+                fieldApiId: "text",
+                componentChain,
+              })}
+              className="text-muted mt-4"
+              style={{ lineHeight: 1.85, fontSize: "1rem" }}
+              dangerouslySetInnerHTML={{ __html: block.imageSectionText.html }}
+            />
+          )}
+        </div>
+      );
+
+    case "ArticleProductCallout":
+      return (
+        <div className="my-8 border border-primary p-6">
+          <div className="flex flex-col md:flex-row gap-6">
+            {block.product?.image?.url && (
+              <Link
+                {...createPreviewAttributes({
+                  entryId: articleId,
+                  fieldApiId: "product",
+                  componentChain,
+                })}
+                href={`/${locale}/products/${block.product.slug}`}
+                className="flex-shrink-0"
+              >
+                <Image
+                  src={block.product.image.url}
+                  alt={block.product.name}
+                  width={200}
+                  height={200}
+                  className="object-cover"
+                />
+              </Link>
+            )}
+            <div>
+              <h3
+                {...createPreviewAttributes({
+                  entryId: articleId,
+                  fieldApiId: "headline",
+                  componentChain,
+                })}
+                className="text-xl font-bold"
+              >
+                {block.headline}
+              </h3>
+              {block.calloutText?.html && (
+                <div
+                  {...createPreviewAttributes({
+                    entryId: articleId,
+                    fieldApiId: "text",
+                    componentChain,
+                  })}
+                  className="text-muted mt-2"
+                  style={{ lineHeight: 1.7, fontSize: "0.95rem" }}
+                  dangerouslySetInnerHTML={{ __html: block.calloutText.html }}
+                />
+              )}
+              {block.product && (
+                <Link
+                  href={`/${locale}/products/${block.product.slug}`}
+                  className="inline-block mt-4 text-accent hover:underline font-semibold"
+                >
+                  View {block.product.name} →
+                </Link>
+              )}
+            </div>
+          </div>
+        </div>
+      );
+
+    default:
+      return null;
+  }
 }
 
 export default function ArticleView({
@@ -136,74 +283,77 @@ export default function ArticleView({
         </section>
       )}
 
-      {/* Article body */}
-      {article.body?.html && (
-        <section className="border-b border-primary">
-          <div className="grid grid-cols-1 lg:grid-cols-12">
-            <div className="lg:col-span-8 lg:border-r border-primary">
-              <div
-                {...createPreviewAttributes({
-                  entryId: article.id,
-                  fieldApiId: "body",
-                })}
-                className="px-8 md:px-12 lg:px-16 py-6 md:py-12 text-muted [&_h2]:text-primary [&_h2]:text-2xl [&_h2]:leading-snug [&_h2]:mt-12 [&_h2]:mb-4 [&_h3]:text-primary [&_h3]:text-xl [&_h3]:leading-snug [&_h3]:mt-10 [&_h3]:mb-3 [&_h4]:text-primary [&_h4]:text-base [&_h4]:font-bold [&_h4]:leading-normal [&_h4]:mt-8 [&_h4]:mb-2"
-                style={{ lineHeight: 1.85, fontSize: "1rem" }}
-                dangerouslySetInnerHTML={{ __html: article.body.html }}
+      {/* Article content */}
+      <section className="border-b border-primary">
+        <div className="grid grid-cols-1 lg:grid-cols-12">
+          <div
+            {...createPreviewAttributes({
+              entryId: article.id,
+              fieldApiId: "content",
+            })}
+            className="lg:col-span-8 lg:border-r border-primary px-8 md:px-12 lg:px-16 py-6 md:py-12"
+          >
+            {article.content.map((block) => (
+              <ContentBlockRenderer
+                key={block.id}
+                block={block}
+                locale={locale}
+                articleId={article.id}
               />
-            </div>
+            ))}
+          </div>
 
-            {/* Sidebar: other articles */}
-            <div className="lg:col-span-4 p-8 md:p-12 lg:p-16 border-t lg:border-t-0 border-primary">
-              <p
-                className="uppercase tracking-[0.2em] text-muted mb-6"
-                style={{ fontSize: "0.65rem", fontWeight: 700 }}
-              >
-                More articles
-              </p>
-              <div className="space-y-4">
-                {allArticles
-                  .filter((a) => a.slug !== article.slug)
-                  .map((other) => (
-                    <Link
-                      key={other.id}
-                      href={`/${locale}/blog/${other.slug}`}
-                      className="group block border border-primary hover:bg-primary hover:text-secondary transition-colors overflow-hidden"
-                    >
-                      {other.image?.url && (
-                        <div
-                          {...createPreviewAttributes({
-                            entryId: other.id,
-                            fieldApiId: "image",
-                          })}
-                        >
-                          <img
-                            src={other.image?.url}
-                            alt={other.title}
-                            className="w-full h-[120px] object-cover group-hover:opacity-80 transition-opacity"
-                          />
-                        </div>
-                      )}
-                      <div className="p-4">
-                        <span
-                          className="uppercase tracking-[0.15em] text-muted group-hover:text-secondary/50"
-                          style={{ fontSize: "0.6rem", fontWeight: 700 }}
-                        >
-                          {other.category} &middot; {other.publishedDate}
-                        </span>
-                        <p
-                          className="mt-1 group-hover:text-secondary"
-                          style={{ fontWeight: 700, fontSize: "0.9rem" }}
-                        >
-                          {other.title}
-                        </p>
+          {/* Sidebar: other articles */}
+          <div className="lg:col-span-4 p-8 md:p-12 lg:p-16 border-t lg:border-t-0 border-primary">
+            <p
+              className="uppercase tracking-[0.2em] text-muted mb-6"
+              style={{ fontSize: "0.65rem", fontWeight: 700 }}
+            >
+              More articles
+            </p>
+            <div className="space-y-4">
+              {allArticles
+                .filter((a) => a.slug !== article.slug)
+                .map((other) => (
+                  <Link
+                    key={other.id}
+                    href={`/${locale}/blog/${other.slug}`}
+                    className="group block border border-primary hover:bg-primary hover:text-secondary transition-colors overflow-hidden"
+                  >
+                    {other.image?.url && (
+                      <div
+                        {...createPreviewAttributes({
+                          entryId: other.id,
+                          fieldApiId: "image",
+                        })}
+                      >
+                        <img
+                          src={other.image?.url}
+                          alt={other.title}
+                          className="w-full h-[120px] object-cover group-hover:opacity-80 transition-opacity"
+                        />
                       </div>
-                    </Link>
-                  ))}
-              </div>
+                    )}
+                    <div className="p-4">
+                      <span
+                        className="uppercase tracking-[0.15em] text-muted group-hover:text-secondary/50"
+                        style={{ fontSize: "0.6rem", fontWeight: 700 }}
+                      >
+                        {other.category} &middot; {other.publishedDate}
+                      </span>
+                      <p
+                        className="mt-1 group-hover:text-secondary"
+                        style={{ fontWeight: 700, fontSize: "0.9rem" }}
+                      >
+                        {other.title}
+                      </p>
+                    </div>
+                  </Link>
+                ))}
             </div>
           </div>
-        </section>
-      )}
+        </div>
+      </section>
 
       {/* Prev / next navigation */}
       <section className="border-b border-primary">

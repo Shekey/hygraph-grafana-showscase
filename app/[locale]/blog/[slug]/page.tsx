@@ -14,8 +14,10 @@ import {
   type GetArticlesQuery,
 } from "@/types/hygraph-generated";
 import ArticleView from "@/components/pages/ArticleView";
-import type { Article } from "@/types/hybike";
 import type { Metadata } from "next";
+
+type Article = NonNullable<GetArticleQuery["article"]>;
+type ArticleListItem = GetArticlesQuery["articles"][number];
 
 interface ArticlePageProps {
   params: Promise<{ locale: string; slug: string }>;
@@ -59,7 +61,7 @@ export default async function ArticlePage({
     segmentIdFromUrl ?? cookieStore.get("hybike-segment")?.value ?? undefined;
 
   let article: Article | null = null;
-  let allArticles: Article[] = [];
+  let allArticles: ArticleListItem[] = [];
 
   try {
     const [articleData, allArticlesData] = await Promise.all([
@@ -72,15 +74,19 @@ export default async function ArticlePage({
 
     const rawArticle = articleData.article;
     const variant = rawArticle?.variants?.[0] ?? null;
+    // Apply variant overrides for title/summary/content if segment matches
     article = rawArticle
-      ? ({
+      ? {
           ...rawArticle,
           title: variant?.title ?? rawArticle.title,
           summary: variant?.summary ?? rawArticle.summary,
-          body: variant?.body ?? rawArticle.body,
-        } as unknown as Article)
+          content:
+            variant?.content && variant.content.length > 0
+              ? variant.content
+              : rawArticle.content,
+        }
       : null;
-    allArticles = (allArticlesData.articles ?? []) as unknown as Article[];
+    allArticles = allArticlesData.articles ?? [];
   } catch (error) {
     console.error("Failed to fetch article:", error);
   }

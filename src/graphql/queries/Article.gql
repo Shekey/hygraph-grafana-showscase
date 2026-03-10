@@ -29,14 +29,96 @@ query GetArticle($slug: String!, $segmentId: ID) {
       width
       height
     }
+    # TODO: Remove body field once all articles are migrated to content field
     body {
       html
     }
+    content {
+      ... on ArticleParagraph {
+        __typename
+        id
+        paragraphText: text {
+          html
+        }
+      }
+      ... on ArticleImageSection {
+        __typename
+        id
+        image {
+          url
+          width
+          height
+        }
+        caption
+        imageSectionText: text {
+          html
+        }
+      }
+      ... on ArticleProductCallout {
+        __typename
+        id
+        headline
+        calloutText: text {
+          html
+        }
+        product {
+          id
+          slug
+          name
+          image {
+            url
+            width
+            height
+          }
+        }
+      }
+    }
+    # TODO: Remove variants.body once migrated to content field
     variants(where: { segments_some: { id: $segmentId } }) {
       title
       summary
       body {
         html
+      }
+      content {
+        ... on ArticleParagraph {
+          __typename
+          id
+          paragraphText: text {
+            html
+          }
+        }
+        ... on ArticleImageSection {
+          __typename
+          id
+          image {
+            url
+            width
+            height
+          }
+          caption
+          imageSectionText: text {
+            html
+          }
+        }
+        ... on ArticleProductCallout {
+          __typename
+          id
+          headline
+          calloutText: text {
+            html
+          }
+          product {
+            id
+            slug
+            name
+            image {
+              url
+              width
+              height
+            }
+          }
+        }
       }
     }
   }
