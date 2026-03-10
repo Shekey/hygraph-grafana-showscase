@@ -1,11 +1,12 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
-import type { Bike } from '@/types/hybike';
+import type { Bike, BikeListItem } from '@/types/hybike';
 import { formatCategoryValue, formatPrice } from '@/types/hybike';
 import { createPreviewAttributes } from '@hygraph/preview-sdk/core';
 
 interface ProductCardProps {
-  bike: Bike;
+  bike: Bike | BikeListItem;
   locale: string;
   showPrices?: boolean;
   showStock?: boolean;
@@ -29,9 +30,11 @@ export default function ProductCard({ bike, locale, showPrices = true, showStock
         className="aspect-square overflow-hidden border-b border-primary"
       >
         {bike.image?.url ? (
-          <img
-            src={bike.image?.url}
+          <Image
+            src={bike.image.url}
             alt={bike.name}
+            width={bike.image.width || 600}
+            height={bike.image.height || 600}
             className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
           />
         ) : (

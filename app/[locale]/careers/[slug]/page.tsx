@@ -13,7 +13,7 @@ import {
   type GetJobsQuery,
 } from '@/types/hygraph-generated';
 import JobDetailView from '@/components/pages/JobDetailView';
-import type { Job } from '@/types/hybike';
+import type { Job, JobListItem } from '@/types/hybike';
 import type { Metadata } from 'next';
 
 interface JobPageProps {
@@ -48,7 +48,7 @@ export default async function JobPage({ params }: JobPageProps) {
   }
 
   let job: Job | null = null;
-  let otherJobs: Job[] = [];
+  let otherJobs: JobListItem[] = [];
 
   try {
     const [jobData, allJobsData] = await Promise.all([
@@ -59,8 +59,8 @@ export default async function JobPage({ params }: JobPageProps) {
       hygraphRequest<GetJobsQuery>(GetJobsDocument, {}),
     ]);
 
-    job = jobData.job as unknown as Job;
-    otherJobs = (allJobsData.jobs ?? []).filter((j) => j.slug !== slug) as unknown as Job[];
+    job = jobData.job ?? null;
+    otherJobs = (allJobsData.jobs ?? []).filter((j) => j.slug !== slug);
   } catch (error) {
     console.error('Failed to fetch job:', error);
   }

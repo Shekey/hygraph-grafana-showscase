@@ -5,7 +5,7 @@ import { useParams, useSearchParams } from "next/navigation";
 import ProductCard from "@/components/ProductCard";
 import ProductFilters from "@/components/ProductFilters";
 import type { Locale } from "@/lib/utils/locale";
-import type { Bike } from "@/types/hybike";
+import type { BikeListItem } from "@/types/hybike";
 
 interface ProductShowcaseSection {
   id: string;
@@ -26,7 +26,7 @@ export default function ProductShowcase({
 }: ProductShowcaseProps) {
   const params = useParams();
   const searchParams = useSearchParams();
-  const [products, setProducts] = useState<Bike[]>([]);
+  const [products, setProducts] = useState<BikeListItem[]>([]);
   const [loading, setLoading] = useState(true);
 
   const resolvedLocale = (params?.locale as string) || locale || "en";
@@ -98,7 +98,7 @@ export default function ProductShowcase({
             className={section.displayFilters ? "border-b border-primary" : ""}
           >
             <ProductCard
-              bike={product as Bike}
+              bike={product}
               locale={resolvedLocale}
               showPrices={section.showPrices ?? true}
               showStock={section.showStock ?? false}

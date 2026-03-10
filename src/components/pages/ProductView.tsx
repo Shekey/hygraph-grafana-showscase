@@ -1,10 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowLeft, ArrowRight, Check, Minus, Plus } from "lucide-react";
 import { useState } from "react";
 import { useParams } from "next/navigation";
-import type { Bike } from "@/types/hybike";
+import type { Bike, BikeListItem } from "@/types/hybike";
 import { formatCategoryValue, formatPrice } from "@/types/hybike";
 import {
   createPreviewAttributes,
@@ -78,7 +79,7 @@ function findSelectedVariant(
 
 interface ProductViewProps {
   bike: Bike;
-  relatedBikes: Bike[];
+  relatedBikes: BikeListItem[];
 }
 
 export default function ProductView({ bike, relatedBikes }: ProductViewProps) {
@@ -152,10 +153,13 @@ export default function ProductView({ bike, relatedBikes }: ProductViewProps) {
               className="aspect-[4/3] lg:aspect-auto relative"
             >
               {bike.image?.url ? (
-                <img
-                  src={bike.image?.url}
+                <Image
+                  src={bike.image.url}
                   alt={bike.name}
+                  width={bike.image.width || 1200}
+                  height={bike.image.height || 900}
                   className="w-full lg:max-h-[calc(100vh-107px)] object-cover"
+                  priority
                 />
               ) : (
                 <div className="w-full h-full min-h-[400px] bg-[#E8E8E4] flex items-center justify-center">
@@ -460,9 +464,11 @@ export default function ProductView({ bike, relatedBikes }: ProductViewProps) {
                     className="aspect-square overflow-hidden border-b border-primary"
                   >
                     {related.image?.url ? (
-                      <img
-                        src={related.image?.url}
+                      <Image
+                        src={related.image.url}
                         alt={related.name}
+                        width={related.image.width || 600}
+                        height={related.image.height || 600}
                         className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
                       />
                     ) : (

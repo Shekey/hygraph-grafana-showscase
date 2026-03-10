@@ -4,12 +4,12 @@ import Link from "next/link";
 import { ArrowLeft, ArrowRight, MapPin, Clock, Briefcase } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useSiteSettings } from "@/lib/context/SiteSettingsContext";
-import type { Job } from "@/types/hybike";
+import type { Job, JobListItem } from "@/types/hybike";
 import { createPreviewAttributes } from "@hygraph/preview-sdk/core";
 
 interface JobDetailViewProps {
   job: Job;
-  otherJobs: Job[];
+  otherJobs: JobListItem[];
 }
 
 export default function JobDetailView({ job, otherJobs }: JobDetailViewProps) {

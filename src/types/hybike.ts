@@ -1,77 +1,26 @@
 /**
- * Shared UI types for hybikes view components.
- * These are hand-written types that mirror the Hygraph schema fields
- * queried in src/graphql/queries/. After running codegen (Phase 3),
- * these can be replaced with generated types from hygraph-generated.ts.
+ * Shared utility functions for hybikes view components.
+ * Types are derived from GraphQL codegen in hygraph-generated.ts.
  */
 
-export interface Bike {
-  id: string;
-  slug: string;
-  name: string;
-  tagline?: string | null;
-  category?: { value: string } | null; // TaxonomyNode: RoadBikes | UrbanEbikes | MountainEbikes | GravelBikes
-  image?: { url: string; width?: number | null; height?: number | null } | null;
-  productFeatures?: string[] | null;
-  description?: { text: string } | null;
-  specifications?: {
-    id: string;
-    frame?: string | null;
-    motor?: string | null;
-    battery?: string | null;
-    range?: string | null;
-    weight?: number | null;
-    groupset?: string | null;
-    gears?: string | null;
-    brakes?: string | null;
-    suspension?: string | null;
-    wheelSize?: string | null;
-    wheels?: string | null;
-  } | null;
-  externalProduct?: {
-    data?: {
-      calculated_price?: number | null;
-      sale_price?: number | null;
-      inventory_level?: number | null;
-      availability?: string | null;
-      variants?: {
-        calculated_price?: number | null;
-        option_values?: {
-          id: number;
-          label: string;
-          option_id: number;
-          option_display_name: string;
-        }[] | null;
-      }[] | null;
-    } | null;
-  } | null;
-  featured?: boolean | null;
-}
+import type {
+  GetProductBySlugQuery,
+  GetProductsQuery,
+  GetJobQuery,
+  GetJobsQuery,
+} from "./hygraph-generated";
 
-export interface Article {
-  id: string;
-  slug: string;
-  title: string;
-  category: string;
-  publishedDate: string;
-  readTime?: string | null;
-  summary: string;
-  image?: { url: string; width?: number | null; height?: number | null } | null;
-}
+/** Product type derived from GetProductBySlugQuery */
+export type Bike = NonNullable<GetProductBySlugQuery["product"]>;
 
-export interface Job {
-  id: string;
-  slug: string;
-  title: string;
-  department: string;
-  location: string;
-  jobType: string;
-  summary: string;
-  description?: { html: string } | null;
-  responsibilities?: string[] | null;
-  requirements?: string[] | null;
-  niceToHave?: string[] | null;
-}
+/** Product list item type derived from GetProductsQuery */
+export type BikeListItem = GetProductsQuery["products"][number];
+
+/** Job type derived from GetJobQuery */
+export type Job = NonNullable<GetJobQuery["job"]>;
+
+/** Job list item type derived from GetJobsQuery */
+export type JobListItem = GetJobsQuery["jobs"][number];
 
 /** Converts a Hygraph TaxonomyNode category value to a readable display label.
  *  e.g. "RoadBikes" → "Road Bikes", "UrbanEbikes" → "Urban Ebikes"

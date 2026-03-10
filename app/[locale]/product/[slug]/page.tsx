@@ -14,7 +14,7 @@ import {
   type GetProductsQueryVariables,
 } from "@/types/hygraph-generated";
 import ProductView from "@/components/pages/ProductView";
-import type { Bike } from "@/types/hybike";
+import type { Bike, BikeListItem } from "@/types/hybike";
 import type { Metadata } from "next";
 
 interface ProductPageProps {
@@ -51,7 +51,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
   }
 
   let bike: Bike | null = null;
-  let relatedBikes: Bike[] = [];
+  let relatedBikes: BikeListItem[] = [];
 
   try {
     const [productData, allProductsData] = await Promise.all([
@@ -64,10 +64,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
       } as GetProductsQueryVariables),
     ]);
 
-    bike = productData.product as unknown as Bike;
+    bike = productData.product ?? null;
     relatedBikes = (allProductsData.products ?? []).filter(
       (p) => p.slug !== slug
-    ) as unknown as Bike[];
+    );
   } catch (error) {
     console.error("Failed to fetch product:", error);
   }

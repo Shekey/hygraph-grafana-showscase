@@ -274,10 +274,13 @@ export default function ArticleView({
               fieldApiId: "image",
             })}
           >
-            <img
-              src={article.image?.url}
+            <Image
+              src={article.image.url}
               alt={article.title}
+              width={article.image.width || 1200}
+              height={article.image.height || 520}
               className="w-full object-cover max-h-[520px]"
+              priority
             />
           </div>
         </section>
@@ -327,9 +330,11 @@ export default function ArticleView({
                           fieldApiId: "image",
                         })}
                       >
-                        <img
-                          src={other.image?.url}
+                        <Image
+                          src={other.image.url}
                           alt={other.title}
+                          width={other.image.width || 400}
+                          height={120}
                           className="w-full h-[120px] object-cover group-hover:opacity-80 transition-opacity"
                         />
                       </div>
