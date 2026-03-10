@@ -57,7 +57,6 @@ export interface Article {
   readTime?: string | null;
   summary: string;
   image?: { url: string; width?: number | null; height?: number | null } | null;
-  body?: { html: string } | null;
 }
 
 export interface Job {

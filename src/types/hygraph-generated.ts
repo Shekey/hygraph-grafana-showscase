@@ -33,7 +33,6 @@ export type Aggregate = {
 /** Articles with rich text body */
 export type Article = Entity & Node & {
   __typename?: 'Article';
-  body: RichText;
   category: Scalars['String']['output'];
   /** Modular article content blocks */
   content: Array<ArticlecontentUnion>;
@@ -203,7 +202,6 @@ export type ArticleConnection = {
 };
 
 export type ArticleCreateInput = {
-  body: Scalars['RichTextAST']['input'];
   category: Scalars['String']['input'];
   cmm8y2yzs0hd307ui5smd13ya?: InputMaybe<FeaturedArticleCreateManyInlineInput>;
   cmm8z85sg001u08vzfkqu2nyw?: InputMaybe<ArticleListCreateManyInlineInput>;
@@ -2218,7 +2216,6 @@ export type ArticleProductCalloutWhereUniqueInput = {
 };
 
 export type ArticleUpdateInput = {
-  body?: InputMaybe<Scalars['RichTextAST']['input']>;
   category?: InputMaybe<Scalars['String']['input']>;
   cmm8y2yzs0hd307ui5smd13ya?: InputMaybe<FeaturedArticleUpdateManyInlineInput>;
   cmm8z85sg001u08vzfkqu2nyw?: InputMaybe<ArticleListUpdateManyInlineInput>;
@@ -2274,7 +2271,6 @@ export type ArticleUpdateManyInlineInput = {
 };
 
 export type ArticleUpdateManyInput = {
-  body?: InputMaybe<Scalars['RichTextAST']['input']>;
   category?: InputMaybe<Scalars['String']['input']>;
   /** Optional updates to localizations */
   localizations?: InputMaybe<ArticleUpdateManyLocalizationsInput>;
@@ -2353,7 +2349,6 @@ export type ArticleUpsertWithNestedWhereUniqueInput = {
 /** Articles with rich text body */
 export type ArticleVariant = Entity & Node & {
   __typename?: 'ArticleVariant';
-  body: RichText;
   /** Modular article content blocks */
   content: Array<ArticlecontentUnion>;
   /** The time the document was created */
@@ -2510,7 +2505,6 @@ export type ArticleVariantConnection = {
 };
 
 export type ArticleVariantCreateInput = {
-  body: Scalars['RichTextAST']['input'];
   content?: InputMaybe<ArticlecontentUnionCreateManyInlineInput>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** Inline mutations for managing document localizations excluding the default locale */
@@ -2668,7 +2662,6 @@ export type ArticleVariantOrderByInput =
   | 'updatedAt_DESC';
 
 export type ArticleVariantUpdateInput = {
-  body?: InputMaybe<Scalars['RichTextAST']['input']>;
   content?: InputMaybe<ArticlecontentUnionUpdateManyInlineInput>;
   /** Manage document localizations */
   localizations?: InputMaybe<ArticleVariantUpdateLocalizationsInput>;
@@ -2712,7 +2705,6 @@ export type ArticleVariantUpdateManyInlineInput = {
 };
 
 export type ArticleVariantUpdateManyInput = {
-  body?: InputMaybe<Scalars['RichTextAST']['input']>;
   /** Optional updates to localizations */
   localizations?: InputMaybe<ArticleVariantUpdateManyLocalizationsInput>;
   /** summary input for default locale (en) */
@@ -23595,7 +23587,7 @@ export type GetArticleQueryVariables = Exact<{
 }>;
 
 
-export type GetArticleQuery = { __typename?: 'Query', article?: { __typename?: 'Article', id: string, slug: string, title: string, category: string, publishedDate: string, readTime?: string | null, summary: string, image: { __typename?: 'Asset', url: string, width?: number | null, height?: number | null }, body: { __typename?: 'RichText', html: string }, content: Array<{ __typename: 'ArticleImageSection', id: string, caption?: string | null, image?: { __typename?: 'Asset', url: string, width?: number | null, height?: number | null } | null, imageSectionText?: { __typename?: 'RichText', html: string } | null } | { __typename: 'ArticleParagraph', id: string, paragraphText: { __typename?: 'RichText', html: string } } | { __typename: 'ArticleProductCallout', id: string, headline: string, calloutText?: { __typename?: 'RichText', html: string } | null, product?: { __typename?: 'Product', id: string, slug: string, name: string, image?: { __typename?: 'Asset', url: string, width?: number | null, height?: number | null } | null } | null }>, variants: Array<{ __typename?: 'ArticleVariant', title: string, summary: string, body: { __typename?: 'RichText', html: string }, content: Array<{ __typename: 'ArticleImageSection', id: string, caption?: string | null, image?: { __typename?: 'Asset', url: string, width?: number | null, height?: number | null } | null, imageSectionText?: { __typename?: 'RichText', html: string } | null } | { __typename: 'ArticleParagraph', id: string, paragraphText: { __typename?: 'RichText', html: string } } | { __typename: 'ArticleProductCallout', id: string, headline: string, calloutText?: { __typename?: 'RichText', html: string } | null, product?: { __typename?: 'Product', id: string, slug: string, name: string, image?: { __typename?: 'Asset', url: string, width?: number | null, height?: number | null } | null } | null }> }> } | null };
+export type GetArticleQuery = { __typename?: 'Query', article?: { __typename?: 'Article', id: string, slug: string, title: string, category: string, publishedDate: string, readTime?: string | null, summary: string, image: { __typename?: 'Asset', url: string, width?: number | null, height?: number | null }, content: Array<{ __typename: 'ArticleImageSection', id: string, caption?: string | null, image?: { __typename?: 'Asset', url: string, width?: number | null, height?: number | null } | null, imageSectionText?: { __typename?: 'RichText', html: string } | null } | { __typename: 'ArticleParagraph', id: string, paragraphText: { __typename?: 'RichText', html: string } } | { __typename: 'ArticleProductCallout', id: string, headline: string, calloutText?: { __typename?: 'RichText', html: string } | null, product?: { __typename?: 'Product', id: string, slug: string, name: string, image?: { __typename?: 'Asset', url: string, width?: number | null, height?: number | null } | null } | null }>, variants: Array<{ __typename?: 'ArticleVariant', title: string, summary: string, content: Array<{ __typename: 'ArticleImageSection', id: string, caption?: string | null, image?: { __typename?: 'Asset', url: string, width?: number | null, height?: number | null } | null, imageSectionText?: { __typename?: 'RichText', html: string } | null } | { __typename: 'ArticleParagraph', id: string, paragraphText: { __typename?: 'RichText', html: string } } | { __typename: 'ArticleProductCallout', id: string, headline: string, calloutText?: { __typename?: 'RichText', html: string } | null, product?: { __typename?: 'Product', id: string, slug: string, name: string, image?: { __typename?: 'Asset', url: string, width?: number | null, height?: number | null } | null } | null }> }> } | null };
 
 export type GetJobsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -23700,9 +23692,6 @@ export const GetArticleDocument = gql`
       width
       height
     }
-    body {
-      html
-    }
     content {
       ... on ArticleParagraph {
         __typename
@@ -23746,9 +23735,6 @@ export const GetArticleDocument = gql`
     variants(where: {segments_some: {id: $segmentId}}) {
       title
       summary
-      body {
-        html
-      }
       content {
         ... on ArticleParagraph {
           __typename

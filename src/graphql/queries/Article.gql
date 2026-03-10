@@ -29,10 +29,6 @@ query GetArticle($slug: String!, $segmentId: ID) {
       width
       height
     }
-    # TODO: Remove body field once all articles are migrated to content field
-    body {
-      html
-    }
     content {
       ... on ArticleParagraph {
         __typename
@@ -73,13 +69,9 @@ query GetArticle($slug: String!, $segmentId: ID) {
         }
       }
     }
-    # TODO: Remove variants.body once migrated to content field
     variants(where: { segments_some: { id: $segmentId } }) {
       title
       summary
-      body {
-        html
-      }
       content {
         ... on ArticleParagraph {
           __typename
