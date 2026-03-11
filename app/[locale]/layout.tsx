@@ -42,29 +42,19 @@ export default async function LocaleLayout({
     notFound();
   }
 
-  let siteSettings: GetSiteSettingsQuery["allSiteSettings"][0] | null = null;
-  let segments: GetSegmentsQuery["segments"] = [];
-  let bikeCategories: string[] = [];
+  const [siteSettingsData, segmentsData, categoriesData] = await Promise.all([
+    hygraphRequest<GetSiteSettingsQuery>(GetSiteSettingsDocument, {
+      locale,
+    } as GetSiteSettingsQueryVariables),
+    hygraphRequest<GetSegmentsQuery>(GetSegmentsDocument, {}),
+    hygraphRequest<GetProductCategoriesQuery>(GetProductCategoriesDocument, {}),
+  ]);
 
-  try {
-    const [siteSettingsData, segmentsData, categoriesData] = await Promise.all([
-      hygraphRequest<GetSiteSettingsQuery>(GetSiteSettingsDocument, {
-        locale,
-      } as GetSiteSettingsQueryVariables),
-      hygraphRequest<GetSegmentsQuery>(GetSegmentsDocument, {}),
-      hygraphRequest<GetProductCategoriesQuery>(
-        GetProductCategoriesDocument,
-        {}
-      ),
-    ]);
-    siteSettings = siteSettingsData.allSiteSettings?.[0] ?? null;
-    segments = segmentsData.segments ?? [];
-    bikeCategories = [
-      ...new Set(categoriesData.products.map((p) => p.category?.value)),
-    ];
-  } catch {
-    // Fall back to empty
-  }
+  const siteSettings = siteSettingsData.allSiteSettings?.[0] ?? null;
+  const segments = segmentsData.segments ?? [];
+  const bikeCategories = [
+    ...new Set(categoriesData.products.map((p) => p.category?.value)),
+  ];
 
   return (
     <SiteSettingsProvider siteSettings={siteSettings}>

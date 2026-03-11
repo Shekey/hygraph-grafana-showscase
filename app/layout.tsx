@@ -43,26 +43,13 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   // Fetch site settings to get brandColor
-  let brandColor = "#0EA5E9"; // Default sky blue
-  let siteName = "HyBike";
+  const data = await hygraphRequest<GetSiteSettingsQuery>(
+    GetSiteSettingsDocument,
+    { locale: "en" } as GetSiteSettingsQueryVariables
+  );
 
-  try {
-    const data = await hygraphRequest<GetSiteSettingsQuery>(
-      GetSiteSettingsDocument,
-      {
-        locale: "en",
-      } as GetSiteSettingsQueryVariables
-    );
-
-    if (data.allSiteSettings && data.allSiteSettings.length > 0) {
-      const settings = data.allSiteSettings[0];
-      brandColor = settings.brandColor || brandColor;
-      siteName = settings.siteName || siteName;
-    }
-  } catch (error) {
-    console.error("Failed to fetch site settings:", error);
-    // Continue with defaults
-  }
+  const settings = data.allSiteSettings?.[0];
+  const brandColor = settings?.brandColor || "#0EA5E9";
 
   // Generate theme CSS variables from brandColor
   const themeVars = generateThemeVariables(brandColor);

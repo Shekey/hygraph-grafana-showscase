@@ -14,7 +14,6 @@ import {
   type GetProductsQueryVariables,
 } from "@/types/hygraph-generated";
 import ProductView from "@/components/pages/ProductView";
-import type { Bike, BikeListItem } from "@/types/hybike";
 import type { Metadata } from "next";
 
 interface ProductPageProps {
@@ -50,31 +49,24 @@ export default async function ProductPage({ params }: ProductPageProps) {
     notFound();
   }
 
-  let bike: Bike | null = null;
-  let relatedBikes: BikeListItem[] = [];
+  const [productData, allProductsData] = await Promise.all([
+    hygraphRequest<GetProductBySlugQuery>(GetProductBySlugDocument, {
+      slug,
+      locale,
+    } as GetProductBySlugQueryVariables),
+    hygraphRequest<GetProductsQuery>(GetProductsDocument, {
+      locale,
+    } as GetProductsQueryVariables),
+  ]);
 
-  try {
-    const [productData, allProductsData] = await Promise.all([
-      hygraphRequest<GetProductBySlugQuery>(GetProductBySlugDocument, {
-        slug,
-        locale,
-      } as GetProductBySlugQueryVariables),
-      hygraphRequest<GetProductsQuery>(GetProductsDocument, {
-        locale,
-      } as GetProductsQueryVariables),
-    ]);
-
-    bike = productData.product ?? null;
-    relatedBikes = (allProductsData.products ?? []).filter(
-      (p) => p.slug !== slug
-    );
-  } catch (error) {
-    console.error("Failed to fetch product:", error);
-  }
-
+  const bike = productData.product;
   if (!bike) {
     notFound();
   }
+
+  const relatedBikes = (allProductsData.products ?? []).filter(
+    (p) => p.slug !== slug
+  );
 
   return <ProductView bike={bike} relatedBikes={relatedBikes} />;
 }
