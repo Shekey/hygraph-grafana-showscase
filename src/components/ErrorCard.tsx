@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { ArrowRight, ChevronDown, RotateCcw } from "lucide-react";
 
 interface ErrorCardProps {
@@ -10,6 +11,12 @@ interface ErrorCardProps {
 
 export default function ErrorCard({ error, reset }: ErrorCardProps) {
   const [showDetails, setShowDetails] = useState(false);
+  const router = useRouter();
+
+  const handleReset = () => {
+    router.refresh();
+    reset();
+  };
 
   return (
     <div className="max-w-lg w-full border border-primary">
@@ -57,7 +64,7 @@ export default function ErrorCard({ error, reset }: ErrorCardProps) {
       {/* Actions */}
       <div className="p-8 md:p-12 border-b border-primary flex gap-4">
         <button
-          onClick={reset}
+          onClick={handleReset}
           className="flex-1 bg-primary text-secondary py-4 px-6 uppercase tracking-[0.15em] hover:bg-primary/90 transition-colors flex items-center justify-center gap-3"
           style={{ fontSize: "0.8rem", fontWeight: 700 }}
         >
