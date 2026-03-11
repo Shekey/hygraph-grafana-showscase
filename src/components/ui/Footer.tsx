@@ -8,6 +8,7 @@ import {
   createPreviewAttributes,
   createComponentChainLink,
 } from "@hygraph/preview-sdk/core";
+import GitHubIcon from "@/components/icons/GitHubIcon";
 
 interface FooterProps {
   locale: Locale;
@@ -163,6 +164,16 @@ export default function Footer({
         >
           {siteSettings?.footerText?.text}
         </p>
+        <a
+          href="https://github.com/hygraph/hybike-starter"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-2 text-secondary/40 hover:text-accent transition-colors mt-4"
+          style={{ fontSize: "0.8rem" }}
+        >
+          <GitHubIcon />
+          <span>View on GitHub</span>
+        </a>
       </div>
     </footer>
   );

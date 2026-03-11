@@ -11,6 +11,7 @@ import {
 } from "@/lib/utils/locale";
 import { buildHref } from "@/lib/utils/navigation";
 import type { GetSiteSettingsQuery } from "@/types/hygraph-generated";
+import GitHubIcon from "@/components/icons/GitHubIcon";
 
 interface NavigationProps {
   locale: Locale;
@@ -84,6 +85,17 @@ export default function Navigation({ locale, siteSettings }: NavigationProps) {
 
         {/* Spacer */}
         <div className="flex-1" />
+
+        {/* GitHub */}
+        <a
+          href="https://github.com/hygraph/hybike-starter"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center px-4 border-l border-primary hover:bg-primary hover:text-secondary transition-colors"
+          aria-label="View on GitHub"
+        >
+          <GitHubIcon />
+        </a>
 
         {/* Locale Picker */}
         <div className="relative" ref={localeRef}>
