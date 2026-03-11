@@ -25,7 +25,7 @@ function getVariantClasses(variant: string): string {
     case "PRIMARY":
       return "bg-accent text-white hover:bg-accent/90 transition-colors";
     case "SECONDARY":
-      return "bg-secondary text-primary border border-primary hover:bg-primary hover:text-secondary transition-colors";
+      return "bg-secondary text-primary border border-primary hover:bg-[#EFEFE9] transition-colors";
     case "GHOST":
       return "border border-secondary/40 text-secondary hover:border-secondary transition-colors";
     case "OUTLINE":

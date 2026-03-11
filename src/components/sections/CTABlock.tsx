@@ -88,10 +88,6 @@ export default function CTABlock({ section, pageId }: CTABlockProps) {
               cta={section.secondaryButton}
               entryId={pageId}
               componentChain={[...chain, createComponentChainLink("secondaryButton", section.secondaryButton.id)]}
-              style={{
-                borderColor: isDark ? "rgba(249,249,247,0.3)" : "#121212",
-                color: isDark ? "#F9F9F7" : "#121212",
-              }}
             />
           )}
         </div>
