@@ -2,7 +2,9 @@ query GetSiteSettings($locale: Locale!) {
   allSiteSettings(locales: [$locale, en], stage: DRAFT, first: 1) {
     id
     siteName
-    brandColor
+    brandColor {
+      hex
+    }
     contactEmail
     announcement {
       html

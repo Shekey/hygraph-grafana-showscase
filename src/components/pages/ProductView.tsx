@@ -169,7 +169,7 @@ export default function ProductView({ bike, relatedBikes }: ProductViewProps) {
                 </div>
               )}
               {category && (
-                <div className="absolute top-0 left-0 bg-accent text-white px-6 py-3">
+                <div className="absolute top-0 left-0 bg-brand text-white px-6 py-3">
                   <p
                     className="uppercase tracking-[0.15em]"
                     style={{ fontSize: "0.65rem", fontWeight: 700 }}
@@ -199,7 +199,7 @@ export default function ProductView({ bike, relatedBikes }: ProductViewProps) {
               className="mb-2"
             >
               {bike.name}
-              <span className="text-accent">.</span>
+              <span className="text-brand">.</span>
             </h2>
             {bike.tagline && (
               <p
@@ -259,7 +259,7 @@ export default function ProductView({ bike, relatedBikes }: ProductViewProps) {
                             }
                             className={`w-10 h-10 border-2 transition-all ${
                               isSelected
-                                ? "border-accent scale-110"
+                                ? "border-brand scale-110"
                                 : "border-primary/20 hover:border-primary"
                             }`}
                             style={{ backgroundColor: cssColor }}
@@ -326,7 +326,7 @@ export default function ProductView({ bike, relatedBikes }: ProductViewProps) {
 
             {/* Add to Cart */}
             <button
-              className="w-full bg-accent text-white py-5 uppercase tracking-[0.15em] hover:bg-accent/90 transition-colors flex items-center justify-center gap-3"
+              className="w-full bg-brand text-white py-5 uppercase tracking-[0.15em] hover:bg-brand/90 transition-colors flex items-center justify-center gap-3"
               style={{ fontSize: "0.8rem", fontWeight: 700 }}
             >
               Add to Cart
@@ -337,7 +337,7 @@ export default function ProductView({ bike, relatedBikes }: ProductViewProps) {
               className="mt-4 flex items-center gap-2 text-muted"
               style={{ fontSize: "0.8rem" }}
             >
-              <Check size={14} className="text-accent" />
+              <Check size={14} className="text-brand" />
               Free shipping within Europe. 30-day returns.
             </div>
           </div>
@@ -375,7 +375,7 @@ export default function ProductView({ bike, relatedBikes }: ProductViewProps) {
                 >
                   {bike.productFeatures.map((feature) => (
                     <div key={feature} className="flex items-center gap-3">
-                      <div className="w-5 h-5 bg-accent flex items-center justify-center flex-shrink-0">
+                      <div className="w-5 h-5 bg-brand flex items-center justify-center flex-shrink-0">
                         <Check size={12} className="text-white" />
                       </div>
                       <span>{feature}</span>
@@ -494,7 +494,7 @@ export default function ProductView({ bike, relatedBikes }: ProductViewProps) {
                       </h3>
                     </div>
                     <p
-                      className="text-primary group-hover:text-accent transition-colors"
+                      className="text-primary group-hover:text-brand transition-colors"
                       style={{
                         fontSize: "1rem",
                         fontWeight: 700,

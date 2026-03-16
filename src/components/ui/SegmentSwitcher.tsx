@@ -61,7 +61,7 @@ export default function SegmentSwitcher({ segments }: SegmentSwitcherProps) {
             fontWeight: 700,
           }}
         >
-          <span className="text-accent">
+          <span className="text-brand">
             {activeSegment?.name ?? "Default"}
           </span>
           <ChevronDown

@@ -57,7 +57,7 @@ export default function CTABlock({ section, pageId }: CTABlockProps) {
           style={{ color: isDark ? "#F9F9F7" : "#121212" }}
         >
           {section.headline.replace(/\.$/, "")}
-          <span className="text-accent">.</span>
+          <span className="text-brand">.</span>
         </h2>
 
         {section.description && (

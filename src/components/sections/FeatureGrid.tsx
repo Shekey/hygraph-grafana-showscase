@@ -50,7 +50,7 @@ export default function FeatureGrid({ section }: FeatureGridProps) {
             className={`p-8 md:p-10 ${getBorderClasses(i)}`}
           >
             <p
-              className="text-accent mb-4 uppercase tracking-[0.2em]"
+              className="text-brand mb-4 uppercase tracking-[0.2em]"
               style={{ fontSize: "0.65rem", fontWeight: 700 }}
             >
               0{i + 1}

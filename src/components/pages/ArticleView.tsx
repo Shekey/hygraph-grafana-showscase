@@ -75,7 +75,7 @@ function ContentBlockRenderer({
                   href={href}
                   target={openInNewTab ? "_blank" : undefined}
                   rel={openInNewTab ? "noopener noreferrer" : undefined}
-                  className="text-accent underline underline-offset-2 hover:opacity-80"
+                  className="text-brand underline underline-offset-2 hover:opacity-80"
                 >
                   {children}
                 </a>
@@ -182,7 +182,7 @@ function ContentBlockRenderer({
               {block.product && (
                 <Link
                   href={`/${locale}/products/${block.product.slug}`}
-                  className="inline-block mt-4 text-accent hover:underline font-semibold"
+                  className="inline-block mt-4 text-brand hover:underline font-semibold"
                 >
                   View {block.product.name} →
                 </Link>
@@ -237,7 +237,7 @@ export default function ArticleView({
                   entryId: article.id,
                   fieldApiId: "category",
                 })}
-                className="bg-accent text-white px-3 py-1 uppercase tracking-[0.15em]"
+                className="bg-brand text-white px-3 py-1 uppercase tracking-[0.15em]"
                 style={{ fontSize: "0.6rem", fontWeight: 700 }}
               >
                 {article.category}
@@ -250,7 +250,7 @@ export default function ArticleView({
               })}
             >
               {article.title}
-              <span className="text-accent">.</span>
+              <span className="text-brand">.</span>
             </h1>
             <p
               {...createPreviewAttributes({

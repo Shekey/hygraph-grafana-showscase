@@ -23672,7 +23672,7 @@ export type GetSiteSettingsQueryVariables = Exact<{
 }>;
 
 
-export type GetSiteSettingsQuery = { __typename?: 'Query', allSiteSettings: Array<{ __typename?: 'SiteSettings', id: string, siteName: string, brandColor: string, contactEmail: string, footerSubscribeTitle?: string | null, footerSubscribeSubtitle?: string | null, announcement?: { __typename?: 'RichText', html: string } | null, footerText: { __typename?: 'RichText', text: string }, socialLinks: Array<{ __typename?: 'SocialLink', id: string, platform: SocialPlatform, url: string, handle?: string | null }>, mainNavigation?: { __typename?: 'Navigation', id: string, items: Array<{ __typename?: 'NavigationItem', id: string, label: string, pageLink?: { __typename?: 'Page', id: string, slug: string } | null }> } | null, footerNavigation?: { __typename?: 'Navigation', id: string, items: Array<{ __typename?: 'NavigationItem', id: string, label: string, pageLink?: { __typename?: 'Page', id: string, slug: string } | null }> } | null }> };
+export type GetSiteSettingsQuery = { __typename?: 'Query', allSiteSettings: Array<{ __typename?: 'SiteSettings', id: string, siteName: string, brandColor?: { __typename?: 'Color', hex: string } | null, contactEmail: string, footerSubscribeTitle?: string | null, footerSubscribeSubtitle?: string | null, announcement?: { __typename?: 'RichText', html: string } | null, footerText: { __typename?: 'RichText', text: string }, socialLinks: Array<{ __typename?: 'SocialLink', id: string, platform: SocialPlatform, url: string, handle?: string | null }>, mainNavigation?: { __typename?: 'Navigation', id: string, items: Array<{ __typename?: 'NavigationItem', id: string, label: string, pageLink?: { __typename?: 'Page', id: string, slug: string } | null }> } | null, footerNavigation?: { __typename?: 'Navigation', id: string, items: Array<{ __typename?: 'NavigationItem', id: string, label: string, pageLink?: { __typename?: 'Page', id: string, slug: string } | null }> } | null }> };
 
 
 export const GetArticlesDocument = gql`
@@ -24389,7 +24389,9 @@ export const GetSiteSettingsDocument = gql`
   allSiteSettings(locales: [$locale, en], stage: DRAFT, first: 1) {
     id
     siteName
-    brandColor
+    brandColor {
+      hex
+    }
     contactEmail
     announcement {
       html

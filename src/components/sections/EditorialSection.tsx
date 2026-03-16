@@ -44,7 +44,7 @@ function EditorialContent({
     <div
       className={`lg:col-span-5 p-8 md:p-12 lg:p-16 flex flex-col justify-center ${contentBorderClass}`}
     >
-      <ArrowDownRight size={32} className="text-accent mb-6" />
+      <ArrowDownRight size={32} className="text-brand mb-6" />
       {section.eyebrow && (
         <p
           {...createPreviewAttributes({
@@ -67,7 +67,7 @@ function EditorialContent({
         className="mb-6"
       >
         {headline.replace(/\.$/, "")}
-        <span className="text-accent">.</span>
+        <span className="text-brand">.</span>
       </h2>
       {section.body?.html && (
         <div
@@ -120,7 +120,7 @@ function EditorialContent({
       {section.ctaLabel && section.ctaHref && (
         <Link
           href={section.ctaHref}
-          className="inline-flex items-center gap-3 text-accent uppercase tracking-[0.1em] hover:gap-4 transition-all self-start mt-6"
+          className="inline-flex items-center gap-3 text-brand uppercase tracking-[0.1em] hover:gap-4 transition-all self-start mt-6"
           style={{ fontSize: "0.75rem", fontWeight: 700 }}
         >
           <span

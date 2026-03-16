@@ -48,7 +48,7 @@ export default function ProductFilters({ categories, products }: ProductFiltersP
           >
             {label}
             <span
-              className={`ml-2 ${activeCategory === cat ? 'text-accent' : 'text-muted'}`}
+              className={`ml-2 ${activeCategory === cat ? 'text-brand' : 'text-muted'}`}
               style={{ fontFamily: "'Space Grotesk', sans-serif" }}
             >
               {count}

@@ -83,14 +83,14 @@ export default function ContactSection({ section, pageId }: ContactSectionProps)
                   }}
                 >
                   {office.city}
-                  <span className="text-accent">.</span>
+                  <span className="text-brand">.</span>
                 </h3>
 
                 <div className="space-y-4">
                   <div className="flex items-start gap-3">
                     <MapPin
                       size={15}
-                      className="text-accent mt-0.5 shrink-0"
+                      className="text-brand mt-0.5 shrink-0"
                       strokeWidth={1.5}
                     />
                     <p
@@ -104,13 +104,13 @@ export default function ContactSection({ section, pageId }: ContactSectionProps)
                   <div className="flex items-center gap-3">
                     <Mail
                       size={15}
-                      className="text-accent shrink-0"
+                      className="text-brand shrink-0"
                       strokeWidth={1.5}
                     />
                     <a
                       {...createPreviewAttributes({ entryId: pageId, fieldApiId: "email", componentChain: officeChain })}
                       href={`mailto:${office.email}`}
-                      className="text-muted hover:text-accent transition-colors"
+                      className="text-muted hover:text-brand transition-colors"
                     >
                       {office.email}
                     </a>
@@ -118,13 +118,13 @@ export default function ContactSection({ section, pageId }: ContactSectionProps)
                   <div className="flex items-center gap-3">
                     <Phone
                       size={15}
-                      className="text-accent shrink-0"
+                      className="text-brand shrink-0"
                       strokeWidth={1.5}
                     />
                     <a
                       {...createPreviewAttributes({ entryId: pageId, fieldApiId: "phone", componentChain: officeChain })}
                       href={`tel:${office.phone.replace(/\s/g, "")}`}
-                      className="text-muted hover:text-accent transition-colors"
+                      className="text-muted hover:text-brand transition-colors"
                     >
                       {office.phone}
                     </a>

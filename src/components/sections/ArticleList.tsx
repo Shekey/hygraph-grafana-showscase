@@ -101,10 +101,10 @@ export default async function ArticleList({
                     entryId: article.id,
                     fieldApiId: "title",
                   })}
-                  className="mb-4 group-hover:text-accent transition-colors"
+                  className="mb-4 group-hover:text-brand transition-colors"
                 >
                   {article.title}
-                  <span className="text-accent">.</span>
+                  <span className="text-brand">.</span>
                 </h3>
                 <p
                   {...createPreviewAttributes({
@@ -116,7 +116,7 @@ export default async function ArticleList({
                 >
                   {article.summary}
                 </p>
-                <div className="flex items-center gap-2 text-accent uppercase tracking-[0.1em] group-hover:gap-3 transition-all self-start">
+                <div className="flex items-center gap-2 text-brand uppercase tracking-[0.1em] group-hover:gap-3 transition-all self-start">
                   <span style={{ fontSize: "0.7rem", fontWeight: 700 }}>
                     Read article
                   </span>

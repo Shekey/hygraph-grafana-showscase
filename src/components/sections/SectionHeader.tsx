@@ -29,7 +29,7 @@ export default function SectionHeader({ section, pageId }: SectionHeaderProps) {
         )}
         <h2 {...createPreviewAttributes({ entryId: pageId, fieldApiId: "headline", componentChain: chain })}>
           {sectionHeadingHeadline?.replace(/\.$/, "")}
-          <span className="text-accent">.</span>
+          <span className="text-brand">.</span>
         </h2>
       </div>
     </section>

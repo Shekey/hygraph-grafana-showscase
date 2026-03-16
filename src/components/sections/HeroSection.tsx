@@ -53,7 +53,7 @@ export default function HeroSection({ section, pageId }: HeroSectionProps) {
                 className="relative z-10"
               >
                 {section.headline.replace(/\.$/, "")}
-                <span className="text-accent">.</span>
+                <span className="text-brand">.</span>
               </h1>
             </div>
             <div className="mt-12">
@@ -118,7 +118,7 @@ export default function HeroSection({ section, pageId }: HeroSectionProps) {
               className="object-cover w-full h-full"
             />
             {section.mediaText && (
-              <div className="absolute bottom-0 left-0 bg-accent text-white px-6 py-3">
+              <div className="absolute bottom-0 left-0 bg-brand text-white px-6 py-3">
                 <p
                   {...createPreviewAttributes({
                     entryId: pageId,
@@ -164,7 +164,7 @@ export default function HeroSection({ section, pageId }: HeroSectionProps) {
           className="text-secondary mb-8 max-w-3xl"
         >
           {section.headline.replace(/\.$/, "")}
-          <span className="text-accent">.</span>
+          <span className="text-brand">.</span>
         </h1>
         {section.subheadline && (
           <p

@@ -31,7 +31,7 @@ export default function PageHeader({ section, pageId }: PageHeaderProps) {
           className="md:max-w-[60vw]"
         >
           {section.pageHeaderTitle}
-          <span className="text-accent">.</span>
+          <span className="text-brand">.</span>
         </h1>
         {section.subtitle && (
           <p

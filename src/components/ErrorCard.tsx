@@ -29,7 +29,7 @@ export default function ErrorCard({ error, reset }: ErrorCardProps) {
           Error
         </p>
         <h2 className="mb-0">
-          Something went wrong<span className="text-accent">.</span>
+          Something went wrong<span className="text-brand">.</span>
         </h2>
       </div>
 
@@ -40,7 +40,7 @@ export default function ErrorCard({ error, reset }: ErrorCardProps) {
         </p>
         <ul className="space-y-2 mb-6">
           <li className="flex items-start gap-3">
-            <span className="text-accent mt-1" style={{ fontSize: "0.65rem" }}>
+            <span className="text-brand mt-1" style={{ fontSize: "0.65rem" }}>
               ■
             </span>
             <span style={{ lineHeight: 1.6 }}>
@@ -48,7 +48,7 @@ export default function ErrorCard({ error, reset }: ErrorCardProps) {
             </span>
           </li>
           <li className="flex items-start gap-3">
-            <span className="text-accent mt-1" style={{ fontSize: "0.65rem" }}>
+            <span className="text-brand mt-1" style={{ fontSize: "0.65rem" }}>
               ■
             </span>
             <span style={{ lineHeight: 1.6 }}>
@@ -75,7 +75,7 @@ export default function ErrorCard({ error, reset }: ErrorCardProps) {
           href="https://app.hygraph.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex-1 bg-accent text-white py-4 px-6 uppercase tracking-[0.15em] hover:bg-accent/90 transition-colors flex items-center justify-center gap-3"
+          className="flex-1 bg-brand text-white py-4 px-6 uppercase tracking-[0.15em] hover:bg-brand/90 transition-colors flex items-center justify-center gap-3"
           style={{ fontSize: "0.8rem", fontWeight: 700 }}
         >
           Create new Starter

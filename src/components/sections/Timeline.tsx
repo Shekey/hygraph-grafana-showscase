@@ -35,7 +35,7 @@ export default function Timeline({ section, pageId }: TimelineProps) {
               <time
                 {...createPreviewAttributes({ entryId: pageId, fieldApiId: "year", componentChain: entryChain })}
                 dateTime={String(entry.year)}
-                className="text-accent"
+                className="text-brand"
                 style={{
                   fontSize: "clamp(1rem, 2vw, 1.5rem)",
                   fontWeight: 900,

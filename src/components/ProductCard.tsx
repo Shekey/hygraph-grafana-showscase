@@ -63,7 +63,7 @@ export default function ProductCard({ bike, locale, showPrices = true, showStock
           </div>
           {showPrices && (
             <p
-              className="text-primary group-hover:text-accent transition-colors whitespace-nowrap mt-1"
+              className="text-primary group-hover:text-brand transition-colors whitespace-nowrap mt-1"
               style={{ fontSize: '1.75rem', fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif" }}
             >
               {formatPrice(price)}
@@ -89,7 +89,7 @@ export default function ProductCard({ bike, locale, showPrices = true, showStock
           </p>
         )}
 
-        <div className="flex items-center gap-2 text-accent">
+        <div className="flex items-center gap-2 text-brand">
           <span className="uppercase tracking-[0.1em]" style={{ fontSize: '0.7rem', fontWeight: 700 }}>
             View Details
           </span>

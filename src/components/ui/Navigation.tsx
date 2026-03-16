@@ -54,7 +54,7 @@ export default function Navigation({ locale, siteSettings }: NavigationProps) {
             style={{ fontWeight: 900, fontSize: "1rem" }}
           >
             {siteSettings?.siteName}
-            <span className="text-accent">.</span>
+            <span className="text-brand">.</span>
           </span>
         </Link>
 

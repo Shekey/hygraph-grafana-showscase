@@ -22,7 +22,7 @@ function StatValue({ value }: { value: string }) {
   return (
     <>
       <span>{num}</span>
-      {unit && <span className="text-accent" style={{ fontSize: '0.6em' }}>{unit}</span>}
+      {unit && <span className="text-brand" style={{ fontSize: '0.6em' }}>{unit}</span>}
     </>
   );
 }

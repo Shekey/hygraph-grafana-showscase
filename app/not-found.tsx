@@ -19,7 +19,7 @@ export default function NotFound() {
               Error 404
             </p>
             <h2 className="mb-0">
-              Page not found<span className="text-accent">.</span>
+              Page not found<span className="text-brand">.</span>
             </h2>
           </div>
 
@@ -34,7 +34,7 @@ export default function NotFound() {
           <div className="p-8 md:p-12">
             <Link
               href="/en"
-              className="w-full bg-accent text-white py-4 px-6 uppercase tracking-[0.15em] hover:bg-accent/90 transition-colors flex items-center justify-center gap-3"
+              className="w-full bg-brand text-white py-4 px-6 uppercase tracking-[0.15em] hover:bg-brand/90 transition-colors flex items-center justify-center gap-3"
               style={{ fontSize: "0.8rem", fontWeight: 700 }}
             >
               Go Home

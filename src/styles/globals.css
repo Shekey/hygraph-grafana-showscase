@@ -4,7 +4,6 @@
   /* Static palette */
   --color-primary: #121212;
   --color-secondary: #F9F9F7;
-  --color-accent: #FF4F00;
   --color-muted: #6B6B6B;
 
   /* Dynamic brand colors (driven by CSS vars set in :root) */
@@ -36,7 +35,7 @@
   }
 
   *:focus-visible {
-    @apply outline-hidden ring-2 ring-accent ring-offset-2;
+    @apply outline-hidden ring-2 ring-brand ring-offset-2;
   }
 
   body {

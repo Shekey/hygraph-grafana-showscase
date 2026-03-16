@@ -38,7 +38,7 @@ export default function FeaturedArticle({ section, locale, pageId }: FeaturedArt
               <div className="flex items-center gap-4 mb-6">
                 <span
                   {...createPreviewAttributes({ entryId: postId, fieldApiId: "category" })}
-                  className="bg-accent text-white px-3 py-1 uppercase tracking-[0.15em]"
+                  className="bg-brand text-white px-3 py-1 uppercase tracking-[0.15em]"
                   style={{ fontSize: "0.6rem", fontWeight: 700 }}
                 >
                   {blogPost.category}
@@ -53,10 +53,10 @@ export default function FeaturedArticle({ section, locale, pageId }: FeaturedArt
               </div>
               <h2
                 {...createPreviewAttributes({ entryId: postId, fieldApiId: "title" })}
-                className="mb-6 group-hover:text-accent transition-colors"
+                className="mb-6 group-hover:text-brand transition-colors"
               >
                 {blogPost.title}
-                <span className="text-accent">.</span>
+                <span className="text-brand">.</span>
               </h2>
               <p
                 {...createPreviewAttributes({ entryId: postId, fieldApiId: "summary" })}
@@ -66,7 +66,7 @@ export default function FeaturedArticle({ section, locale, pageId }: FeaturedArt
                 {blogPost.summary}
               </p>
             </div>
-            <div className="mt-10 flex items-center gap-3 text-accent uppercase tracking-[0.1em] group-hover:gap-4 transition-all self-start">
+            <div className="mt-10 flex items-center gap-3 text-brand uppercase tracking-[0.1em] group-hover:gap-4 transition-all self-start">
               <span
                 {...createPreviewAttributes({ entryId: pageId, fieldApiId: "ctaLabel", componentChain: sectionChain })}
                 style={{ fontSize: "0.75rem", fontWeight: 700 }}
@@ -121,7 +121,7 @@ export default function FeaturedArticle({ section, locale, pageId }: FeaturedArt
             <div className="flex items-center gap-4 mb-6">
               <span
                 {...createPreviewAttributes({ entryId: postId, fieldApiId: "category" })}
-                className="bg-accent text-white px-3 py-1 uppercase tracking-[0.15em]"
+                className="bg-brand text-white px-3 py-1 uppercase tracking-[0.15em]"
                 style={{ fontSize: "0.6rem", fontWeight: 700 }}
               >
                 {blogPost.category}
@@ -136,10 +136,10 @@ export default function FeaturedArticle({ section, locale, pageId }: FeaturedArt
             </div>
             <h2
               {...createPreviewAttributes({ entryId: postId, fieldApiId: "title" })}
-              className="mb-6 group-hover:text-accent transition-colors"
+              className="mb-6 group-hover:text-brand transition-colors"
             >
               {blogPost.title}
-              <span className="text-accent">.</span>
+              <span className="text-brand">.</span>
             </h2>
             <p
               {...createPreviewAttributes({ entryId: postId, fieldApiId: "summary" })}
@@ -149,7 +149,7 @@ export default function FeaturedArticle({ section, locale, pageId }: FeaturedArt
               {blogPost.summary}
             </p>
           </div>
-          <div className="mt-10 flex items-center gap-3 text-accent uppercase tracking-[0.1em] group-hover:gap-4 transition-all self-start">
+          <div className="mt-10 flex items-center gap-3 text-brand uppercase tracking-[0.1em] group-hover:gap-4 transition-all self-start">
             <span
               {...createPreviewAttributes({ entryId: pageId, fieldApiId: "ctaLabel", componentChain: sectionChain })}
               style={{ fontSize: "0.75rem", fontWeight: 700 }}

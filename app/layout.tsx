@@ -49,7 +49,7 @@ export default async function RootLayout({
   );
 
   const settings = data.allSiteSettings?.[0];
-  const brandColor = settings?.brandColor || "#0EA5E9";
+  const brandColor = settings?.brandColor?.hex || "#FF4F00";
 
   // Generate theme CSS variables from brandColor
   const themeVars = generateThemeVariables(brandColor);

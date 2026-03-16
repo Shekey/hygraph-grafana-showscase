@@ -39,7 +39,7 @@ export default function JobList({ section }: JobListProps) {
             >
               <div className="col-span-2 sm:col-span-1 p-6 md:p-8 border-r border-primary group-hover:border-secondary/20 self-stretch flex items-center">
                 <span
-                  className="text-accent"
+                  className="text-brand"
                   style={{
                     fontSize: "clamp(1rem, 2vw, 1.5rem)",
                     fontWeight: 900,
@@ -100,7 +100,7 @@ export default function JobList({ section }: JobListProps) {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2 text-accent uppercase tracking-[0.1em] shrink-0 group-hover:gap-3 transition-all">
+                <div className="flex items-center gap-2 text-brand uppercase tracking-[0.1em] shrink-0 group-hover:gap-3 transition-all">
                   <span style={{ fontSize: "0.75rem", fontWeight: 700 }}>
                     View role
                   </span>

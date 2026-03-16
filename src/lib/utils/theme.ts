@@ -91,11 +91,11 @@ export function generateThemeVariables(brandColor: string): Record<string, strin
   const variants = generateColorVariants(hsl);
 
   return {
-    '--color-brand-primary': variants.primary,
-    '--color-brand-hover': variants.hover,
-    '--color-brand-active': variants.active,
-    '--color-brand-light': variants.light,
-    '--color-brand-dark': variants.dark,
+    '--brand-hsl': variants.primary,
+    '--brand-hover-hsl': variants.hover,
+    '--brand-active-hsl': variants.active,
+    '--brand-light-hsl': variants.light,
+    '--brand-dark-hsl': variants.dark,
   };
 }
 

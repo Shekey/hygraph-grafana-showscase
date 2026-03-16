@@ -26,7 +26,7 @@ interface ButtonProps {
 function getVariantClasses(variant: string): string {
   switch (variant) {
     case "PRIMARY":
-      return "bg-accent text-white hover:bg-accent/90 transition-colors";
+      return "bg-brand text-white hover:bg-brand/90 transition-colors";
     case "SECONDARY":
       return "bg-secondary text-primary border border-primary hover:bg-[#EFEFE9] transition-colors";
     case "GHOST":
@@ -34,9 +34,9 @@ function getVariantClasses(variant: string): string {
     case "OUTLINE":
       return "border border-primary hover:bg-primary hover:text-secondary transition-colors";
     case "TEXT":
-      return "text-accent hover:underline transition-colors";
+      return "text-brand hover:underline transition-colors";
     default:
-      return "bg-accent text-white hover:bg-accent/90 transition-colors";
+      return "bg-brand text-white hover:bg-brand/90 transition-colors";
   }
 }
 

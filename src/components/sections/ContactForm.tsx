@@ -51,7 +51,7 @@ export default function ContactForm({
     return (
       <div className="flex flex-col items-start gap-6 py-8">
         <span
-          className="text-accent"
+          className="text-brand"
           style={{
             fontSize: "clamp(2.5rem, 5vw, 4rem)",
             fontWeight: 900,
@@ -65,7 +65,7 @@ export default function ContactForm({
           {...createPreviewAttributes({ entryId: pageId, fieldApiId: "successHeadline", componentChain: sectionChain })}
         >
           {successHeadline.replace(/\.$/, "")}
-          <span className="text-accent">.</span>
+          <span className="text-brand">.</span>
         </h2>
         <p
           {...createPreviewAttributes({ entryId: pageId, fieldApiId: "successBody", componentChain: sectionChain })}
@@ -94,7 +94,7 @@ export default function ContactForm({
             type="text"
             required
             placeholder={namePlaceholder}
-            className="w-full border border-primary px-4 py-3 bg-transparent placeholder-muted/50 focus:outline-hidden focus:border-accent transition-colors"
+            className="w-full border border-primary px-4 py-3 bg-transparent placeholder-muted/50 focus:outline-hidden focus:border-brand transition-colors"
           />
         </div>
         <div>
@@ -110,7 +110,7 @@ export default function ContactForm({
             type="email"
             required
             placeholder={emailPlaceholder}
-            className="w-full border border-primary px-4 py-3 bg-transparent placeholder-muted/50 focus:outline-hidden focus:border-accent transition-colors"
+            className="w-full border border-primary px-4 py-3 bg-transparent placeholder-muted/50 focus:outline-hidden focus:border-brand transition-colors"
           />
         </div>
       </div>
@@ -128,7 +128,7 @@ export default function ContactForm({
             {...createPreviewAttributes({ entryId: pageId, fieldApiId: "topicPlaceholder", componentChain: sectionChain })}
             required
             defaultValue=""
-            className="w-full border border-primary px-4 py-3 bg-secondary focus:outline-hidden focus:border-accent transition-colors appearance-none"
+            className="w-full border border-primary px-4 py-3 bg-secondary focus:outline-hidden focus:border-brand transition-colors appearance-none"
           >
             <option value="" disabled>
               {topicPlaceholder}
@@ -155,13 +155,13 @@ export default function ContactForm({
           required
           rows={6}
           placeholder={messagePlaceholder}
-          className="w-full border border-primary px-4 py-3 bg-transparent placeholder-muted/50 focus:outline-hidden focus:border-accent transition-colors resize-none"
+          className="w-full border border-primary px-4 py-3 bg-transparent placeholder-muted/50 focus:outline-hidden focus:border-brand transition-colors resize-none"
         />
       </div>
 
       <button
         type="submit"
-        className="inline-flex items-center gap-3 bg-primary text-secondary px-10 py-5 uppercase tracking-[0.1em] hover:bg-accent transition-colors"
+        className="inline-flex items-center gap-3 bg-primary text-secondary px-10 py-5 uppercase tracking-[0.1em] hover:bg-brand transition-colors"
         style={{ fontSize: "0.75rem", fontWeight: 700 }}
       >
         <span {...createPreviewAttributes({ entryId: pageId, fieldApiId: "submitLabel", componentChain: sectionChain })}>

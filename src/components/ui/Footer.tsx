@@ -47,10 +47,10 @@ export default function Footer({
             <input
               type="email"
               placeholder="your@email.com"
-              className="flex-1 min-w-0 bg-transparent border border-secondary/30 px-4 py-3 text-secondary placeholder-secondary/30 focus:outline-hidden focus:border-accent"
+              className="flex-1 min-w-0 bg-transparent border border-secondary/30 px-4 py-3 text-secondary placeholder-secondary/30 focus:outline-hidden focus:border-brand"
             />
             <button
-              className="shrink-0 bg-accent text-white px-6 py-3 uppercase tracking-[0.1em] hover:bg-accent/90 transition-colors"
+              className="shrink-0 bg-brand text-white px-6 py-3 uppercase tracking-[0.1em] hover:bg-brand/90 transition-colors"
               style={{ fontSize: "0.75rem", fontWeight: 700 }}
             >
               Subscribe
@@ -72,7 +72,7 @@ export default function Footer({
                 <Link
                   key={cat}
                   href={`/${locale}/collection?category=${cat}`}
-                  className="block text-secondary/70 hover:text-accent transition-colors"
+                  className="block text-secondary/70 hover:text-brand transition-colors"
                   style={{ fontSize: "0.8rem" }}
                 >
                   {formatCategoryValue(cat)}
@@ -94,7 +94,7 @@ export default function Footer({
                 <Link
                   key={item.id}
                   href={buildHref(item, locale)}
-                  className="block text-secondary/70 hover:text-accent transition-colors"
+                  className="block text-secondary/70 hover:text-brand transition-colors"
                   style={{ fontSize: "0.8rem" }}
                 >
                   <span
@@ -126,7 +126,7 @@ export default function Footer({
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1 text-secondary/70 hover:text-accent transition-colors"
+                  className="flex items-center gap-1 text-secondary/70 hover:text-brand transition-colors"
                   style={{ fontSize: "0.8rem" }}
                 >
                   <span
@@ -155,7 +155,7 @@ export default function Footer({
           style={{ fontWeight: 900, fontSize: "clamp(3rem, 20vw, 16rem)" }}
         >
           {siteSettings?.siteName}
-          <span className="text-accent">.</span>
+          <span className="text-brand">.</span>
         </span>
         <p
           {...(settingsId ? createPreviewAttributes({ entryId: settingsId, fieldApiId: "footerText" }) : {})}
@@ -168,7 +168,7 @@ export default function Footer({
           href="https://github.com/hygraph/hybike-starter"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 text-secondary/40 hover:text-accent transition-colors mt-4"
+          className="flex items-center gap-2 text-secondary/40 hover:text-brand transition-colors mt-4"
           style={{ fontSize: "0.8rem" }}
         >
           <GitHubIcon />

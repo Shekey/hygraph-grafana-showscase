@@ -55,7 +55,7 @@ export default function JobDetailView({ job, otherJobs }: JobDetailViewProps) {
               })}
             >
               {job.title}
-              <span className="text-accent">.</span>
+              <span className="text-brand">.</span>
             </h1>
             <p
               {...createPreviewAttributes({
@@ -75,7 +75,7 @@ export default function JobDetailView({ job, otherJobs }: JobDetailViewProps) {
               <div className="flex items-start gap-3">
                 <MapPin
                   size={16}
-                  className="text-accent mt-0.5 shrink-0"
+                  className="text-brand mt-0.5 shrink-0"
                   strokeWidth={1.5}
                 />
                 <div>
@@ -99,7 +99,7 @@ export default function JobDetailView({ job, otherJobs }: JobDetailViewProps) {
               <div className="flex items-start gap-3">
                 <Clock
                   size={16}
-                  className="text-accent mt-0.5 shrink-0"
+                  className="text-brand mt-0.5 shrink-0"
                   strokeWidth={1.5}
                 />
                 <div>
@@ -123,7 +123,7 @@ export default function JobDetailView({ job, otherJobs }: JobDetailViewProps) {
               <div className="flex items-start gap-3">
                 <Briefcase
                   size={16}
-                  className="text-accent mt-0.5 shrink-0"
+                  className="text-brand mt-0.5 shrink-0"
                   strokeWidth={1.5}
                 />
                 <div>
@@ -140,7 +140,7 @@ export default function JobDetailView({ job, otherJobs }: JobDetailViewProps) {
 
             <a
               href={`mailto:${contactEmail}?subject=Application — ${job.title}`}
-              className="inline-flex items-center justify-center gap-3 bg-primary text-secondary px-8 py-5 uppercase tracking-[0.1em] hover:bg-accent transition-colors w-full"
+              className="inline-flex items-center justify-center gap-3 bg-primary text-secondary px-8 py-5 uppercase tracking-[0.1em] hover:bg-brand transition-colors w-full"
               style={{ fontSize: "0.75rem", fontWeight: 700 }}
             >
               Apply now
@@ -196,7 +196,7 @@ export default function JobDetailView({ job, otherJobs }: JobDetailViewProps) {
                   {job.responsibilities.map((item, i) => (
                     <li key={i} className="flex items-start gap-4">
                       <span
-                        className="text-accent shrink-0 mt-0.5"
+                        className="text-brand shrink-0 mt-0.5"
                         style={{
                           fontWeight: 900,
                           fontFamily: "'Space Grotesk', sans-serif",
@@ -232,7 +232,7 @@ export default function JobDetailView({ job, otherJobs }: JobDetailViewProps) {
                 >
                   {job.requirements.map((item, i) => (
                     <li key={i} className="flex items-start gap-3">
-                      <span className="mt-2 shrink-0 w-1.5 h-1.5 rounded-full bg-accent" />
+                      <span className="mt-2 shrink-0 w-1.5 h-1.5 rounded-full bg-brand" />
                       <p className="text-muted" style={{ lineHeight: 1.7 }}>
                         {item}
                       </p>
@@ -306,7 +306,7 @@ export default function JobDetailView({ job, otherJobs }: JobDetailViewProps) {
                           {other.department}
                         </p>
                       </div>
-                      <ArrowRight size={13} className="text-accent shrink-0" />
+                      <ArrowRight size={13} className="text-brand shrink-0" />
                     </Link>
                   ))}
                 </div>
@@ -328,11 +328,11 @@ export default function JobDetailView({ job, otherJobs }: JobDetailViewProps) {
           <h2 className="text-secondary mb-8">
             Apply for
             <br />
-            this role<span className="text-accent">.</span>
+            this role<span className="text-brand">.</span>
           </h2>
           <a
             href={`mailto:careers@hybikes.com?subject=Application — ${job.title}`}
-            className="inline-flex items-center gap-3 bg-accent text-white px-10 py-5 uppercase tracking-[0.1em] hover:bg-accent/90 transition-colors"
+            className="inline-flex items-center gap-3 bg-brand text-white px-10 py-5 uppercase tracking-[0.1em] hover:bg-brand/90 transition-colors"
             style={{ fontSize: "0.75rem", fontWeight: 700 }}
           >
             Send application
