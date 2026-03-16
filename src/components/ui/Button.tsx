@@ -11,10 +11,13 @@ import {
   createComponentChainLink,
 } from "@hygraph/preview-sdk/core";
 
+type LinkCTA = Pick<Button, "id" | "label" | "href" | "variant" | "openInNewTab">;
+type ActionCTA = { label: string; variant?: string; onClick: () => void };
+
 interface ButtonProps {
-  cta: Pick<Button, "id" | "label" | "href" | "variant" | "openInNewTab">;
-  entryId: string;
-  componentChain: ReturnType<typeof createComponentChainLink>[];
+  cta: LinkCTA | ActionCTA;
+  entryId?: string;
+  componentChain?: ReturnType<typeof createComponentChainLink>[];
   size?: "sm" | "md";
   className?: string;
   style?: React.CSSProperties;
@@ -37,6 +40,10 @@ function getVariantClasses(variant: string): string {
   }
 }
 
+function isActionCTA(cta: LinkCTA | ActionCTA): cta is ActionCTA {
+  return "onClick" in cta;
+}
+
 export default function Button({
   cta,
   entryId,
@@ -45,12 +52,13 @@ export default function Button({
   className = "",
   style,
 }: ButtonProps) {
-  const variantClasses = getVariantClasses(cta.variant);
+  const variant = isActionCTA(cta) ? (cta.variant ?? "OUTLINE") : cta.variant;
+  const variantClasses = getVariantClasses(variant);
   const paddingClasses = size === "sm" ? "px-8 py-4" : "px-10 py-5";
   const baseClasses =
-    cta.variant === "TEXT"
-      ? "inline-flex items-center gap-3 uppercase tracking-[0.1em]"
-      : `inline-flex items-center gap-3 ${paddingClasses} uppercase tracking-[0.1em]`;
+    variant === "TEXT"
+      ? "inline-flex items-center gap-3 uppercase tracking-[0.1em] cursor-pointer"
+      : `inline-flex items-center gap-3 ${paddingClasses} uppercase tracking-[0.1em] cursor-pointer`;
   const combinedClasses = `${baseClasses} ${variantClasses} ${className}`;
   const labelStyle: React.CSSProperties = {
     fontSize: "0.75rem",
@@ -58,13 +66,26 @@ export default function Button({
     ...style,
   };
 
+  if (isActionCTA(cta)) {
+    return (
+      <button
+        type="button"
+        onClick={cta.onClick}
+        className={combinedClasses}
+        style={labelStyle}
+      >
+        {cta.label}
+      </button>
+    );
+  }
+
   const content = (
     <>
       <span
         {...createPreviewAttributes({
-          entryId,
+          entryId: entryId!,
           fieldApiId: "label",
-          componentChain,
+          componentChain: componentChain!,
         })}
       >
         {cta.label}

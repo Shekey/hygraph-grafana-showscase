@@ -139,6 +139,7 @@ query GetPage($slug: String!, $locale: Locale!, $segmentId: ID) {
         displayFilters
         showPrices
         showStock
+        productsToShow
       }
       ... on StatsBar {
         id
@@ -316,6 +317,7 @@ query GetPage($slug: String!, $locale: Locale!, $segmentId: ID) {
           displayFilters
           showPrices
           showStock
+          productsToShow
         }
         ... on StatsBar {
           id
