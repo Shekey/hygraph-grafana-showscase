@@ -1,5 +1,5 @@
 query GetArticles {
-  articles(stage: DRAFT, orderBy: publishedDate_DESC, first: 20) {
+  articles(stage: DRAFT, orderBy: publishedDate_DESC, first: 50) {
     id
     slug
     title

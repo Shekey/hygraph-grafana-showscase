@@ -18,21 +18,7 @@ query GetPage($slug: String!, $locale: Locale!, $segmentId: ID) {
       }
       ... on ArticleList {
         id
-        blogListHeadline: headline
-        posts {
-          id
-          slug
-          title
-          category
-          publishedDate
-          readTime
-          summary
-          image {
-            url
-            width
-            height
-          }
-        }
+        articleListHeadline: headline
       }
       ... on FeaturedArticle {
         id
@@ -211,20 +197,6 @@ query GetPage($slug: String!, $locale: Locale!, $segmentId: ID) {
         }
         ... on ArticleList {
           id
-          posts {
-            id
-            slug
-            title
-            category
-            publishedDate
-            readTime
-            summary
-            image {
-              url
-              width
-              height
-            }
-          }
         }
         ... on FeaturedArticle {
           id

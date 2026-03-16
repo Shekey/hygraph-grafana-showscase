@@ -192,7 +192,12 @@ export default async function Page({ params, searchParams }: PageProps) {
       }
       if (isArticleList(section)) {
         return (
-          <ArticleList key={section.id} section={section} pageId={page.id} />
+          <ArticleList
+            key={section.id}
+            section={section}
+            pageId={page.id}
+            locale={locale}
+          />
         );
       }
       if (isFeaturedArticle(section)) {

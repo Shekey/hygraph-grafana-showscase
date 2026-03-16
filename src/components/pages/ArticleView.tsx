@@ -106,7 +106,7 @@ function ContentBlockRenderer({
                   componentChain,
                 })}
                 href={`/${locale}/products/${block.product.slug}`}
-                className="flex-shrink-0"
+                className="shrink-0"
               >
                 <Image
                   src={block.product.image.url}
@@ -179,7 +179,7 @@ export default function ArticleView({
         <div className="p-6 md:p-8 lg:px-16">
           <Link
             href={`/${locale}/blog`}
-            className="inline-flex items-center gap-2 text-muted uppercase tracking-[0.1em] hover:text-primary transition-colors"
+            className="inline-flex items-center gap-2 text-muted uppercase tracking-widest hover:text-primary transition-colors"
             style={{ fontSize: "0.7rem", fontWeight: 700 }}
           >
             <ArrowLeft size={13} />
@@ -317,6 +317,7 @@ export default function ArticleView({
             <div className="space-y-4">
               {allArticles
                 .filter((a) => a.slug !== article.slug)
+                .slice(0, 3)
                 .map((other) => (
                   <Link
                     key={other.id}
@@ -374,7 +375,7 @@ export default function ArticleView({
                 className="flex flex-col gap-2 p-8 md:p-10 hover:bg-primary hover:text-secondary transition-colors group h-full"
               >
                 <span
-                  className="flex items-center gap-2 uppercase tracking-[0.1em] text-muted group-hover:text-secondary/50"
+                  className="flex items-center gap-2 uppercase tracking-widest text-muted group-hover:text-secondary/50"
                   style={{ fontSize: "0.65rem", fontWeight: 700 }}
                 >
                   <ArrowLeft size={12} />
@@ -395,7 +396,7 @@ export default function ArticleView({
                 className="flex flex-col items-end gap-2 p-8 md:p-10 hover:bg-primary hover:text-secondary transition-colors group h-full text-right"
               >
                 <span
-                  className="flex items-center gap-2 uppercase tracking-[0.1em] text-muted group-hover:text-secondary/50"
+                  className="flex items-center gap-2 uppercase tracking-widest text-muted group-hover:text-secondary/50"
                   style={{ fontSize: "0.65rem", fontWeight: 700 }}
                 >
                   Next

@@ -1,10 +1,12 @@
-"use client";
-
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { useParams } from "next/navigation";
 import type { GetPageQuery } from "@/types/hygraph-generated";
+import {
+  GetArticlesDocument,
+  type GetArticlesQuery,
+} from "@/types/hygraph-generated";
 import { createPreviewAttributes } from "@hygraph/preview-sdk/core";
+import { hygraphRequest } from "@/lib/hygraph/client";
 
 type ArticleListSection = Extract<
   GetPageQuery["pages"][0]["sections"][0],
@@ -14,15 +16,19 @@ type ArticleListSection = Extract<
 interface ArticleListProps {
   section: ArticleListSection;
   pageId: string;
+  locale: string;
 }
 
-export default function ArticleList({ section }: ArticleListProps) {
-  const params = useParams();
-  const locale = (params.locale as string) || "en";
+export default async function ArticleList({
+  section,
+  locale,
+}: ArticleListProps) {
+  const data = await hygraphRequest<GetArticlesQuery>(GetArticlesDocument, {});
+  const articles = data?.articles ?? [];
 
-  const { posts, blogListHeadline } = section;
+  const { articleListHeadline } = section;
 
-  if (posts.length === 0) {
+  if (articles.length === 0) {
     return (
       <div className="p-16 text-center">
         <p className="text-muted">No articles yet.</p>
@@ -38,18 +44,23 @@ export default function ArticleList({ section }: ArticleListProps) {
             className="uppercase tracking-[0.2em] text-muted"
             style={{ fontSize: "0.65rem", fontWeight: 700 }}
           >
-            {blogListHeadline || "More articles"}
+            {articleListHeadline || "More articles"}
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2">
-          {posts.map((article, i) => (
+          {articles.map((article, i) => (
             <Link
               key={article.id}
               href={`/${locale}/blog/${article.slug}`}
-              className={`group flex flex-col ${i === 0 ? "md:border-r border-primary" : ""}`}
+              className={`group flex flex-col ${
+                i === 0 ? "md:border-r border-primary" : ""
+              }`}
             >
               <div
-                {...createPreviewAttributes({ entryId: article.id, fieldApiId: "image" })}
+                {...createPreviewAttributes({
+                  entryId: article.id,
+                  fieldApiId: "image",
+                })}
                 className="overflow-hidden border-b border-primary"
               >
                 {article.image?.url ? (
@@ -65,14 +76,20 @@ export default function ArticleList({ section }: ArticleListProps) {
               <div className="p-8 md:p-10 flex flex-col flex-1">
                 <div className="flex items-center gap-4 mb-5">
                   <span
-                    {...createPreviewAttributes({ entryId: article.id, fieldApiId: "category" })}
+                    {...createPreviewAttributes({
+                      entryId: article.id,
+                      fieldApiId: "category",
+                    })}
                     className="bg-primary text-secondary px-3 py-1 uppercase tracking-[0.15em]"
                     style={{ fontSize: "0.6rem", fontWeight: 700 }}
                   >
                     {article.category}
                   </span>
                   <span
-                    {...createPreviewAttributes({ entryId: article.id, fieldApiId: "publishedDate" })}
+                    {...createPreviewAttributes({
+                      entryId: article.id,
+                      fieldApiId: "publishedDate",
+                    })}
                     className="uppercase tracking-[0.15em] text-muted"
                     style={{ fontSize: "0.6rem", fontWeight: 700 }}
                   >
@@ -80,14 +97,20 @@ export default function ArticleList({ section }: ArticleListProps) {
                   </span>
                 </div>
                 <h3
-                  {...createPreviewAttributes({ entryId: article.id, fieldApiId: "title" })}
+                  {...createPreviewAttributes({
+                    entryId: article.id,
+                    fieldApiId: "title",
+                  })}
                   className="mb-4 group-hover:text-accent transition-colors"
                 >
                   {article.title}
                   <span className="text-accent">.</span>
                 </h3>
                 <p
-                  {...createPreviewAttributes({ entryId: article.id, fieldApiId: "summary" })}
+                  {...createPreviewAttributes({
+                    entryId: article.id,
+                    fieldApiId: "summary",
+                  })}
                   className="text-muted mb-6 flex-1"
                   style={{ lineHeight: 1.7 }}
                 >
