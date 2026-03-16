@@ -26,11 +26,12 @@ interface ArticlePageProps {
 export async function generateMetadata({
   params,
 }: ArticlePageProps): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug, locale } = await params;
 
   try {
     const data = await hygraphRequest<GetArticleQuery>(GetArticleDocument, {
       slug,
+      locale,
     } as GetArticleQueryVariables);
     const article = data.article;
     if (!article) return { title: "Article Not Found" };
@@ -62,9 +63,10 @@ export default async function ArticlePage({
   const [articleData, allArticlesData] = await Promise.all([
     hygraphRequest<GetArticleQuery>(GetArticleDocument, {
       slug,
+      locale,
       segmentId,
     } as GetArticleQueryVariables),
-    hygraphRequest<GetArticlesQuery>(GetArticlesDocument, {}),
+    hygraphRequest<GetArticlesQuery>(GetArticlesDocument, { locale }),
   ]);
 
   const rawArticle = articleData.article;
@@ -86,7 +88,9 @@ export default async function ArticlePage({
 
   const allArticles = allArticlesData.articles ?? [];
 
-  return <ArticleView article={article} allArticles={allArticles} />;
+  return (
+    <ArticleView article={article} allArticles={allArticles} locale={locale} />
+  );
 }
 
 export const revalidate = 300;

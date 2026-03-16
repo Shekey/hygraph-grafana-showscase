@@ -3,7 +3,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { useParams } from "next/navigation";
 import type {
   GetArticleQuery,
   GetArticlesQuery,
@@ -19,6 +18,7 @@ type ContentBlock = Article["content"][number];
 interface ArticleViewProps {
   article: Article;
   allArticles: ArticleListItem[];
+  locale: string;
 }
 
 function ContentBlockRenderer({
@@ -200,10 +200,8 @@ function ContentBlockRenderer({
 export default function ArticleView({
   article,
   allArticles,
+  locale,
 }: ArticleViewProps) {
-  const params = useParams();
-  const locale = (params.locale as string) || "en";
-
   const index = allArticles.findIndex((a) => a.slug === article.slug);
   const prev = index > 0 ? allArticles[index - 1] : null;
   const next =

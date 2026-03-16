@@ -1,5 +1,5 @@
-query GetArticles {
-  articles(stage: DRAFT, orderBy: publishedDate_DESC, first: 50) {
+query GetArticles($locale: Locale!) {
+  articles(locales: [$locale, en], stage: DRAFT, orderBy: publishedDate_DESC, first: 50) {
     id
     slug
     title
@@ -15,8 +15,8 @@ query GetArticles {
   }
 }
 
-query GetArticle($slug: String!, $segmentId: ID) {
-  article(where: { slug: $slug }, stage: DRAFT) {
+query GetArticle($slug: String!, $locale: Locale!, $segmentId: ID) {
+  article(where: { slug: $slug }, locales: [$locale, en], stage: DRAFT) {
     id
     slug
     title

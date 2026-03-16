@@ -23592,13 +23592,14 @@ export type _SystemDateTimeFieldVariation =
   | 'combined'
   | 'localization';
 
-export type GetArticlesQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetArticlesQueryVariables = Exact<{ locale: Locale; }>;
 
 
 export type GetArticlesQuery = { __typename?: 'Query', articles: Array<{ __typename?: 'Article', id: string, slug: string, title: string, category: string, publishedDate: string, readTime?: string | null, summary: string, image: { __typename?: 'Asset', url: string, width?: number | null, height?: number | null } }> };
 
 export type GetArticleQueryVariables = Exact<{
   slug: Scalars['String']['input'];
+  locale: Locale;
   segmentId?: InputMaybe<Scalars['ID']['input']>;
 }>;
 
@@ -23676,8 +23677,8 @@ export type GetSiteSettingsQuery = { __typename?: 'Query', allSiteSettings: Arra
 
 
 export const GetArticlesDocument = gql`
-    query GetArticles {
-  articles(stage: DRAFT, orderBy: publishedDate_DESC, first: 50) {
+    query GetArticles($locale: Locale!) {
+  articles(locales: [$locale, en], stage: DRAFT, orderBy: publishedDate_DESC, first: 50) {
     id
     slug
     title
@@ -23694,8 +23695,8 @@ export const GetArticlesDocument = gql`
 }
     `;
 export const GetArticleDocument = gql`
-    query GetArticle($slug: String!, $segmentId: ID) {
-  article(where: {slug: $slug}, stage: DRAFT) {
+    query GetArticle($slug: String!, $locale: Locale!, $segmentId: ID) {
+  article(where: {slug: $slug}, locales: [$locale, en], stage: DRAFT) {
     id
     slug
     title
@@ -24440,7 +24441,7 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationTy
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
-    GetArticles(variables?: GetArticlesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders, signal?: RequestInit['signal']): Promise<GetArticlesQuery> {
+    GetArticles(variables: GetArticlesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders, signal?: RequestInit['signal']): Promise<GetArticlesQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetArticlesQuery>({ document: GetArticlesDocument, variables, requestHeaders: { ...requestHeaders, ...wrappedRequestHeaders }, signal }), 'GetArticles', 'query', variables);
     },
     GetArticle(variables: GetArticleQueryVariables, requestHeaders?: GraphQLClientRequestHeaders, signal?: RequestInit['signal']): Promise<GetArticleQuery> {

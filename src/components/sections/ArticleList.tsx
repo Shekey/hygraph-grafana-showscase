@@ -23,7 +23,9 @@ export default async function ArticleList({
   section,
   locale,
 }: ArticleListProps) {
-  const data = await hygraphRequest<GetArticlesQuery>(GetArticlesDocument, {});
+  const data = await hygraphRequest<GetArticlesQuery>(GetArticlesDocument, {
+    locale,
+  });
   const articles = data?.articles ?? [];
 
   const { articleListHeadline } = section;
