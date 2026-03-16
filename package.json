@@ -12,6 +12,7 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@graphcms/rich-text-react-renderer": "^0.6.2",
     "@hygraph/preview-sdk": "^1.0.6",
     "graphql": "^16.13.1",
     "graphql-request": "^6.1.0",

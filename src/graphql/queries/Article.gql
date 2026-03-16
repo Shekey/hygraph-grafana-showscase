@@ -34,7 +34,7 @@ query GetArticle($slug: String!, $segmentId: ID) {
         __typename
         id
         paragraphText: text {
-          html
+          raw
         }
       }
       ... on ArticleImageSection {
