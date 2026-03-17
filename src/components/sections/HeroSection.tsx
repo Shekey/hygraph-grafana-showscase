@@ -3,6 +3,7 @@
  * hybikes design: big uppercase typography, orange accent, local image panel
  */
 
+import Image from "next/image";
 import type { GetPageQuery } from "@/types/hygraph-generated";
 import {
   createPreviewAttributes,
@@ -112,10 +113,13 @@ export default function HeroSection({ section, pageId }: HeroSectionProps) {
             })}
             className="lg:col-span-5 relative w-full h-full lg:max-h-[calc(100vh-120px)]"
           >
-            <img
+            <Image
               src={mediaUrl}
               alt={section.headline}
+              width={section.backgroundMedia?.width || 1200}
+              height={section.backgroundMedia?.height || 800}
               className="object-cover w-full h-full"
+              priority
             />
             {section.mediaText && (
               <div className="absolute bottom-0 left-0 bg-brand text-white px-6 py-3">

@@ -20173,8 +20173,7 @@ export type SiteSettings = Entity & Node & {
   __typename?: 'SiteSettings';
   /** Site-wide announcement banner text (optional, shown at top of all pages) */
   announcement?: Maybe<RichText>;
-  /** Primary brand color (hex format, e.g., #3B82F6) */
-  brandColor: Scalars['String']['output'];
+  brandColor?: Maybe<Color>;
   /** Support email address (localized per region) */
   contactEmail: Scalars['String']['output'];
   /** The time the document was created */
@@ -20349,7 +20348,7 @@ export type SiteSettingsConnection = {
 export type SiteSettingsCreateInput = {
   /** announcement input for default locale (en) */
   announcement?: InputMaybe<Scalars['RichTextAST']['input']>;
-  brandColor: Scalars['String']['input'];
+  brandColor?: InputMaybe<ColorInput>;
   /** contactEmail input for default locale (en) */
   contactEmail: Scalars['String']['input'];
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -20425,25 +20424,6 @@ export type SiteSettingsManyWhereInput = {
   OR?: InputMaybe<Array<SiteSettingsWhereInput>>;
   /** Contains search across all appropriate fields. */
   _search?: InputMaybe<Scalars['String']['input']>;
-  brandColor?: InputMaybe<Scalars['String']['input']>;
-  /** All values containing the given string. */
-  brandColor_contains?: InputMaybe<Scalars['String']['input']>;
-  /** All values ending with the given string. */
-  brandColor_ends_with?: InputMaybe<Scalars['String']['input']>;
-  /** All values that are contained in given list. */
-  brandColor_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  /** Any other value that exists and is not equal to the given value. */
-  brandColor_not?: InputMaybe<Scalars['String']['input']>;
-  /** All values not containing the given string. */
-  brandColor_not_contains?: InputMaybe<Scalars['String']['input']>;
-  /** All values not ending with the given string */
-  brandColor_not_ends_with?: InputMaybe<Scalars['String']['input']>;
-  /** All values that are not contained in given list. */
-  brandColor_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  /** All values not starting with the given string. */
-  brandColor_not_starts_with?: InputMaybe<Scalars['String']['input']>;
-  /** All values starting with the given string. */
-  brandColor_starts_with?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
   createdAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -20526,8 +20506,6 @@ export type SiteSettingsManyWhereInput = {
 };
 
 export type SiteSettingsOrderByInput =
-  | 'brandColor_ASC'
-  | 'brandColor_DESC'
   | 'contactEmail_ASC'
   | 'contactEmail_DESC'
   | 'createdAt_ASC'
@@ -20548,7 +20526,7 @@ export type SiteSettingsOrderByInput =
 export type SiteSettingsUpdateInput = {
   /** announcement input for default locale (en) */
   announcement?: InputMaybe<Scalars['RichTextAST']['input']>;
-  brandColor?: InputMaybe<Scalars['String']['input']>;
+  brandColor?: InputMaybe<ColorInput>;
   /** contactEmail input for default locale (en) */
   contactEmail?: InputMaybe<Scalars['String']['input']>;
   defaultMetaImage?: InputMaybe<AssetUpdateOneInlineInput>;
@@ -20611,7 +20589,7 @@ export type SiteSettingsUpdateManyInlineInput = {
 export type SiteSettingsUpdateManyInput = {
   /** announcement input for default locale (en) */
   announcement?: InputMaybe<Scalars['RichTextAST']['input']>;
-  brandColor?: InputMaybe<Scalars['String']['input']>;
+  brandColor?: InputMaybe<ColorInput>;
   /** contactEmail input for default locale (en) */
   contactEmail?: InputMaybe<Scalars['String']['input']>;
   /** footerSubscribeSubtitle input for default locale (en) */
@@ -20710,25 +20688,6 @@ export type SiteSettingsWhereInput = {
   OR?: InputMaybe<Array<SiteSettingsWhereInput>>;
   /** Contains search across all appropriate fields. */
   _search?: InputMaybe<Scalars['String']['input']>;
-  brandColor?: InputMaybe<Scalars['String']['input']>;
-  /** All values containing the given string. */
-  brandColor_contains?: InputMaybe<Scalars['String']['input']>;
-  /** All values ending with the given string. */
-  brandColor_ends_with?: InputMaybe<Scalars['String']['input']>;
-  /** All values that are contained in given list. */
-  brandColor_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  /** Any other value that exists and is not equal to the given value. */
-  brandColor_not?: InputMaybe<Scalars['String']['input']>;
-  /** All values not containing the given string. */
-  brandColor_not_contains?: InputMaybe<Scalars['String']['input']>;
-  /** All values not ending with the given string */
-  brandColor_not_ends_with?: InputMaybe<Scalars['String']['input']>;
-  /** All values that are not contained in given list. */
-  brandColor_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  /** All values not starting with the given string. */
-  brandColor_not_starts_with?: InputMaybe<Scalars['String']['input']>;
-  /** All values starting with the given string. */
-  brandColor_starts_with?: InputMaybe<Scalars['String']['input']>;
   contactEmail?: InputMaybe<Scalars['String']['input']>;
   /** All values containing the given string. */
   contactEmail_contains?: InputMaybe<Scalars['String']['input']>;
@@ -23592,7 +23551,9 @@ export type _SystemDateTimeFieldVariation =
   | 'combined'
   | 'localization';
 
-export type GetArticlesQueryVariables = Exact<{ locale: Locale; }>;
+export type GetArticlesQueryVariables = Exact<{
+  locale: Locale;
+}>;
 
 
 export type GetArticlesQuery = { __typename?: 'Query', articles: Array<{ __typename?: 'Article', id: string, slug: string, title: string, category: string, publishedDate: string, readTime?: string | null, summary: string, image: { __typename?: 'Asset', url: string, width?: number | null, height?: number | null } }> };
@@ -23604,7 +23565,7 @@ export type GetArticleQueryVariables = Exact<{
 }>;
 
 
-export type GetArticleQuery = { __typename?: 'Query', article?: { __typename?: 'Article', id: string, slug: string, title: string, category: string, publishedDate: string, readTime?: string | null, summary: string, image: { __typename?: 'Asset', url: string, width?: number | null, height?: number | null }, content: Array<{ __typename: 'ArticleImageSection', id: string, caption?: string | null, image?: { __typename?: 'Asset', url: string, width?: number | null, height?: number | null } | null, imageSectionText?: { __typename?: 'RichText', html: string } | null } | { __typename: 'ArticleParagraph', id: string, paragraphText: { __typename?: 'RichText', raw: string } } | { __typename: 'ArticleProductCallout', id: string, headline: string, calloutText?: { __typename?: 'RichText', html: string } | null, product?: { __typename?: 'Product', id: string, slug: string, name: string, image?: { __typename?: 'Asset', url: string, width?: number | null, height?: number | null } | null } | null }>, variants: Array<{ __typename?: 'ArticleVariant', title: string, summary: string, content: Array<{ __typename: 'ArticleImageSection', id: string, caption?: string | null, image?: { __typename?: 'Asset', url: string, width?: number | null, height?: number | null } | null, imageSectionText?: { __typename?: 'RichText', html: string } | null } | { __typename: 'ArticleParagraph', id: string, paragraphText: { __typename?: 'RichText', raw: string } } | { __typename: 'ArticleProductCallout', id: string, headline: string, calloutText?: { __typename?: 'RichText', html: string } | null, product?: { __typename?: 'Product', id: string, slug: string, name: string, image?: { __typename?: 'Asset', url: string, width?: number | null, height?: number | null } | null } | null }> }> } | null };
+export type GetArticleQuery = { __typename?: 'Query', article?: { __typename?: 'Article', id: string, slug: string, title: string, category: string, publishedDate: string, readTime?: string | null, summary: string, image: { __typename?: 'Asset', url: string, width?: number | null, height?: number | null }, content: Array<{ __typename: 'ArticleImageSection', id: string, caption?: string | null, image?: { __typename?: 'Asset', url: string, width?: number | null, height?: number | null } | null, imageSectionText?: { __typename?: 'RichText', html: string } | null } | { __typename: 'ArticleParagraph', id: string, paragraphText: { __typename?: 'RichText', raw: string } } | { __typename: 'ArticleProductCallout', id: string, headline: string, calloutText?: { __typename?: 'RichText', html: string } | null, product?: { __typename?: 'Product', id: string, slug: string, name: string, image?: { __typename?: 'Asset', url: string, width?: number | null, height?: number | null } | null } | null }>, variants: Array<{ __typename?: 'ArticleVariant', title: string, summary: string, content: Array<{ __typename: 'ArticleImageSection', id: string, caption?: string | null, image?: { __typename?: 'Asset', url: string, width?: number | null, height?: number | null } | null, imageSectionText?: { __typename?: 'RichText', html: string } | null } | { __typename: 'ArticleParagraph', id: string, paragraphText: { __typename?: 'RichText', html: string } } | { __typename: 'ArticleProductCallout', id: string, headline: string, calloutText?: { __typename?: 'RichText', html: string } | null, product?: { __typename?: 'Product', id: string, slug: string, name: string, image?: { __typename?: 'Asset', url: string, width?: number | null, height?: number | null } | null } | null }> }> } | null };
 
 export type GetJobsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -23673,12 +23634,17 @@ export type GetSiteSettingsQueryVariables = Exact<{
 }>;
 
 
-export type GetSiteSettingsQuery = { __typename?: 'Query', allSiteSettings: Array<{ __typename?: 'SiteSettings', id: string, siteName: string, brandColor?: { __typename?: 'Color', hex: string } | null, contactEmail: string, footerSubscribeTitle?: string | null, footerSubscribeSubtitle?: string | null, announcement?: { __typename?: 'RichText', html: string } | null, footerText: { __typename?: 'RichText', text: string }, socialLinks: Array<{ __typename?: 'SocialLink', id: string, platform: SocialPlatform, url: string, handle?: string | null }>, mainNavigation?: { __typename?: 'Navigation', id: string, items: Array<{ __typename?: 'NavigationItem', id: string, label: string, pageLink?: { __typename?: 'Page', id: string, slug: string } | null }> } | null, footerNavigation?: { __typename?: 'Navigation', id: string, items: Array<{ __typename?: 'NavigationItem', id: string, label: string, pageLink?: { __typename?: 'Page', id: string, slug: string } | null }> } | null }> };
+export type GetSiteSettingsQuery = { __typename?: 'Query', allSiteSettings: Array<{ __typename?: 'SiteSettings', id: string, siteName: string, contactEmail: string, footerSubscribeTitle?: string | null, footerSubscribeSubtitle?: string | null, brandColor?: { __typename?: 'Color', hex: string } | null, announcement?: { __typename?: 'RichText', html: string } | null, footerText: { __typename?: 'RichText', text: string }, socialLinks: Array<{ __typename?: 'SocialLink', id: string, platform: SocialPlatform, url: string, handle?: string | null }>, mainNavigation?: { __typename?: 'Navigation', id: string, items: Array<{ __typename?: 'NavigationItem', id: string, label: string, pageLink?: { __typename?: 'Page', id: string, slug: string } | null }> } | null, footerNavigation?: { __typename?: 'Navigation', id: string, items: Array<{ __typename?: 'NavigationItem', id: string, label: string, pageLink?: { __typename?: 'Page', id: string, slug: string } | null }> } | null }> };
 
 
 export const GetArticlesDocument = gql`
     query GetArticles($locale: Locale!) {
-  articles(locales: [$locale, en], stage: DRAFT, orderBy: publishedDate_DESC, first: 50) {
+  articles(
+    locales: [$locale, en]
+    stage: DRAFT
+    orderBy: publishedDate_DESC
+    first: 50
+  ) {
     id
     slug
     title
@@ -23687,7 +23653,9 @@ export const GetArticlesDocument = gql`
     readTime
     summary
     image {
-      url
+      url(
+        transformation: {image: {resize: {width: 1200, fit: clip}, quality: {value: 85}}, validateOptions: true}
+      )
       width
       height
     }
@@ -23705,7 +23673,9 @@ export const GetArticleDocument = gql`
     readTime
     summary
     image {
-      url
+      url(
+        transformation: {image: {resize: {width: 1600, fit: clip}, quality: {value: 85}}, validateOptions: true}
+      )
       width
       height
     }
@@ -23721,7 +23691,9 @@ export const GetArticleDocument = gql`
         __typename
         id
         image {
-          url
+          url(
+            transformation: {image: {resize: {width: 1200, fit: clip}, quality: {value: 85}}, validateOptions: true}
+          )
           width
           height
         }
@@ -23742,7 +23714,9 @@ export const GetArticleDocument = gql`
           slug
           name
           image {
-            url
+            url(
+              transformation: {image: {resize: {width: 400, fit: clip}, quality: {value: 85}}, validateOptions: true}
+            )
             width
             height
           }
@@ -23764,7 +23738,9 @@ export const GetArticleDocument = gql`
           __typename
           id
           image {
-            url
+            url(
+              transformation: {image: {resize: {width: 1200, fit: clip}, quality: {value: 85}}, validateOptions: true}
+            )
             width
             height
           }
@@ -23785,7 +23761,9 @@ export const GetArticleDocument = gql`
             slug
             name
             image {
-              url
+              url(
+                transformation: {image: {resize: {width: 400, fit: clip}, quality: {value: 85}}, validateOptions: true}
+              )
               width
               height
             }
@@ -23880,7 +23858,9 @@ export const GetPageDocument = gql`
           readTime
           summary
           image {
-            url
+            url(
+              transformation: {image: {resize: {width: 1600, fit: clip}, quality: {value: 85}}, validateOptions: true}
+            )
             width
             height
           }
@@ -23906,7 +23886,9 @@ export const GetPageDocument = gql`
         mediaText
         backgroundMedia {
           id
-          url
+          url(
+            transformation: {image: {resize: {width: 1200, fit: clip}, quality: {value: 85}}, validateOptions: true}
+          )
           width
           height
         }
@@ -23945,7 +23927,9 @@ export const GetPageDocument = gql`
         }
         image {
           id
-          url
+          url(
+            transformation: {image: {resize: {width: 1600, fit: clip}, quality: {value: 85}}, validateOptions: true}
+          )
           width
           height
         }
@@ -24059,7 +24043,9 @@ export const GetPageDocument = gql`
             readTime
             summary
             image {
-              url
+              url(
+                transformation: {image: {resize: {width: 1600, fit: clip}, quality: {value: 85}}, validateOptions: true}
+              )
               width
               height
             }
@@ -24084,7 +24070,9 @@ export const GetPageDocument = gql`
           mediaText
           backgroundMedia {
             id
-            url
+            url(
+              transformation: {image: {resize: {width: 1200, fit: clip}, quality: {value: 85}}, validateOptions: true}
+            )
             width
             height
           }
@@ -24123,7 +24111,9 @@ export const GetPageDocument = gql`
           }
           image {
             id
-            url
+            url(
+              transformation: {image: {resize: {width: 1600, fit: clip}, quality: {value: 85}}, validateOptions: true}
+            )
             width
             height
           }
@@ -24240,7 +24230,9 @@ export const GetProductBySlugDocument = gql`
       value
     }
     image {
-      url
+      url(
+        transformation: {image: {resize: {width: 1600, fit: clip}, quality: {value: 85}}, validateOptions: true}
+      )
       width
       height
     }
@@ -24292,7 +24284,9 @@ export const GetProductsDocument = gql`
       value
     }
     image {
-      url
+      url(
+        transformation: {image: {resize: {width: 800, fit: clip}, quality: {value: 85}}, validateOptions: true}
+      )
       width
       height
     }
@@ -24339,7 +24333,9 @@ export const GetFeaturedProductsDocument = gql`
       value
     }
     image {
-      url
+      url(
+        transformation: {image: {resize: {width: 800, fit: clip}, quality: {value: 85}}, validateOptions: true}
+      )
       width
       height
     }

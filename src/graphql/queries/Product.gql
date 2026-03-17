@@ -11,7 +11,7 @@ query GetProductBySlug($slug: String!, $locale: Locale!) {
       value
     }
     image {
-      url
+      url(transformation: { image: { resize: { width: 1600, fit: clip }, quality: { value: 85 } }, validateOptions: true })
       width
       height
     }

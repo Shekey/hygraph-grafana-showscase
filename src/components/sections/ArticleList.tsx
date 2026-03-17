@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import type { GetPageQuery } from "@/types/hygraph-generated";
 import {
@@ -66,9 +67,11 @@ export default async function ArticleList({
                 className="overflow-hidden border-b border-primary"
               >
                 {article.image?.url ? (
-                  <img
-                    src={article.image?.url}
+                  <Image
+                    src={article.image.url}
                     alt={article.title}
+                    width={article.image.width || 1200}
+                    height={article.image.height || 800}
                     className="w-full object-cover h-[260px] group-hover:scale-[1.02] transition-transform duration-500"
                   />
                 ) : (

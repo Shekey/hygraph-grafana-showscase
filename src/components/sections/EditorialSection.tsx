@@ -6,6 +6,7 @@
  */
 
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight, ArrowDownRight } from "lucide-react";
 import type { GetPageQuery } from "@/types/hygraph-generated";
 import {
@@ -120,7 +121,7 @@ function EditorialContent({
       {section.ctaLabel && section.ctaHref && (
         <Link
           href={section.ctaHref}
-          className="inline-flex items-center gap-3 text-brand uppercase tracking-[0.1em] hover:gap-4 transition-all self-start mt-6"
+          className="inline-flex items-center gap-3 text-brand uppercase tracking-widest hover:gap-4 transition-all self-start mt-6"
           style={{ fontSize: "0.75rem", fontWeight: 700 }}
         >
           <span
@@ -141,12 +142,16 @@ function EditorialContent({
 
 function EditorialImage({
   imageUrl,
+  imageWidth,
+  imageHeight,
   headline,
   pageId,
   chain,
   className,
 }: {
   imageUrl: string;
+  imageWidth?: number | null;
+  imageHeight?: number | null;
   headline: string;
   pageId: string;
   chain: ReturnType<typeof createComponentChainLink>[];
@@ -161,9 +166,11 @@ function EditorialImage({
       })}
       className={className}
     >
-      <img
+      <Image
         src={imageUrl}
         alt={headline}
+        width={imageWidth || 1600}
+        height={imageHeight || 1000}
         className="w-full h-full object-cover min-h-[400px]"
       />
     </div>
@@ -175,6 +182,8 @@ export default function EditorialSection({
   pageId,
 }: EditorialSectionProps) {
   const imageUrl = section.image?.url || "";
+  const imageWidth = section.image?.width;
+  const imageHeight = section.image?.height;
   const headline = section.editorialHeadline || "";
   const chain = [createComponentChainLink("sections", section.id)];
 
@@ -195,6 +204,8 @@ export default function EditorialSection({
             {contentBlock}
             <EditorialImage
               imageUrl={imageUrl}
+              imageWidth={imageWidth}
+              imageHeight={imageHeight}
               headline={headline}
               pageId={pageId}
               chain={chain}
@@ -205,6 +216,8 @@ export default function EditorialSection({
           <>
             <EditorialImage
               imageUrl={imageUrl}
+              imageWidth={imageWidth}
+              imageHeight={imageHeight}
               headline={headline}
               pageId={pageId}
               chain={chain}

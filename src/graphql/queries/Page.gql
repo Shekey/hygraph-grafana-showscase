@@ -33,7 +33,7 @@ query GetPage($slug: String!, $locale: Locale!, $segmentId: ID) {
           readTime
           summary
           image {
-            url
+            url(transformation: { image: { resize: { width: 1600, fit: clip }, quality: { value: 85 } }, validateOptions: true })
             width
             height
           }
@@ -59,7 +59,7 @@ query GetPage($slug: String!, $locale: Locale!, $segmentId: ID) {
         mediaText
         backgroundMedia {
           id
-          url
+          url(transformation: { image: { resize: { width: 1200, fit: clip }, quality: { value: 85 } }, validateOptions: true })
           width
           height
         }
@@ -98,7 +98,7 @@ query GetPage($slug: String!, $locale: Locale!, $segmentId: ID) {
         }
         image {
           id
-          url
+          url(transformation: { image: { resize: { width: 1600, fit: clip }, quality: { value: 85 } }, validateOptions: true })
           width
           height
         }
@@ -212,7 +212,7 @@ query GetPage($slug: String!, $locale: Locale!, $segmentId: ID) {
             readTime
             summary
             image {
-              url
+              url(transformation: { image: { resize: { width: 1600, fit: clip }, quality: { value: 85 } }, validateOptions: true })
               width
               height
             }
@@ -237,7 +237,7 @@ query GetPage($slug: String!, $locale: Locale!, $segmentId: ID) {
           mediaText
           backgroundMedia {
             id
-            url
+            url(transformation: { image: { resize: { width: 1200, fit: clip }, quality: { value: 85 } }, validateOptions: true })
             width
             height
           }
@@ -276,7 +276,7 @@ query GetPage($slug: String!, $locale: Locale!, $segmentId: ID) {
           }
           image {
             id
-            url
+            url(transformation: { image: { resize: { width: 1600, fit: clip }, quality: { value: 85 } }, validateOptions: true })
             width
             height
           }

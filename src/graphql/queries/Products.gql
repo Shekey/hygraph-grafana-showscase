@@ -8,7 +8,7 @@ query GetProducts($locale: Locale!, $first: Int = 20) {
       value
     }
     image {
-      url
+      url(transformation: { image: { resize: { width: 800, fit: clip }, quality: { value: 85 } }, validateOptions: true })
       width
       height
     }
@@ -54,7 +54,7 @@ query GetFeaturedProducts($locale: Locale!) {
       value
     }
     image {
-      url
+      url(transformation: { image: { resize: { width: 800, fit: clip }, quality: { value: 85 } }, validateOptions: true })
       width
       height
     }
