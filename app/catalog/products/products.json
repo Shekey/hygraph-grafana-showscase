@@ -94,5 +94,1445 @@
       "BK-S": 4, "BK-M": 9, "BK-L": 7, "BK-XL": 3,
       "TC-S": 2, "TC-M": 5, "TC-L": 3, "TC-XL": 1
     }
+  },
+  "144": {
+    "name": "Summit X9",
+    "sku": "HYB-SUMX-144",
+    "price": 2999,
+    "sale_price": null,
+    "weight": 12.4,
+    "description": "<p>The Summit X9 is a pure mountain bike built for aggressive trail riding. Full carbon frame, 150mm travel front and rear, and geometry that begs you to push harder into every corner.</p>",
+    "colors": [
+      { "id": 23, "label": "Race Blue",    "code": "RB" },
+      { "id": 24, "label": "Carbon Black", "code": "BK" },
+      { "id": 25, "label": "Acid Green",   "code": "AG" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "RB-S": 3, "RB-M": 8,  "RB-L": 6, "RB-XL": 2,
+      "BK-S": 4, "BK-M": 10, "BK-L": 7, "BK-XL": 3,
+      "AG-S": 2, "AG-M": 6,  "AG-L": 4, "AG-XL": 1
+    }
+  },
+  "145": {
+    "name": "Apex SL",
+    "sku": "HYB-APXS-145",
+    "price": 3599,
+    "sale_price": null,
+    "weight": 8.2,
+    "description": "<p>The Apex SL is built for riders who refuse to compromise. An ultralight carbon frame, a Shimano Ultegra Di2 groupset, and a geometry tuned for long-distance speed. This is a road bike that rewards commitment.</p>",
+    "colors": [
+      { "id": 26, "label": "Ice Blue",      "code": "IB" },
+      { "id": 27, "label": "Midnight Black", "code": "BK" },
+      { "id": 28, "label": "Race Silver",   "code": "RS" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "IB-S": 3, "IB-M": 7,  "IB-L": 5, "IB-XL": 2,
+      "BK-S": 4, "BK-M": 9,  "BK-L": 6, "BK-XL": 2,
+      "RS-S": 2, "RS-M": 6,  "RS-L": 4, "RS-XL": 1
+    }
+  },
+  "146": {
+    "name": "Ridgeline Pro",
+    "sku": "HYB-RDLP-146",
+    "price": 2299,
+    "sale_price": null,
+    "weight": 10.8,
+    "description": "<p>Ridgeline Pro is a gravel bike with no fear of distance. Chromoly steel frame, mounts for everything, and a ride quality that softens even the roughest tracks. Pack light. Go far.</p>",
+    "colors": [
+      { "id": 29, "label": "Desert Sand",  "code": "DS" },
+      { "id": 30, "label": "Olive Green",  "code": "OG" },
+      { "id": 31, "label": "Charcoal",     "code": "CH" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "DS-S": 4, "DS-M": 9,  "DS-L": 7, "DS-XL": 3,
+      "OG-S": 3, "OG-M": 8,  "OG-L": 6, "OG-XL": 2,
+      "CH-S": 4, "CH-M": 10, "CH-L": 7, "CH-XL": 3
+    }
+  },
+  "147": {
+    "name": "Trail E2",
+    "sku": "HYB-TRL2-147",
+    "price": 4499,
+    "sale_price": null,
+    "weight": 22.0,
+    "description": "<p>The Trail E2 puts electric power where it belongs — on the mountain. With 140mm of travel and a Shimano EP801 motor, it amplifies your ability without dulling the ride. Every trail becomes more achievable, every climb more enjoyable.</p>",
+    "colors": [
+      { "id": 32, "label": "Acid Green",   "code": "AG" },
+      { "id": 33, "label": "Carbon Black", "code": "BK" },
+      { "id": 34, "label": "Storm Grey",   "code": "SG" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "AG-S": 2, "AG-M": 6,  "AG-L": 5, "AG-XL": 2,
+      "BK-S": 3, "BK-M": 8,  "BK-L": 6, "BK-XL": 3,
+      "SG-S": 2, "SG-M": 7,  "SG-L": 5, "SG-XL": 2
+    }
+  },
+  "148": {
+    "name": "Metro E2",
+    "sku": "HYB-MTE2-148",
+    "price": 2999,
+    "sale_price": null,
+    "weight": 22.0,
+    "description": "<p>Metro E2 is the urban e-bike for riders who take their commute seriously. A Bosch Active Line Plus motor handles the hills, a 500Wh battery handles the distance, and a step-through frame handles everything in between.</p>",
+    "colors": [
+      { "id": 35, "label": "Deep Navy",      "code": "DN" },
+      { "id": 36, "label": "Pearl White",    "code": "PW" },
+      { "id": 37, "label": "Chrome Silver",  "code": "CS" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "DN-S": 5, "DN-M": 11, "DN-L": 8, "DN-XL": 3,
+      "PW-S": 4, "PW-M": 9,  "PW-L": 7, "PW-XL": 3,
+      "CS-S": 3, "CS-M": 8,  "CS-L": 6, "CS-XL": 2
+    }
+  },
+  "149": {
+    "name": "Enduro X",
+    "sku": "HYB-ENDX-149",
+    "price": 3499,
+    "sale_price": null,
+    "weight": 13.8,
+    "description": "<p>Enduro X is engineered for riders who judge a ride by the descent. Full carbon frame, 170mm of travel, and a RockShox Lyrik fork that devours whatever the mountain throws at it. Pedal up. Attack down.</p>",
+    "colors": [
+      { "id": 38, "label": "Jungle Green",  "code": "JG" },
+      { "id": 39, "label": "Carbon Black",  "code": "BK" },
+      { "id": 40, "label": "Burnt Orange",  "code": "BO" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "JG-S": 3, "JG-M": 7,  "JG-L": 5, "JG-XL": 2,
+      "BK-S": 4, "BK-M": 9,  "BK-L": 6, "BK-XL": 3,
+      "BO-S": 2, "BO-M": 6,  "BO-L": 4, "BO-XL": 1
+    }
+  },
+  "150": {
+    "name": "Sprint R1",
+    "sku": "HYB-SPR1-150",
+    "price": 2199,
+    "sale_price": 1979,
+    "weight": 9.5,
+    "description": "<p>The Sprint R1 is a no-compromise criterium racer. Stiff, aggressive, and fast. An aluminium frame with race geometry puts you exactly where you need to be — on the limit, every lap.</p>",
+    "colors": [
+      { "id": 41, "label": "Race Red",     "code": "RR" },
+      { "id": 42, "label": "Carbon Black", "code": "BK" },
+      { "id": 43, "label": "Ice White",    "code": "IW" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "RR-S": 5, "RR-M": 11, "RR-L": 8, "RR-XL": 4,
+      "BK-S": 6, "BK-M": 13, "BK-L": 9, "BK-XL": 4,
+      "IW-S": 3, "IW-M": 8,  "IW-L": 6, "IW-XL": 2
+    }
+  },
+  "151": {
+    "name": "Horizon Tour",
+    "sku": "HYB-HORT-151",
+    "price": 1799,
+    "sale_price": 1619,
+    "weight": 9.8,
+    "description": "<p>Horizon Tour is the endurance road bike for riders who measure routes in days. A relaxed geometry, carbon fork, and wide tyre clearance make it equally at home on a century ride or a multi-day tour.</p>",
+    "colors": [
+      { "id": 44, "label": "Steel Blue",   "code": "SB" },
+      { "id": 45, "label": "Carbon Black", "code": "BK" },
+      { "id": 46, "label": "Silver Grey",  "code": "SG" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "SB-S": 6, "SB-M": 13, "SB-L": 10, "SB-XL": 5,
+      "BK-S": 7, "BK-M": 15, "BK-L": 11, "BK-XL": 5,
+      "SG-S": 4, "SG-M": 10, "SG-L": 8,  "SG-XL": 3
+    }
+  },
+  "152": {
+    "name": "Velox Pro",
+    "sku": "HYB-VELP-152",
+    "price": 3299,
+    "sale_price": null,
+    "weight": 8.5,
+    "description": "<p>Velox Pro is a carbon road bike built for serious club riders and Gran Fondo athletes. The layup prioritises vertical compliance without sacrificing lateral stiffness — so you push harder, for longer.</p>",
+    "colors": [
+      { "id": 47, "label": "Midnight Blue", "code": "MB" },
+      { "id": 48, "label": "Carbon Black",  "code": "BK" },
+      { "id": 49, "label": "Bone White",    "code": "BW" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "MB-S": 3, "MB-M": 8,  "MB-L": 6, "MB-XL": 2,
+      "BK-S": 4, "BK-M": 10, "BK-L": 7, "BK-XL": 3,
+      "BW-S": 2, "BW-M": 7,  "BW-L": 5, "BW-XL": 2
+    }
+  },
+  "153": {
+    "name": "Pavé Classic",
+    "sku": "HYB-PAVE-153",
+    "price": 1999,
+    "sale_price": null,
+    "weight": 10.5,
+    "description": "<p>The Pavé Classic takes inspiration from the cobbled monuments. Relaxed head tube, flared drops, and a steel fork that absorbs what the road throws at it. Built to last. Built to endure.</p>",
+    "colors": [
+      { "id": 50, "label": "Patina Green", "code": "PG" },
+      { "id": 51, "label": "Carbon Black", "code": "BK" },
+      { "id": 52, "label": "Cream White",  "code": "CW" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "PG-S": 4, "PG-M": 10, "PG-L": 7, "PG-XL": 3,
+      "BK-S": 5, "BK-M": 11, "BK-L": 8, "BK-XL": 4,
+      "CW-S": 3, "CW-M": 8,  "CW-L": 6, "CW-XL": 2
+    }
+  },
+  "154": {
+    "name": "Canyon",
+    "sku": "HYB-CANY-154",
+    "price": 2799,
+    "sale_price": null,
+    "weight": 9.2,
+    "description": "<p>Canyon is a lightweight gravel bike that doesn't take shortcuts. A full carbon frame, 1x drivetrain, and 42c tyres give you the confidence to explore deeper. Built for adventure riders who like to move fast.</p>",
+    "colors": [
+      { "id": 53, "label": "Sand Beige",   "code": "SB" },
+      { "id": 54, "label": "Slate Grey",   "code": "SL" },
+      { "id": 55, "label": "Carbon Black", "code": "BK" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "SB-S": 3, "SB-M": 8,  "SB-L": 6, "SB-XL": 2,
+      "SL-S": 3, "SL-M": 7,  "SL-L": 5, "SL-XL": 2,
+      "BK-S": 4, "BK-M": 9,  "BK-L": 7, "BK-XL": 3
+    }
+  },
+  "155": {
+    "name": "Stray",
+    "sku": "HYB-STRY-155",
+    "price": 1999,
+    "sale_price": 1799,
+    "weight": 11.2,
+    "description": "<p>Stray is the bikepacking gravel bike you've been waiting for. Mounts for frame bags, fork cages, and a rear rack. Geometry that stays stable under load. Take everything you need and go.</p>",
+    "colors": [
+      { "id": 56, "label": "Earth Brown",  "code": "EB" },
+      { "id": 57, "label": "Olive Green",  "code": "OG" },
+      { "id": 58, "label": "Carbon Black", "code": "BK" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "EB-S": 5, "EB-M": 11, "EB-L": 8,  "EB-XL": 3,
+      "OG-S": 4, "OG-M": 10, "OG-L": 7,  "OG-XL": 3,
+      "BK-S": 5, "BK-M": 12, "BK-L": 9,  "BK-XL": 4
+    }
+  },
+  "156": {
+    "name": "Gravel X3",
+    "sku": "HYB-GRVX-156",
+    "price": 3499,
+    "sale_price": null,
+    "weight": 9.1,
+    "description": "<p>Gravel X3 is the race-ready choice. An aerodynamic carbon layup, Zipp 303 wheels, and an SRAM Force AXS drivetrain. When the gravel race clock is running, this is what you want under you.</p>",
+    "colors": [
+      { "id": 59, "label": "Aero Silver",  "code": "AS" },
+      { "id": 60, "label": "Race Red",     "code": "RR" },
+      { "id": 61, "label": "Carbon Black", "code": "BK" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "AS-S": 3, "AS-M": 7,  "AS-L": 5, "AS-XL": 2,
+      "RR-S": 3, "RR-M": 8,  "RR-L": 5, "RR-XL": 2,
+      "BK-S": 4, "BK-M": 9,  "BK-L": 6, "BK-XL": 3
+    }
+  },
+  "157": {
+    "name": "Basalt",
+    "sku": "HYB-BSLT-157",
+    "price": 1699,
+    "sale_price": null,
+    "weight": 11.5,
+    "description": "<p>Basalt is built for the rider who doesn't check the weather forecast. A rust-resistant stainless steel frame, mechanical disc brakes, and clearance for 50c tyres. Reliable. Durable. Ready.</p>",
+    "colors": [
+      { "id": 62, "label": "Gunmetal",    "code": "GM" },
+      { "id": 63, "label": "Moss Green",  "code": "MG" },
+      { "id": 64, "label": "Anthracite",  "code": "AT" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "GM-S": 5, "GM-M": 12, "GM-L": 9, "GM-XL": 4,
+      "MG-S": 4, "MG-M": 10, "MG-L": 7, "MG-XL": 3,
+      "AT-S": 4, "AT-M": 11, "AT-L": 8, "AT-XL": 3
+    }
+  },
+  "158": {
+    "name": "Flint",
+    "sku": "HYB-FLNT-158",
+    "price": 1399,
+    "sale_price": 1259,
+    "weight": 10.1,
+    "description": "<p>Flint proves you don't need to spend a fortune to explore. An aluminium frame, 1x drivetrain, and hydraulic disc brakes give you everything that matters and nothing that doesn't. A gravel bike for the rest of us.</p>",
+    "colors": [
+      { "id": 65, "label": "Urban Grey",    "code": "UG" },
+      { "id": 66, "label": "Carbon Black",  "code": "BK" },
+      { "id": 67, "label": "Trail Orange",  "code": "TO" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "UG-S": 7, "UG-M": 15, "UG-L": 11, "UG-XL": 5,
+      "BK-S": 8, "BK-M": 17, "BK-L": 13, "BK-XL": 6,
+      "TO-S": 5, "TO-M": 12, "TO-L": 9,  "TO-XL": 4
+    }
+  },
+  "159": {
+    "name": "Hardtail HT1",
+    "sku": "HYB-HT1X-159",
+    "price": 1499,
+    "sale_price": null,
+    "weight": 12.2,
+    "description": "<p>Hardtail HT1 is a no-nonsense trail hardtail that rewards good technique. A lightweight aluminium frame, 120mm fork, and SRAM SX Eagle drivetrain. The bike that makes you a better rider.</p>",
+    "colors": [
+      { "id": 68, "label": "Trail Blue",    "code": "TB" },
+      { "id": 69, "label": "Carbon Black",  "code": "BK" },
+      { "id": 70, "label": "Lime Green",    "code": "LG" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "TB-S": 6, "TB-M": 13, "TB-L": 10, "TB-XL": 4,
+      "BK-S": 7, "BK-M": 15, "BK-L": 11, "BK-XL": 5,
+      "LG-S": 4, "LG-M": 10, "LG-L": 7,  "LG-XL": 3
+    }
+  },
+  "160": {
+    "name": "Crest 130",
+    "sku": "HYB-CRS1-160",
+    "price": 2299,
+    "sale_price": null,
+    "weight": 13.5,
+    "description": "<p>Crest 130 is a trail bike designed around one thing: flow. 130mm of travel, progressive geometry, and a Shimano Deore drivetrain that lets you focus on the trail, not the gear.</p>",
+    "colors": [
+      { "id": 71, "label": "Forest Green",   "code": "FG" },
+      { "id": 72, "label": "Carbon Black",   "code": "BK" },
+      { "id": 73, "label": "Sunset Orange",  "code": "SO" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "FG-S": 4, "FG-M": 10, "FG-L": 7, "FG-XL": 3,
+      "BK-S": 5, "BK-M": 11, "BK-L": 8, "BK-XL": 4,
+      "SO-S": 3, "SO-M": 8,  "SO-L": 6, "SO-XL": 2
+    }
+  },
+  "161": {
+    "name": "Full Send",
+    "sku": "HYB-FSND-161",
+    "price": 3999,
+    "sale_price": null,
+    "weight": 13.9,
+    "description": "<p>Full Send is the bike for riders who live for the descent. 160mm front and rear, a coil shock, and a mullet setup that turns steep lines into something you can actually enjoy. Commit. Send it.</p>",
+    "colors": [
+      { "id": 74, "label": "Carbon Black",  "code": "BK" },
+      { "id": 75, "label": "Neon Yellow",   "code": "NY" },
+      { "id": 76, "label": "Blood Orange",  "code": "BO" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "BK-S": 3, "BK-M": 8,  "BK-L": 6, "BK-XL": 2,
+      "NY-S": 2, "NY-M": 6,  "NY-L": 4, "NY-XL": 2,
+      "BO-S": 2, "BO-M": 7,  "BO-L": 5, "BO-XL": 1
+    }
+  },
+  "162": {
+    "name": "Bolt E2",
+    "sku": "HYB-BLT2-162",
+    "price": 4999,
+    "sale_price": null,
+    "weight": 23.0,
+    "description": "<p>Bolt E2 is the next generation of the Bolt eMTB line. A more powerful motor, a longer-range battery, and updated geometry for confident descending. The mountain got smaller.</p>",
+    "colors": [
+      { "id": 77, "label": "Slate Blue",   "code": "SB" },
+      { "id": 78, "label": "Carbon Black", "code": "BK" },
+      { "id": 79, "label": "Acid Yellow",  "code": "AY" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "SB-S": 2, "SB-M": 6,  "SB-L": 4, "SB-XL": 2,
+      "BK-S": 3, "BK-M": 7,  "BK-L": 5, "BK-XL": 2,
+      "AY-S": 2, "AY-M": 5,  "AY-L": 4, "AY-XL": 1
+    }
+  },
+  "163": {
+    "name": "Spark E1",
+    "sku": "HYB-SPRK-163",
+    "price": 5499,
+    "sale_price": null,
+    "weight": 19.5,
+    "description": "<p>Spark E1 is a lightweight XC e-bike for riders who want to go higher, faster. A nimble 120mm carbon frame, a Fazua Ride 60 motor, and a full Shimano XTR spec. When the trail points up, you smile.</p>",
+    "colors": [
+      { "id": 80, "label": "Sky Blue",      "code": "SK" },
+      { "id": 81, "label": "Carbon Black",  "code": "BK" },
+      { "id": 82, "label": "Ultra Violet",  "code": "UV" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "SK-S": 2, "SK-M": 5,  "SK-L": 4, "SK-XL": 1,
+      "BK-S": 2, "BK-M": 6,  "BK-L": 4, "BK-XL": 2,
+      "UV-S": 1, "UV-M": 4,  "UV-L": 3, "UV-XL": 1
+    }
+  },
+  "164": {
+    "name": "Ridge E3",
+    "sku": "HYB-RDGE-164",
+    "price": 3999,
+    "sale_price": null,
+    "weight": 22.5,
+    "description": "<p>Ridge E3 is the accessible all-mountain e-bike. A mid-range spec with no weak points. Bosch motor, 625Wh battery, and a geometry that handles technical terrain without demanding expert-level skill.</p>",
+    "colors": [
+      { "id": 83, "label": "Olive Green",  "code": "OG" },
+      { "id": 84, "label": "Carbon Black", "code": "BK" },
+      { "id": 85, "label": "Trail Red",    "code": "TR" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "OG-S": 3, "OG-M": 7,  "OG-L": 5, "OG-XL": 2,
+      "BK-S": 3, "BK-M": 8,  "BK-L": 6, "BK-XL": 2,
+      "TR-S": 2, "TR-M": 6,  "TR-L": 4, "TR-XL": 2
+    }
+  },
+  "165": {
+    "name": "City Glide",
+    "sku": "HYB-CTGL-165",
+    "price": 2299,
+    "sale_price": null,
+    "weight": 21.5,
+    "description": "<p>City Glide is the urban e-bike that makes every commute feel like a pleasure. A Shimano STEPS motor, automatic 5-speed gearbox, and puncture-resistant tyres. Just get on and go.</p>",
+    "colors": [
+      { "id": 86, "label": "Matte Black",  "code": "BK" },
+      { "id": 87, "label": "Chalk White",  "code": "WH" },
+      { "id": 88, "label": "Sage Green",   "code": "SG" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "BK-S": 6, "BK-M": 13, "BK-L": 10, "BK-XL": 4,
+      "WH-S": 4, "WH-M": 10, "WH-L": 7,  "WH-XL": 3,
+      "SG-S": 3, "SG-M": 8,  "SG-L": 6,  "SG-XL": 2
+    }
+  },
+  "166": {
+    "name": "Urban X Cargo",
+    "sku": "HYB-URXC-166",
+    "price": 3499,
+    "sale_price": null,
+    "weight": 26.0,
+    "description": "<p>Urban X Cargo is the e-bike that replaces your car. A reinforced rear rack rated to 30kg, a powerful 85Nm motor, and hydraulic brakes give you everything you need to ditch the school run.</p>",
+    "colors": [
+      { "id": 89, "label": "Graphite Grey", "code": "GG" },
+      { "id": 90, "label": "Matte Black",   "code": "BK" },
+      { "id": 91, "label": "Deep Blue",     "code": "DB" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "GG-S": 3, "GG-M": 8,  "GG-L": 6, "GG-XL": 2,
+      "BK-S": 4, "BK-M": 9,  "BK-L": 7, "BK-XL": 3,
+      "DB-S": 3, "DB-M": 7,  "DB-L": 5, "DB-XL": 2
+    }
+  },
+  "167": {
+    "name": "Fold E1",
+    "sku": "HYB-FLD1-167",
+    "price": 1799,
+    "sale_price": null,
+    "weight": 19.8,
+    "description": "<p>Fold E1 is a folding e-bike that refuses to compromise on ride quality. A 20\" wheeled aluminium frame folds in under ten seconds, and a 250W hub motor gets you there without breaking a sweat.</p>",
+    "colors": [
+      { "id": 92, "label": "Midnight Black", "code": "BK" },
+      { "id": 93, "label": "Silver",         "code": "SV" },
+      { "id": 94, "label": "Cobalt Blue",    "code": "CB" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "BK-S": 7, "BK-M": 14, "BK-L": 10, "BK-XL": 4,
+      "SV-S": 5, "SV-M": 11, "SV-L": 8,  "SV-XL": 3,
+      "CB-S": 4, "CB-M": 9,  "CB-L": 6,  "CB-XL": 2
+    }
+  },
+  "168": {
+    "name": "Avenue S",
+    "sku": "HYB-AVNS-168",
+    "price": 2999,
+    "sale_price": null,
+    "weight": 20.2,
+    "description": "<p>Avenue S is an urban e-bike designed to look as good as it rides. A clean aluminium frame hides the cabling, the battery sits flush in the downtube, and the Bosch Smart System keeps everything connected.</p>",
+    "colors": [
+      { "id": 95, "label": "Champagne",    "code": "CH" },
+      { "id": 96, "label": "Matte Black",  "code": "BK" },
+      { "id": 97, "label": "Nordic Blue",  "code": "NB" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "CH-S": 4, "CH-M": 9,  "CH-L": 7, "CH-XL": 3,
+      "BK-S": 5, "BK-M": 11, "BK-L": 8, "BK-XL": 3,
+      "NB-S": 3, "NB-M": 8,  "NB-L": 6, "NB-XL": 2
+    }
+  },
+  "169": {
+    "name": "Crossover CX1",
+    "sku": "HYB-CX1X-169",
+    "price": 2799,
+    "sale_price": null,
+    "weight": 23.0,
+    "description": "<p>Crossover CX1 bridges urban commuting and light trail riding. Wider tyres, a suspension fork, and a mid-drive motor handle both gravel paths and city streets without asking you to choose.</p>",
+    "colors": [
+      { "id": 98,  "label": "Forest Green",  "code": "FG" },
+      { "id": 99,  "label": "Matte Black",   "code": "BK" },
+      { "id": 100, "label": "Arctic White",  "code": "AW" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "FG-S": 4, "FG-M": 9,  "FG-L": 7, "FG-XL": 3,
+      "BK-S": 5, "BK-M": 11, "BK-L": 8, "BK-XL": 4,
+      "AW-S": 3, "AW-M": 8,  "AW-L": 5, "AW-XL": 2
+    }
+  },
+  "170": {
+    "name": "Swift",
+    "sku": "HYB-SWFT-170",
+    "price": 2499,
+    "sale_price": null,
+    "weight": 16.5,
+    "description": "<p>Swift strips urban cycling back to its essence. No suspension, no excess weight, no excuses. A rigid aluminium frame, flat bars, and a Mahle X35+ rear hub motor make it the fastest point-to-point in the city.</p>",
+    "colors": [
+      { "id": 101, "label": "Matte Black",  "code": "BK" },
+      { "id": 102, "label": "Urban Red",    "code": "UR" },
+      { "id": 103, "label": "Storm Grey",   "code": "SG" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "BK-S": 6, "BK-M": 13, "BK-L": 9, "BK-XL": 4,
+      "UR-S": 4, "UR-M": 9,  "UR-L": 6, "UR-XL": 2,
+      "SG-S": 4, "SG-M": 10, "SG-L": 7, "SG-XL": 3
+    }
+  },
+  "171": {
+    "name": "Peak R7",
+    "sku": "HYB-PKRV-171",
+    "price": 2499,
+    "sale_price": null,
+    "weight": 9.2,
+    "description": "<p>Peak R7 is a high-clearance road bike built for riders who refuse to be limited by tarmac. Drop bars, 35c clearance, and a carbon fork give you speed on the road and confidence when it gets rough.</p>",
+    "colors": [
+      { "id": 104, "label": "Sky Blue",      "code": "SK" },
+      { "id": 105, "label": "Carbon Black",  "code": "BK" },
+      { "id": 106, "label": "Racing White",  "code": "RW" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "SK-S": 4, "SK-M": 9,  "SK-L": 7, "SK-XL": 3,
+      "BK-S": 5, "BK-M": 11, "BK-L": 8, "BK-XL": 3,
+      "RW-S": 3, "RW-M": 8,  "RW-L": 5, "RW-XL": 2
+    }
+  },
+  "172": {
+    "name": "Volante",
+    "sku": "HYB-VLAN-172",
+    "price": 3999,
+    "sale_price": null,
+    "weight": 7.8,
+    "description": "<p>Volante is our most elegant road bike. A hand-laid carbon frame, a full Campagnolo Chorus groupset, and a geometry tuned for the long alpine climbs. Beauty with a purpose.</p>",
+    "colors": [
+      { "id": 107, "label": "Ferrari Red",  "code": "FR" },
+      { "id": 108, "label": "Carbon Black", "code": "BK" },
+      { "id": 109, "label": "Ivory",        "code": "IV" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "FR-S": 2, "FR-M": 6,  "FR-L": 4, "FR-XL": 2,
+      "BK-S": 3, "BK-M": 7,  "BK-L": 5, "BK-XL": 2,
+      "IV-S": 2, "IV-M": 5,  "IV-L": 4, "IV-XL": 1
+    }
+  },
+  "173": {
+    "name": "Paceline E1",
+    "sku": "HYB-PCLN-173",
+    "price": 4499,
+    "sale_price": null,
+    "weight": 10.8,
+    "description": "<p>Paceline E1 is an electric road bike for riders who still want to work for it. A discreet Mahle ebikemotion X35 system adds just enough assistance to keep you in the break — without giving the game away.</p>",
+    "colors": [
+      { "id": 110, "label": "Stealth Black", "code": "SB" },
+      { "id": 111, "label": "Arctic White",  "code": "AW" },
+      { "id": 112, "label": "Team Blue",     "code": "TB" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "SB-S": 2, "SB-M": 6,  "SB-L": 4, "SB-XL": 2,
+      "AW-S": 2, "AW-M": 5,  "AW-L": 4, "AW-XL": 1,
+      "TB-S": 2, "TB-M": 5,  "TB-L": 4, "TB-XL": 1
+    }
+  },
+  "174": {
+    "name": "Dust",
+    "sku": "HYB-DUST-174",
+    "price": 2999,
+    "sale_price": null,
+    "weight": 9.3,
+    "description": "<p>Dust is the gravel bike for riders who like to move light and move fast. An aggressive carbon layup, 45c clearance, and a SRAM Rival AXS drivetrain. When the route calls for improvisation, Dust answers.</p>",
+    "colors": [
+      { "id": 113, "label": "Dust Tan",    "code": "DT" },
+      { "id": 114, "label": "Slate Grey",  "code": "SL" },
+      { "id": 115, "label": "Carbon Black","code": "BK" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "DT-S": 4, "DT-M": 9,  "DT-L": 6, "DT-XL": 2,
+      "SL-S": 3, "SL-M": 8,  "SL-L": 6, "SL-XL": 2,
+      "BK-S": 4, "BK-M": 9,  "BK-L": 7, "BK-XL": 3
+    }
+  },
+  "175": {
+    "name": "Mule",
+    "sku": "HYB-MULE-175",
+    "price": 1799,
+    "sale_price": null,
+    "weight": 12.5,
+    "description": "<p>Mule earns its name. A chromoly steel frame built for heavy loads, four-season reliability, and distances that would stop lesser bikes. Racks, fenders, dynamo lighting — everything included, nothing optional.</p>",
+    "colors": [
+      { "id": 116, "label": "Chrome Steel",  "code": "CS" },
+      { "id": 117, "label": "Midnight Black","code": "BK" },
+      { "id": 118, "label": "Brick Red",     "code": "BR" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "CS-S": 5, "CS-M": 11, "CS-L": 8, "CS-XL": 3,
+      "BK-S": 5, "BK-M": 12, "BK-L": 9, "BK-XL": 4,
+      "BR-S": 4, "BR-M": 9,  "BR-L": 7, "BR-XL": 3
+    }
+  },
+  "176": {
+    "name": "Veer",
+    "sku": "HYB-VEER-176",
+    "price": 2199,
+    "sale_price": null,
+    "weight": 10.4,
+    "description": "<p>Veer is the convertible in the HyBikes range. Swap the tyres and it becomes a different bike — fast 700x32c slicks for the road, chunky 650b x 47c blocks for the tracks. One frame. Infinite routes.</p>",
+    "colors": [
+      { "id": 119, "label": "Sand Gold",   "code": "SG" },
+      { "id": 120, "label": "Forest Green","code": "FG" },
+      { "id": 121, "label": "Graphite",    "code": "GR" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "SG-S": 4, "SG-M": 10, "SG-L": 7, "SG-XL": 3,
+      "FG-S": 4, "FG-M": 9,  "FG-L": 7, "FG-XL": 3,
+      "GR-S": 5, "GR-M": 11, "GR-L": 8, "GR-XL": 3
+    }
+  },
+  "177": {
+    "name": "Loam",
+    "sku": "HYB-LOAM-177",
+    "price": 1399,
+    "sale_price": 1259,
+    "weight": 13.1,
+    "description": "<p>Loam is a steel hardtail built for riders who love getting their tyres dirty. A geometry that rewards commitment, a RockShox Judy fork, and a Shimano Deore groupset. Honest riding at an honest price.</p>",
+    "colors": [
+      { "id": 122, "label": "Mud Brown",   "code": "MB" },
+      { "id": 123, "label": "Carbon Black","code": "BK" },
+      { "id": 124, "label": "Trail Green", "code": "TG" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "MB-S": 6, "MB-M": 14, "MB-L": 10, "MB-XL": 4,
+      "BK-S": 7, "BK-M": 15, "BK-L": 11, "BK-XL": 5,
+      "TG-S": 5, "TG-M": 12, "TG-L": 9,  "TG-XL": 3
+    }
+  },
+  "178": {
+    "name": "Apex eMTB",
+    "sku": "HYB-APXE-178",
+    "price": 6999,
+    "sale_price": null,
+    "weight": 20.5,
+    "description": "<p>Apex eMTB is the flagship electric mountain bike. Full carbon frame, 160mm travel, TQ HPR50 motor, and a spec sheet that leaves nothing to want. When only the best will do.</p>",
+    "colors": [
+      { "id": 125, "label": "Stealth Carbon","code": "SC" },
+      { "id": 126, "label": "Summit White",  "code": "SW" },
+      { "id": 127, "label": "Obsidian",      "code": "OB" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "SC-S": 2, "SC-M": 5,  "SC-L": 3, "SC-XL": 1,
+      "SW-S": 1, "SW-M": 4,  "SW-L": 3, "SW-XL": 1,
+      "OB-S": 2, "OB-M": 4,  "OB-L": 3, "OB-XL": 1
+    }
+  },
+  "179": {
+    "name": "Switchback 130",
+    "sku": "HYB-SWB1-179",
+    "price": 2499,
+    "sale_price": null,
+    "weight": 13.4,
+    "description": "<p>Switchback 130 is a playful trail full-suspension built for tight, technical singletrack. 130mm front and rear, a low standover, and a short chainstay that makes the bike feel like an extension of your body.</p>",
+    "colors": [
+      { "id": 128, "label": "Magma Orange", "code": "MO" },
+      { "id": 129, "label": "Carbon Black", "code": "BK" },
+      { "id": 130, "label": "Glacier Blue", "code": "GB" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "MO-S": 3, "MO-M": 8,  "MO-L": 6, "MO-XL": 2,
+      "BK-S": 4, "BK-M": 10, "BK-L": 7, "BK-XL": 3,
+      "GB-S": 3, "GB-M": 7,  "GB-L": 5, "GB-XL": 2
+    }
+  },
+  "180": {
+    "name": "Night Rider",
+    "sku": "HYB-NGTR-180",
+    "price": 3299,
+    "sale_price": null,
+    "weight": 23.5,
+    "description": "<p>Night Rider is the e-bike built for year-round commuters. A 90-lux integrated front light, reflective tyre sidewalls, and a Bosch motor with anti-lock braking. The weather can do what it wants.</p>",
+    "colors": [
+      { "id": 131, "label": "Stealth Black",     "code": "ST" },
+      { "id": 132, "label": "Reflective Silver",  "code": "RS" },
+      { "id": 133, "label": "Dark Navy",          "code": "DN" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "ST-S": 4, "ST-M": 10, "ST-L": 7, "ST-XL": 3,
+      "RS-S": 3, "RS-M": 8,  "RS-L": 6, "RS-XL": 2,
+      "DN-S": 3, "DN-M": 8,  "DN-L": 6, "DN-XL": 2
+    }
+  },
+  "181": {
+    "name": "Campus E1",
+    "sku": "HYB-CMP1-181",
+    "price": 1299,
+    "sale_price": 1169,
+    "weight": 19.0,
+    "description": "<p>Campus E1 is the affordable entry point into electric urban cycling. A reliable hub motor, a seven-speed drivetrain, and a sturdy aluminium frame. Everything you need, at a price that makes sense.</p>",
+    "colors": [
+      { "id": 134, "label": "Campus Blue",  "code": "CB" },
+      { "id": 135, "label": "Matte Black",  "code": "BK" },
+      { "id": 136, "label": "Silver White", "code": "SW" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "CB-S": 8, "CB-M": 16, "CB-L": 12, "CB-XL": 5,
+      "BK-S": 9, "BK-M": 18, "BK-L": 14, "BK-XL": 6,
+      "SW-S": 6, "SW-M": 13, "SW-L": 10, "SW-XL": 4
+    }
+  },
+  "182": {
+    "name": "Ember E",
+    "sku": "HYB-EMBE-182",
+    "price": 3299,
+    "sale_price": null,
+    "weight": 14.8,
+    "description": "<p>Ember E is an electric gravel bike that extends your range without shrinking your ambition. A discreet Fazua Ride 60 motor, 430Wh battery, and an aluminium frame with full gravel geometry. Go further. Come back smiling.</p>",
+    "colors": [
+      { "id": 137, "label": "Amber Orange", "code": "AO" },
+      { "id": 138, "label": "Graphite",     "code": "GR" },
+      { "id": 139, "label": "Sage Green",   "code": "SG" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "AO-S": 3, "AO-M": 8,  "AO-L": 6, "AO-XL": 2,
+      "GR-S": 3, "GR-M": 8,  "GR-L": 5, "GR-XL": 2,
+      "SG-S": 3, "SG-M": 7,  "SG-L": 5, "SG-XL": 2
+    }
+  },
+  "183": {
+    "name": "Slate",
+    "sku": "HYB-SLTE-183",
+    "price": 2799,
+    "sale_price": null,
+    "weight": 9.0,
+    "description": "<p>Slate is the minimalist gravel bike. A matte carbon frame, a single chainring, and nothing on the spec sheet you don't need. For the rider who knows exactly what they want.</p>",
+    "colors": [
+      { "id": 140, "label": "Matte Slate",  "code": "MS" },
+      { "id": 141, "label": "Carbon Black", "code": "BK" },
+      { "id": 142, "label": "Desert Rose",  "code": "DR" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "MS-S": 3, "MS-M": 8,  "MS-L": 6, "MS-XL": 2,
+      "BK-S": 4, "BK-M": 9,  "BK-L": 6, "BK-XL": 3,
+      "DR-S": 2, "DR-M": 6,  "DR-L": 4, "DR-XL": 2
+    }
+  },
+  "184": {
+    "name": "Forge",
+    "sku": "HYB-FRGE-184",
+    "price": 1299,
+    "sale_price": 1169,
+    "weight": 10.2,
+    "description": "<p>Forge is the value road bike that punches above its weight class. A butted aluminium frame, carbon fork, and Shimano Claris 2x8 groupset deliver genuine road performance at an entry-level price. Your first serious bike.</p>",
+    "colors": [
+      { "id": 143, "label": "Hammer Grey",  "code": "HG" },
+      { "id": 144, "label": "Race Red",     "code": "RR" },
+      { "id": 145, "label": "Carbon Black", "code": "BK" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "HG-S": 7, "HG-M": 15, "HG-L": 11, "HG-XL": 5,
+      "RR-S": 6, "RR-M": 14, "RR-L": 10, "RR-XL": 4,
+      "BK-S": 8, "BK-M": 17, "BK-L": 13, "BK-XL": 6
+    }
+  },
+  "185": {
+    "name": "Climber R3",
+    "sku": "HYB-CLMR-185",
+    "price": 4999,
+    "sale_price": null,
+    "weight": 7.4,
+    "description": "<p>Climber R3 is optimised for one thing: going uphill faster than anyone around you. An ultralight carbon frame, compact gearing, and a seatpost that absorbs road buzz on the descent back down.</p>",
+    "colors": [
+      { "id": 146, "label": "Climbing White", "code": "CW" },
+      { "id": 147, "label": "Sky Blue",       "code": "SK" },
+      { "id": 148, "label": "Stealth Black",  "code": "ST" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "CW-S": 2, "CW-M": 5,  "CW-L": 4, "CW-XL": 1,
+      "SK-S": 2, "SK-M": 5,  "SK-L": 3, "SK-XL": 1,
+      "ST-S": 2, "ST-M": 6,  "ST-L": 4, "ST-XL": 2
+    }
+  },
+  "186": {
+    "name": "Storm",
+    "sku": "HYB-STRM-186",
+    "price": 2799,
+    "sale_price": null,
+    "weight": 13.7,
+    "description": "<p>Storm is built for riders who ride whatever the forecast says. A tough aluminium frame, sealed bearings throughout, and a Fox 36 fork that handles mud as well as it handles dust. No excuses.</p>",
+    "colors": [
+      { "id": 149, "label": "Stealth Black", "code": "ST" },
+      { "id": 150, "label": "Storm Grey",    "code": "SG" },
+      { "id": 151, "label": "Rain Blue",     "code": "RB" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "ST-S": 4, "ST-M": 9,  "ST-L": 7, "ST-XL": 3,
+      "SG-S": 4, "SG-M": 10, "SG-L": 7, "SG-XL": 3,
+      "RB-S": 3, "RB-M": 8,  "RB-L": 6, "RB-XL": 2
+    }
+  },
+  "187": {
+    "name": "Recon",
+    "sku": "HYB-RCNH-187",
+    "price": 2699,
+    "sale_price": null,
+    "weight": 11.8,
+    "description": "<p>Recon is a lightweight XC hardtail built for fast singletrack and long days in the saddle. A carbon front triangle keeps the weight down while a RockShox SID fork keeps the front end planted. Race it. Explore in it. Do both.</p>",
+    "colors": [
+      { "id": 152, "label": "Recon Grey",   "code": "RG" },
+      { "id": 153, "label": "Forest Green", "code": "FG" },
+      { "id": 154, "label": "Carbon Black", "code": "BK" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "RG-S": 4, "RG-M": 9,  "RG-L": 6, "RG-XL": 3,
+      "FG-S": 3, "FG-M": 8,  "FG-L": 6, "FG-XL": 2,
+      "BK-S": 4, "BK-M": 10, "BK-L": 7, "BK-XL": 3
+    }
+  },
+  "188": {
+    "name": "Torque E3",
+    "sku": "HYB-TRQE-188",
+    "price": 4999,
+    "sale_price": null,
+    "weight": 24.0,
+    "description": "<p>Torque E3 is built for riders who demand maximum output. A Bosch Performance Line CX Race motor delivers peak power on the steepest climbs, while 160mm of travel handles whatever lies beyond them.</p>",
+    "colors": [
+      { "id": 155, "label": "Power Black", "code": "PB" },
+      { "id": 156, "label": "Fire Red",    "code": "FR" },
+      { "id": 157, "label": "Gunmetal",    "code": "GM" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "PB-S": 2, "PB-M": 6,  "PB-L": 5, "PB-XL": 2,
+      "FR-S": 2, "FR-M": 5,  "FR-L": 4, "FR-XL": 1,
+      "GM-S": 2, "GM-M": 6,  "GM-L": 4, "GM-XL": 2
+    }
+  },
+  "189": {
+    "name": "Wander",
+    "sku": "HYB-WAND-189",
+    "price": 1599,
+    "sale_price": null,
+    "weight": 10.6,
+    "description": "<p>Wander is for the rider who sets off without a map. A versatile aluminium frame, wide 47c tyre clearance, and a dynamo hub keep you moving long after the route runs out. Follow your instincts.</p>",
+    "colors": [
+      { "id": 158, "label": "Wanderer Tan", "code": "WT" },
+      { "id": 159, "label": "Sage Green",   "code": "SG" },
+      { "id": 160, "label": "Graphite",     "code": "GR" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "WT-S": 5, "WT-M": 12, "WT-L": 9,  "WT-XL": 4,
+      "SG-S": 4, "SG-M": 10, "SG-L": 8,  "SG-XL": 3,
+      "GR-S": 5, "GR-M": 11, "GR-L": 8,  "GR-XL": 3
+    }
+  },
+  "190": {
+    "name": "Arc",
+    "sku": "HYB-ARCD-190",
+    "price": 5499,
+    "sale_price": null,
+    "weight": 8.1,
+    "description": "<p>Arc is a time trial-inspired aero road bike designed to cut through wind resistance. A deep-section carbon frame, integrated cockpit, and aero tube shapes deliver measurable speed gains on every flat and rolling route.</p>",
+    "colors": [
+      { "id": 161, "label": "Aero Black",    "code": "AB" },
+      { "id": 162, "label": "Chrome Silver", "code": "CS" },
+      { "id": 163, "label": "Team Blue",     "code": "TB" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "AB-S": 2, "AB-M": 5,  "AB-L": 4, "AB-XL": 1,
+      "CS-S": 2, "CS-M": 4,  "CS-L": 3, "CS-XL": 1,
+      "TB-S": 2, "TB-M": 5,  "TB-L": 3, "TB-XL": 1
+    }
+  },
+  "191": {
+    "name": "Hatch",
+    "sku": "HYB-HTCH-191",
+    "price": 2499,
+    "sale_price": null,
+    "weight": 22.0,
+    "description": "<p>Hatch is the practical urban e-bike for riders who want reliability above all else. A Shimano STEPS motor, Nexus 8-speed internal hub, hydraulic brakes, and full lighting as standard. Rain or shine, it gets you there.</p>",
+    "colors": [
+      { "id": 164, "label": "Commuter Grey", "code": "CG" },
+      { "id": 165, "label": "Matte Black",   "code": "BK" },
+      { "id": 166, "label": "Navy Blue",     "code": "NB" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "CG-S": 5, "CG-M": 11, "CG-L": 8, "CG-XL": 3,
+      "BK-S": 6, "BK-M": 13, "BK-L": 9, "BK-XL": 4,
+      "NB-S": 4, "NB-M": 9,  "NB-L": 7, "NB-XL": 3
+    }
+  },
+  "192": {
+    "name": "Delta",
+    "sku": "HYB-DLTA-192",
+    "price": 3499,
+    "sale_price": null,
+    "weight": 8.3,
+    "description": "<p>Delta is the carbon road bike for riders ready to step up. A monocoque frame, full Shimano 105 Di2 groupset, and a wide-rim carbon wheelset. The upgrade that changes how you think about riding.</p>",
+    "colors": [
+      { "id": 167, "label": "Carbon Black",  "code": "BK" },
+      { "id": 168, "label": "Midnight Blue", "code": "MB" },
+      { "id": 169, "label": "Pearl White",   "code": "PW" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "BK-S": 3, "BK-M": 8,  "BK-L": 6, "BK-XL": 2,
+      "MB-S": 3, "MB-M": 7,  "MB-L": 5, "MB-XL": 2,
+      "PW-S": 2, "PW-M": 6,  "PW-L": 4, "PW-XL": 2
+    }
+  },
+  "193": {
+    "name": "Scout",
+    "sku": "HYB-SCOT-193",
+    "price": 1499,
+    "sale_price": null,
+    "weight": 10.7,
+    "description": "<p>Scout is the gravel bike for curious riders who want to find out what's around the next bend. A mid-range aluminium frame, reliable mechanical disc brakes, and SRAM Apex 1x11 give you honest performance on any surface.</p>",
+    "colors": [
+      { "id": 170, "label": "Trail Brown",  "code": "TR" },
+      { "id": 171, "label": "Olive Green",  "code": "OG" },
+      { "id": 172, "label": "Slate Grey",   "code": "SL" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "TR-S": 6, "TR-M": 13, "TR-L": 10, "TR-XL": 4,
+      "OG-S": 5, "OG-M": 12, "OG-L": 9,  "OG-XL": 4,
+      "SL-S": 5, "SL-M": 11, "SL-L": 8,  "SL-XL": 3
+    }
+  },
+  "194": {
+    "name": "Ridge Runner",
+    "sku": "HYB-RDGR-194",
+    "price": 1799,
+    "sale_price": null,
+    "weight": 12.7,
+    "description": "<p>Ridge Runner is a do-everything trail hardtail for riders who want one bike that handles it all. Enduro-inspired geometry, a 130mm fork, and wide bars give it more trail confidence than its price tag suggests.</p>",
+    "colors": [
+      { "id": 173, "label": "Ridge Red",    "code": "RR" },
+      { "id": 174, "label": "Carbon Black", "code": "BK" },
+      { "id": 175, "label": "Forest Green", "code": "FG" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "RR-S": 5, "RR-M": 12, "RR-L": 9,  "RR-XL": 4,
+      "BK-S": 6, "BK-M": 13, "BK-L": 10, "BK-XL": 4,
+      "FG-S": 4, "FG-M": 10, "FG-L": 8,  "FG-XL": 3
+    }
+  },
+  "195": {
+    "name": "Metro E3 Cargo",
+    "sku": "HYB-MTEC-195",
+    "price": 3799,
+    "sale_price": null,
+    "weight": 27.5,
+    "description": "<p>Metro E3 Cargo is designed around one question: what do you need to carry? A reinforced frame, dual child seat mounts, and a front cargo platform make it the urban e-bike that replaces two school runs and a shopping trip.</p>",
+    "colors": [
+      { "id": 176, "label": "Cargo Black",  "code": "CB" },
+      { "id": 177, "label": "Pearl White",  "code": "PW" },
+      { "id": 178, "label": "Urban Green",  "code": "UG" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "CB-S": 3, "CB-M": 8,  "CB-L": 6, "CB-XL": 2,
+      "PW-S": 3, "PW-M": 7,  "PW-L": 5, "PW-XL": 2,
+      "UG-S": 2, "UG-M": 6,  "UG-L": 4, "UG-XL": 2
+    }
+  },
+  "196": {
+    "name": "Pinnacle",
+    "sku": "HYB-PNCL-196",
+    "price": 6999,
+    "sale_price": null,
+    "weight": 7.1,
+    "description": "<p>Pinnacle is the HyBikes flagship road bike. Every component chosen without compromise. A sub-750g carbon frame, full Shimano Dura-Ace Di2, lightweight ceramic bearings, and a tubeless setup that holds nothing back. This is the top of the range.</p>",
+    "colors": [
+      { "id": 179, "label": "Pearl White",    "code": "PW" },
+      { "id": 180, "label": "Stealth Carbon", "code": "SC" },
+      { "id": 181, "label": "Midnight Black", "code": "BK" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "PW-S": 1, "PW-M": 4,  "PW-L": 3, "PW-XL": 1,
+      "SC-S": 2, "SC-M": 4,  "SC-L": 3, "SC-XL": 1,
+      "BK-S": 2, "BK-M": 5,  "BK-L": 3, "BK-XL": 1
+    }
+  },
+  "197": {
+    "name": "Overland",
+    "sku": "HYB-OVRL-197",
+    "price": 3999,
+    "sale_price": null,
+    "weight": 10.9,
+    "description": "<p>Overland is the ultimate bikepacking platform. A titanium frame that absorbs fatigue over multi-day distances, mounts everywhere you need them, and a geometry that stays confident under a full load. Built for weeks, not weekends.</p>",
+    "colors": [
+      { "id": 182, "label": "Titanium",    "code": "TI" },
+      { "id": 183, "label": "Forest Green","code": "FG" },
+      { "id": 184, "label": "Sandstone",   "code": "SS" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "TI-S": 3, "TI-M": 7,  "TI-L": 5, "TI-XL": 2,
+      "FG-S": 3, "FG-M": 7,  "FG-L": 5, "FG-XL": 2,
+      "SS-S": 2, "SS-M": 6,  "SS-L": 4, "SS-XL": 2
+    }
+  },
+  "198": {
+    "name": "Volt E2",
+    "sku": "HYB-VLT2-198",
+    "price": 6499,
+    "sale_price": null,
+    "weight": 22.0,
+    "description": "<p>Volt E2 is the evolution of the Volt E1. A larger 900Wh battery, a redesigned motor mount that reduces weight, and a full carbon frame that makes it the longest-range performance e-bike in the range.</p>",
+    "colors": [
+      { "id": 185, "label": "Storm Carbon",  "code": "SC" },
+      { "id": 186, "label": "Midnight Black","code": "BK" },
+      { "id": 187, "label": "Electric Blue", "code": "EB" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "SC-S": 2, "SC-M": 5,  "SC-L": 4, "SC-XL": 1,
+      "BK-S": 2, "BK-M": 6,  "BK-L": 4, "BK-XL": 2,
+      "EB-S": 1, "EB-M": 4,  "EB-L": 3, "EB-XL": 1
+    }
+  },
+  "199": {
+    "name": "Dusk",
+    "sku": "HYB-DUSK-199",
+    "price": 3299,
+    "sale_price": null,
+    "weight": 21.0,
+    "description": "<p>Dusk is the premium urban e-bike for riders who care about design as much as performance. A hand-welded aluminium frame with a matte finish, Enviolo automatic stepless gearing, and a Bosch motor that responds like it read your mind.</p>",
+    "colors": [
+      { "id": 188, "label": "Midnight Black", "code": "BK" },
+      { "id": 189, "label": "Pearl White",    "code": "PW" },
+      { "id": 190, "label": "Slate Blue",     "code": "SB" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "BK-S": 4, "BK-M": 9,  "BK-L": 7, "BK-XL": 3,
+      "PW-S": 3, "PW-M": 8,  "PW-L": 6, "PW-XL": 2,
+      "SB-S": 3, "SB-M": 7,  "SB-L": 5, "SB-XL": 2
+    }
+  },
+  "200": {
+    "name": "Pulse Urban",
+    "sku": "HYB-PULS-200",
+    "price": 3499,
+    "sale_price": null,
+    "weight": 14.2,
+    "description": "<p>Pulse Urban is the e-bike that disappears into your routine. A sleek mid-drive motor, fully integrated battery, and a weight that makes you forget it's electric. Commute faster, arrive fresher.</p>",
+    "colors": [
+      { "id": 191, "label": "Matte Black",  "code": "BK" },
+      { "id": 192, "label": "Chalk White",  "code": "WH" },
+      { "id": 193, "label": "Stone Grey",   "code": "SG" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "BK-S": 5, "BK-M": 11, "BK-L": 8, "BK-XL": 3,
+      "WH-S": 4, "WH-M": 9,  "WH-L": 6, "WH-XL": 2,
+      "SG-S": 3, "SG-M": 8,  "SG-L": 6, "SG-XL": 2
+    }
+  },
+  "201": {
+    "name": "Criterium SL",
+    "sku": "HYB-CRIT-201",
+    "price": 3799,
+    "sale_price": null,
+    "weight": 7.6,
+    "description": "<p>The Criterium SL is a road bike designed around one idea: speed through turns. Shorter chainstays, a stiffer bottom bracket, and race-day responsive handling that rewards brave riding.</p>",
+    "colors": [
+      { "id": 194, "label": "Team Red",    "code": "RE" },
+      { "id": 195, "label": "Carbon Black","code": "BK" },
+      { "id": 196, "label": "Ghost White", "code": "GW" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "RE-S": 3, "RE-M": 7,  "RE-L": 5, "RE-XL": 2,
+      "BK-S": 4, "BK-M": 9,  "BK-L": 6, "BK-XL": 3,
+      "GW-S": 2, "GW-M": 6,  "GW-L": 4, "GW-XL": 1
+    }
+  },
+  "202": {
+    "name": "Drift 650",
+    "sku": "HYB-DRFT-202",
+    "price": 2499,
+    "sale_price": null,
+    "weight": 9.8,
+    "description": "<p>The Drift 650 is a gravel bike that leans into the rough stuff. Oversized 650b wheels, a dropped chainstay for massive tyre clearance, and a steel frame that soaks up everything the trail throws at you.</p>",
+    "colors": [
+      { "id": 197, "label": "Raw Steel",    "code": "ST" },
+      { "id": 198, "label": "Forest Green", "code": "GN" },
+      { "id": 199, "label": "Slate Blue",   "code": "SB" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "ST-S": 4, "ST-M": 9,  "ST-L": 7, "ST-XL": 3,
+      "GN-S": 3, "GN-M": 8,  "GN-L": 6, "GN-XL": 2,
+      "SB-S": 3, "SB-M": 7,  "SB-L": 5, "SB-XL": 2
+    }
+  },
+  "203": {
+    "name": "Bolt eMTB",
+    "sku": "HYB-BOLT-203",
+    "price": 5499,
+    "sale_price": null,
+    "weight": 22.5,
+    "description": "<p>The Bolt eMTB puts a Shimano EP801 motor under a 170mm full-suspension platform. Climb what you couldn't before. Descend what you wouldn't before. Then do it all again — the 900Wh battery says so.</p>",
+    "colors": [
+      { "id": 200, "label": "Electric Blue", "code": "EB" },
+      { "id": 201, "label": "Carbon Black",  "code": "BK" },
+      { "id": 202, "label": "Neon Orange",   "code": "NO" }
+    ],
+    "sizes": [
+      { "id": 21, "label": "S" },
+      { "id": 22, "label": "M" },
+      { "id": 23, "label": "L" },
+      { "id": 24, "label": "XL" }
+    ],
+    "inventory": {
+      "EB-S": 2, "EB-M": 6,  "EB-L": 4, "EB-XL": 2,
+      "BK-S": 3, "BK-M": 7,  "BK-L": 5, "BK-XL": 2,
+      "NO-S": 2, "NO-M": 5,  "NO-L": 3, "NO-XL": 1
+    }
   }
 }
