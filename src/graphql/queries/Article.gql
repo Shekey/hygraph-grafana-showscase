@@ -1,5 +1,10 @@
 query GetArticles($locale: Locale!) {
-  articles(locales: [$locale, en], stage: DRAFT, orderBy: publishedDate_DESC, first: 50) {
+  articles(
+    locales: [$locale, en]
+    stage: DRAFT
+    orderBy: publishedDate_DESC
+    first: 50
+  ) {
     id
     slug
     title
@@ -8,7 +13,12 @@ query GetArticles($locale: Locale!) {
     readTime
     summary
     image {
-      url(transformation: { image: { resize: { width: 1200, fit: clip }, quality: { value: 85 } }, validateOptions: true })
+      url(
+        transformation: {
+          image: { resize: { width: 1200, fit: clip }, quality: { value: 85 } }
+          validateOptions: true
+        }
+      )
       width
       height
     }
@@ -25,7 +35,12 @@ query GetArticle($slug: String!, $locale: Locale!, $segmentId: ID) {
     readTime
     summary
     image {
-      url(transformation: { image: { resize: { width: 1600, fit: clip }, quality: { value: 85 } }, validateOptions: true })
+      url(
+        transformation: {
+          image: { resize: { width: 1600, fit: clip }, quality: { value: 85 } }
+          validateOptions: true
+        }
+      )
       width
       height
     }
@@ -41,7 +56,15 @@ query GetArticle($slug: String!, $locale: Locale!, $segmentId: ID) {
         __typename
         id
         image {
-          url(transformation: { image: { resize: { width: 1200, fit: clip }, quality: { value: 85 } }, validateOptions: true })
+          url(
+            transformation: {
+              image: {
+                resize: { width: 1200, fit: clip }
+                quality: { value: 85 }
+              }
+              validateOptions: true
+            }
+          )
           width
           height
         }
@@ -62,7 +85,15 @@ query GetArticle($slug: String!, $locale: Locale!, $segmentId: ID) {
           slug
           name
           image {
-            url(transformation: { image: { resize: { width: 400, fit: clip }, quality: { value: 85 } }, validateOptions: true })
+            url(
+              transformation: {
+                image: {
+                  resize: { width: 400, fit: clip }
+                  quality: { value: 85 }
+                }
+                validateOptions: true
+              }
+            )
             width
             height
           }
@@ -77,14 +108,22 @@ query GetArticle($slug: String!, $locale: Locale!, $segmentId: ID) {
           __typename
           id
           paragraphText: text {
-            html
+            raw
           }
         }
         ... on ArticleImageSection {
           __typename
           id
           image {
-            url(transformation: { image: { resize: { width: 1200, fit: clip }, quality: { value: 85 } }, validateOptions: true })
+            url(
+              transformation: {
+                image: {
+                  resize: { width: 1200, fit: clip }
+                  quality: { value: 85 }
+                }
+                validateOptions: true
+              }
+            )
             width
             height
           }
@@ -105,7 +144,15 @@ query GetArticle($slug: String!, $locale: Locale!, $segmentId: ID) {
             slug
             name
             image {
-              url(transformation: { image: { resize: { width: 400, fit: clip }, quality: { value: 85 } }, validateOptions: true })
+              url(
+                transformation: {
+                  image: {
+                    resize: { width: 400, fit: clip }
+                    quality: { value: 85 }
+                  }
+                  validateOptions: true
+                }
+              )
               width
               height
             }
