@@ -83,7 +83,7 @@ npm start
 ## Project structure
 
 ```
-hybike-starter/
+hybike-showcase/
 ├── app/                          # Next.js App Router
 │   ├── [locale]/                 # Locale-specific routes
 │   │   ├── layout.tsx            # Locale layout with Nav/Footer

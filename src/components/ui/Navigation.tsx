@@ -88,7 +88,7 @@ export default function Navigation({ locale, siteSettings }: NavigationProps) {
 
         {/* GitHub */}
         <a
-          href="https://github.com/hygraph/hybike-starter"
+          href="https://github.com/hygraph/hybike-showcase"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center px-4 border-l border-primary hover:bg-primary hover:text-secondary transition-colors"

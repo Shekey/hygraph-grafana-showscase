@@ -165,7 +165,7 @@ export default function Footer({
           {siteSettings?.footerText?.text}
         </p>
         <a
-          href="https://github.com/hygraph/hybike-starter"
+          href="https://github.com/hygraph/hybike-showcase"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-2 text-secondary/40 hover:text-brand transition-colors mt-4"
