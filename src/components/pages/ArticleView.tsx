@@ -8,8 +8,6 @@ import type {
   GetArticlesQuery,
 } from "@/types/hygraph-generated";
 import { createPreviewAttributes } from "@hygraph/preview-sdk/core";
-import { RichText } from "@graphcms/rich-text-react-renderer";
-import type { RichTextContent } from "@graphcms/rich-text-types";
 
 type Article = NonNullable<GetArticleQuery["article"]>;
 type ArticleListItem = GetArticlesQuery["articles"][number];
@@ -42,47 +40,10 @@ function ContentBlockRenderer({
             fieldApiId: "text",
             componentChain,
           })}
-          className="text-muted"
+          className="article-paragraph-content text-muted"
           style={{ lineHeight: 1.85, fontSize: "1rem" }}
-        >
-          <RichText
-            content={block.paragraphText.raw as unknown as RichTextContent}
-            renderers={{
-              h2: ({ children }) => (
-                <h2 className="text-primary text-2xl leading-snug mt-12 mb-4">
-                  {children}
-                </h2>
-              ),
-              h3: ({ children }) => (
-                <h3 className="text-primary text-xl leading-snug mt-10 mb-3">
-                  {children}
-                </h3>
-              ),
-              h4: ({ children }) => (
-                <h4 className="text-primary text-base font-bold leading-normal mt-8 mb-2">
-                  {children}
-                </h4>
-              ),
-              ul: ({ children }) => (
-                <ul className="list-disc pl-6 my-4">{children}</ul>
-              ),
-              ol: ({ children }) => (
-                <ol className="list-decimal pl-6 my-4">{children}</ol>
-              ),
-              li: ({ children }) => <li className="my-1">{children}</li>,
-              a: ({ children, href, openInNewTab }) => (
-                <a
-                  href={href}
-                  target={openInNewTab ? "_blank" : undefined}
-                  rel={openInNewTab ? "noopener noreferrer" : undefined}
-                  className="text-brand underline underline-offset-2 hover:opacity-80"
-                >
-                  {children}
-                </a>
-              ),
-            }}
-          />
-        </div>
+          dangerouslySetInnerHTML={{ __html: block.paragraphText.html }}
+        />
       );
 
     case "ArticleImageSection":

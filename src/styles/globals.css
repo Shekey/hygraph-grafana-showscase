@@ -83,6 +83,43 @@
   .transition-all-smooth {
     @apply transition-all duration-300 ease-out;
   }
+
+  /* Article paragraph rich text content styles */
+  .article-paragraph-content h2 {
+    @apply text-primary text-2xl leading-snug mt-12 mb-4;
+    font-weight: 900;
+    text-transform: none;
+    letter-spacing: normal;
+  }
+
+  .article-paragraph-content h3 {
+    @apply text-primary text-xl leading-snug mt-10 mb-3;
+    font-weight: 700;
+    text-transform: none;
+    letter-spacing: normal;
+  }
+
+  .article-paragraph-content h4 {
+    @apply text-primary text-base font-bold leading-normal mt-8 mb-2;
+    text-transform: none;
+    letter-spacing: normal;
+  }
+
+  .article-paragraph-content ul {
+    @apply list-disc pl-6 my-4;
+  }
+
+  .article-paragraph-content ol {
+    @apply list-decimal pl-6 my-4;
+  }
+
+  .article-paragraph-content li {
+    @apply my-1;
+  }
+
+  .article-paragraph-content a {
+    @apply text-brand underline underline-offset-2 hover:opacity-80;
+  }
 }
 
 @utility text-balance {

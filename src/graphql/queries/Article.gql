@@ -49,7 +49,7 @@ query GetArticle($slug: String!, $locale: Locale!, $segmentId: ID) {
         __typename
         id
         paragraphText: text {
-          raw
+          html
         }
       }
       ... on ArticleImageSection {
@@ -108,7 +108,7 @@ query GetArticle($slug: String!, $locale: Locale!, $segmentId: ID) {
           __typename
           id
           paragraphText: text {
-            raw
+            html
           }
         }
         ... on ArticleImageSection {
