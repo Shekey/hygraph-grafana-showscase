@@ -250,6 +250,7 @@ query GetPage($slug: String!, $locale: Locale!, $segmentId: ID) {
           label
           cta
           emptyStatePlaceholder
+          titleWithCount
         }
         ... on HeroSection {
           id
