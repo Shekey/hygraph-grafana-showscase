@@ -27,6 +27,16 @@ const COLOR_HEX: Record<string, string> = {
   Terracotta: "#C97B5A",
 };
 
+function colorHexForLabel(label: string): string {
+  const known = COLOR_HEX[label];
+  if (known) return known;
+  let h = 0;
+  for (let i = 0; i < label.length; i++) {
+    h = (h * 31 + label.charCodeAt(i)) % 360;
+  }
+  return `hsl(${h}, 42%, 48%)`;
+}
+
 interface OptionValue {
   id: number;
   label: string;
@@ -62,6 +72,21 @@ function buildOptionGroups(bike: Bike): OptionGroup[] {
   return Array.from(map.values());
 }
 
+function sortOptionGroups(groups: OptionGroup[]): OptionGroup[] {
+  const rank = (displayName: string) => {
+    const lower = displayName.toLowerCase();
+    if (lower === "color") return 0;
+    if (lower === "size") return 1;
+    return 2;
+  };
+
+  return [...groups].sort((a, b) => {
+    const d = rank(a.display_name) - rank(b.display_name);
+    if (d !== 0) return d;
+    return a.display_name.localeCompare(b.display_name);
+  });
+}
+
 function findSelectedVariant(
   bike: Bike,
   selectedOptions: Record<number, number>
@@ -86,7 +111,7 @@ export default function ProductView({ bike, relatedBikes }: ProductViewProps) {
   const params = useParams();
   const locale = (params.locale as string) || "en";
 
-  const optionGroups = buildOptionGroups(bike);
+  const optionGroups = sortOptionGroups(buildOptionGroups(bike));
   const initialSelected = Object.fromEntries(
     optionGroups.map((g) => [g.option_id, g.values[0]?.id])
   ) as Record<number, number>;
@@ -246,7 +271,7 @@ export default function ProductView({ bike, relatedBikes }: ProductViewProps) {
                       const isSelected =
                         selectedOptions[group.option_id] === value.id;
                       if (isColorGroup) {
-                        const cssColor = COLOR_HEX[value.label] ?? "#cccccc";
+                        const cssColor = colorHexForLabel(value.label);
                         return (
                           <button
                             key={value.id}
@@ -460,7 +485,10 @@ export default function ProductView({ bike, relatedBikes }: ProductViewProps) {
                   className="group block hover:bg-primary transition-colors duration-300"
                 >
                   <div
-                    {...createPreviewAttributes({ entryId: related.id, fieldApiId: "image" })}
+                    {...createPreviewAttributes({
+                      entryId: related.id,
+                      fieldApiId: "image",
+                    })}
                     className="aspect-square overflow-hidden border-b border-primary"
                   >
                     {related.image?.url ? (
