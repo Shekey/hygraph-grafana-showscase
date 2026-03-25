@@ -5,24 +5,27 @@
  * pointing to a public Hygraph Content API endpoint for preview.
  */
 
-export const HYGRAPH_ENDPOINT_COOKIE_NAME = 'hygraph-endpoint';
-export const HYGRAPH_ENDPOINT_HEADER_NAME = 'x-hygraph-endpoint';
+export const HYGRAPH_ENDPOINT_COOKIE_NAME = "hygraph-endpoint";
+export const HYGRAPH_ENDPOINT_HEADER_NAME = "x-hygraph-endpoint";
 
 function isAllowedHygraphHostname(hostname: string): boolean {
   return (
-    hostname === 'hygraph.com' ||
-    hostname.endsWith('.hygraph.com') ||
-    hostname === 'graphcms.com' ||
-    hostname.endsWith('.graphcms.com')
+    hostname === "hygraph.com" ||
+    hostname.endsWith(".hygraph.com") ||
+    hostname === "hygraph.dev" ||
+    hostname.endsWith(".hygraph.dev") ||
+    hostname === "graphcms.com" ||
+    hostname.endsWith(".graphcms.com")
   );
 }
 
 function isAllowedProtocol(url: URL): boolean {
-  if (url.protocol === 'https:') return true;
+  if (url.protocol === "https:") return true;
 
   // Optional dev convenience. Only allow localhost over http.
-  const isDev = process.env.NODE_ENV !== 'production';
-  if (isDev && url.protocol === 'http:' && url.hostname === 'localhost') return true;
+  const isDev = process.env.NODE_ENV !== "production";
+  if (isDev && url.protocol === "http:" && url.hostname === "localhost")
+    return true;
 
   return false;
 }
@@ -38,7 +41,9 @@ function isAllowedProtocol(url: URL): boolean {
  *
  * Returns a normalized URL string or null if invalid.
  */
-export function parseAndValidateHygraphEndpoint(raw: string | null): string | null {
+export function parseAndValidateHygraphEndpoint(
+  raw: string | null
+): string | null {
   if (!raw) return null;
 
   let url: URL;
@@ -54,4 +59,3 @@ export function parseAndValidateHygraphEndpoint(raw: string | null): string | nu
 
   return url.toString();
 }
-
