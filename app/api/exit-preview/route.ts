@@ -5,8 +5,9 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { PREVIEW_COOKIE_NAME } from '@/lib/utils/preview';
+import { withMetrics } from '@/lib/withMetrics';
 
-export async function GET(request: NextRequest) {
+async function handler(request: NextRequest) {
   // Create response with redirect to homepage
   const response = NextResponse.redirect(new URL('/en', request.url));
 
@@ -15,3 +16,5 @@ export async function GET(request: NextRequest) {
 
   return response;
 }
+
+export const GET = withMetrics("/api/exit-preview", handler);

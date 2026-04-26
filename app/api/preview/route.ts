@@ -5,12 +5,13 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { PREVIEW_COOKIE_NAME } from '@/lib/utils/preview';
+import { withMetrics } from '@/lib/withMetrics';
 import {
   HYGRAPH_ENDPOINT_COOKIE_NAME,
   parseAndValidateHygraphEndpoint,
 } from '@/lib/hygraph/endpoint';
 
-export async function GET(request: NextRequest) {
+async function handler(request: NextRequest) {
   const { searchParams } = request.nextUrl;
 
   // Validate secret to prevent unauthorized preview access
@@ -62,3 +63,5 @@ export async function GET(request: NextRequest) {
 
   return response;
 }
+
+export const GET = withMetrics("/api/preview", handler);

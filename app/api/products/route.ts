@@ -5,13 +5,14 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { hygraphRequest } from "@/lib/hygraph/client";
+import { withMetrics } from "@/lib/withMetrics";
 import {
   GetProductsDocument,
   type GetProductsQuery,
   type GetProductsQueryVariables,
 } from "@/types/hygraph-generated";
 
-export async function GET(request: NextRequest) {
+async function handler(request: NextRequest) {
   const { searchParams } = request.nextUrl;
   const locale = (searchParams.get("locale") || "en") as "en" | "de";
 
@@ -34,3 +35,5 @@ export async function GET(request: NextRequest) {
     );
   }
 }
+
+export const GET = withMetrics("/api/products", handler);

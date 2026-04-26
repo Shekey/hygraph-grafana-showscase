@@ -28,6 +28,22 @@ export function LivePreview({ children }: { children: React.ReactNode }) {
     setIsInIframe(checkIsInIframe());
   }, []);
 
+  useEffect(() => {
+    if (!isInIframe) return;
+    fetch("/api/metrics/live-preview", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "inc" }),
+    }).catch(() => {});
+
+    return () => {
+      const blob = new Blob([JSON.stringify({ action: "dec" })], {
+        type: "application/json",
+      });
+      navigator.sendBeacon("/api/metrics/live-preview", blob);
+    };
+  }, [isInIframe]);
+
   if (!isInIframe) return <>{children}</>;
 
   return (

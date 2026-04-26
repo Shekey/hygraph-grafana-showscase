@@ -11,6 +11,8 @@ import {
   HYGRAPH_ENDPOINT_HEADER_NAME,
   parseAndValidateHygraphEndpoint,
 } from '@/lib/hygraph/endpoint';
+import { hygraphFetchDuration } from '@/lib/metrics';
+import { logger } from '@/lib/logger';
 
 const previewToken = process.env.HYGRAPH_PREVIEW_TOKEN;
 // For demo/showcase: Always show DRAFT content (set to 'false' for production)
@@ -93,12 +95,42 @@ export async function hygraphRequest<T>(
   const client = createHygraphClient({
     preview: isPreview,
     endpoint: endpointOverride ?? undefined,
-    // If endpoint is overridden, it must be public; do not attach auth.
     disableAuth: hasEndpointOverride,
   });
 
-  // Convert DocumentNode to string if needed
   const queryString = typeof query === 'string' ? query : print(query);
 
-  return client.request<T>(queryString, variables);
+  const queryName =
+    typeof query !== 'string'
+      ? ((query as DocumentNode).definitions?.[0] as any)?.name?.value ?? 'unknown'
+      : queryString.match(/(?:query|mutation)\s+(\w+)/)?.[1] ?? 'inline';
+
+  const locale =
+    typeof variables?.locale === 'string' ? variables.locale : 'unknown';
+
+  const t0 = performance.now();
+  const endTimer = hygraphFetchDuration.startTimer({ query_name: queryName, locale });
+
+  try {
+    const result = await client.request<T>(queryString, variables);
+    const durationMs = Math.round(performance.now() - t0);
+    endTimer({ status: 'success' });
+    logger.info('hygraph_fetch', {
+      query_name: queryName,
+      locale,
+      duration_ms: durationMs,
+      status: 'success',
+    });
+    return result;
+  } catch (err) {
+    const durationMs = Math.round(performance.now() - t0);
+    endTimer({ status: 'error' });
+    logger.error('hygraph_fetch_error', {
+      query_name: queryName,
+      locale,
+      duration_ms: durationMs,
+      error: err instanceof Error ? err.message : String(err),
+    });
+    throw err;
+  }
 }
