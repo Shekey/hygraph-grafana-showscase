@@ -22,7 +22,7 @@ export const logger = winston.createLogger({
       json: true,
       format: winston.format.json(),
       replaceTimestamp: true,
-      onConnectionError: (err) => console.error("[logger] Loki error:", err.message),
+      onConnectionError: (err: Error) => console.error("[logger] Loki error:", err.message),
     }),
   ],
 });

@@ -29,6 +29,9 @@ const nextConfig: NextConfig = {
   },
   // Enable static exports for better performance
   output: "standalone",
+  experimental: {
+    serverComponentsExternalPackages: ["snappy"],
+  },
 };
 
 export default withSentryConfig(nextConfig, {
