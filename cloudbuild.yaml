@@ -41,7 +41,7 @@ steps:
       - '--set-env-vars=NODE_ENV=production'
 
 substitutions:
-  _REGION: europe-west1
+  _REGION: europe-west3
   _REPO: hygraph-showcase
   _SERVICE_NAME: hygraph-showcase
   _HYGRAPH_ENDPOINT: 'https://your-hygraph-endpoint'
