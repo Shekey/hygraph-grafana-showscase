@@ -1,6 +1,8 @@
 steps:
   # Build Docker image — public vars as --build-arg, secret via --secret mount (BuildKit)
   - name: 'gcr.io/cloud-builders/docker'
+    env:
+      - 'DOCKER_BUILDKIT=1'
     entrypoint: 'bash'
     args:
       - '-c'
