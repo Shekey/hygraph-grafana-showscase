@@ -1,28 +1,34 @@
 import winston from "winston";
 import LokiTransport from "winston-loki";
 
-const lokiUrl = process.env.LOKI_URL ?? "http://localhost:3100";
+const isProduction = process.env.NODE_ENV === "production";
+// Ensure this is checked as a string if coming from process.env
+const isLokiEnabled = process.env.LOKI_ENABLE === "true"; 
+const lokiUrl = process.env.LOKI_URL || "http://localhost:3100";
 
-export const logger = winston.createLogger({
-  level: process.env.NODE_ENV === "production" ? "info" : "debug",
-  defaultMeta: { app: "hybike", env: process.env.NODE_ENV ?? "development" },
-  transports: [
-    new winston.transports.Console({
-      format: winston.format.combine(
-        winston.format.colorize(),
-        winston.format.timestamp(),
-        winston.format.printf(({ timestamp, level, message, ...meta }) =>
-          `${timestamp} [${level}]: ${message}${Object.keys(meta).length ? " " + JSON.stringify(meta) : ""}`
-        )
-      ),
-    }),
+const transports: winston.transport[] = [
+  new winston.transports.Console({
+    format: isProduction 
+      ? winston.format.json() 
+      : winston.format.combine(winston.format.colorize(), winston.format.simple()),
+  }),
+];
+
+if (isLokiEnabled) {
+  console.log(`[logger] Initializing Loki transport to ${lokiUrl}`);
+  transports.push(
     new LokiTransport({
       host: lokiUrl,
       labels: { app: "hybike", env: process.env.NODE_ENV ?? "development" },
       json: true,
-      format: winston.format.json(),
-      replaceTimestamp: true,
-      onConnectionError: (err: Error) => console.error("[logger] Loki error:", err.message),
-    }),
-  ],
+      // Critical: handle errors so the whole Node process doesn't exit
+      onConnectionError: (err: Error) => console.error("[logger] Loki connection failed:", err.message),
+    })
+  );
+}
+
+export const logger = winston.createLogger({
+  level: isProduction ? "info" : "debug",
+  defaultMeta: { app: "hybike", env: process.env.NODE_ENV ?? "development" },
+  transports,
 });
