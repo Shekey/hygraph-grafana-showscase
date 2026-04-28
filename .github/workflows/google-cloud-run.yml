@@ -34,7 +34,9 @@ jobs:
 
       - name: Build and Push Container
         run: |-
-          docker build -t europe-west3-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/hygraph-showcase/nextjs:${{ github.sha }} .
+          docker build \
+            --secret id=sentry_auth_token,src=<(echo "${{ secrets.SENTRY_AUTH_TOKEN }}") \
+            -t europe-west3-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/hygraph-showcase/nextjs:${{ github.sha }} .
           docker push europe-west3-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/hygraph-showcase/nextjs:${{ github.sha }}
 
       - name: Deploy to Cloud Run
