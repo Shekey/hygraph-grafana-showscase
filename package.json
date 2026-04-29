@@ -12,7 +12,13 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@google-cloud/logging-winston": "^6.0.1",
+    "@google-cloud/opentelemetry-cloud-monitoring-exporter": "^0.21.0",
+    "@google-cloud/vertexai": "^1.9.0",
     "@hygraph/preview-sdk": "^1.0.6",
+    "@opentelemetry/resources": "^2.7.1",
+    "@opentelemetry/sdk-metrics": "^2.7.1",
+    "@opentelemetry/semantic-conventions": "^1.40.0",
     "@sentry/nextjs": "^10.45.0",
     "graphql": "^16.13.1",
     "graphql-request": "^6.1.0",

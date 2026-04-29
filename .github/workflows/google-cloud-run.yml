@@ -57,9 +57,10 @@ jobs:
           image: 'europe-west3-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/hygraph-showcase/nextjs:${{ github.sha }}'
           tag: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.number) || '' }}
           no_traffic: ${{ github.event_name == 'pull_request' }}
-          # ADD THE ENV VARS HERE
+          service_account: 'nextjs-run-sa@${{ secrets.GCP_PROJECT_ID }}.iam.gserviceaccount.com'
+          # ENV VARS for OTel metrics (GMP) and Cloud Logging
           env_vars: |
-            LOKI_ENABLE=false
+            GCP_PROJECT_ID=${{ secrets.GCP_PROJECT_ID }}
             NODE_ENV=production
 
       - name: Post PR Preview Comment

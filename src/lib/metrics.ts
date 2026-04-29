@@ -1,56 +1,50 @@
-import client from "prom-client";
+import { MeterProvider, PeriodicExportingMetricReader } from '@opentelemetry/sdk-metrics';
+import { MetricExporter } from '@google-cloud/opentelemetry-cloud-monitoring-exporter';
+import { resourceFromAttributes } from '@opentelemetry/resources';
+import { SEMRESATTRS_SERVICE_NAME, SEMRESATTRS_SERVICE_VERSION } from '@opentelemetry/semantic-conventions';
 
-const register = client.register;
+const projectId = process.env.GCP_PROJECT_ID;
 
-if (!(register as any)._defaultMetricsRegistered) {
-  client.collectDefaultMetrics({ register });
-  (register as any)._defaultMetricsRegistered = true;
-}
+const exporter = new MetricExporter({
+  projectId,
+  // Authenticate via Application Default Credentials (Cloud Run service account)
+} as any);
 
-export const hygraphFetchDuration =
-  (register.getSingleMetric("hygraph_fetch_duration_seconds") as client.Histogram) ??
-  new client.Histogram({
-    name: "hygraph_fetch_duration_seconds",
-    help: "Duration of Hygraph GraphQL fetches in seconds",
-    labelNames: ["query_name", "locale", "status"] as const,
-    buckets: [0.05, 0.1, 0.25, 0.5, 1, 2, 5],
-    registers: [register],
-  });
+const meterProvider = new MeterProvider({
+  resource: resourceFromAttributes({
+    [SEMRESATTRS_SERVICE_NAME]: 'hybike',
+    [SEMRESATTRS_SERVICE_VERSION]: process.env.npm_package_version ?? '1.0.0',
+  }),
+  readers: [
+    new PeriodicExportingMetricReader({
+      exporter: exporter as any,
+      exportIntervalMillis: 30_000, // Push metrics to GMP every 30 seconds
+    }),
+  ],
+});
 
-export const httpRequestDuration =
-  (register.getSingleMetric("http_request_duration_seconds") as client.Histogram) ??
-  new client.Histogram({
-    name: "http_request_duration_seconds",
-    help: "Duration of HTTP requests handled by Next.js API routes",
-    labelNames: ["method", "route", "status_code"] as const,
-    buckets: [0.05, 0.1, 0.25, 0.5, 1, 2, 5],
-    registers: [register],
-  });
+const meter = meterProvider.getMeter('hybike', '1.0.0');
 
-export const isrRevalidationCounter =
-  (register.getSingleMetric("isr_revalidation_total") as client.Counter) ??
-  new client.Counter({
-    name: "isr_revalidation_total",
-    help: "Number of ISR revalidation events",
-    labelNames: ["route", "status"] as const,
-    registers: [register],
-  });
+export const hygraphFetchDuration = meter.createHistogram('hygraph_fetch_duration_seconds', {
+  description: 'Duration of Hygraph GraphQL fetches in seconds',
+  unit: 's',
+});
 
-export const cacheCounter =
-  (register.getSingleMetric("nextjs_cache_total") as client.Counter) ??
-  new client.Counter({
-    name: "nextjs_cache_total",
-    help: "Next.js fetch cache HIT and MISS events",
-    labelNames: ["route", "result"] as const,
-    registers: [register],
-  });
+export const httpRequestDuration = meter.createHistogram('http_request_duration_seconds', {
+  description: 'Duration of HTTP requests handled by Next.js API routes',
+  unit: 's',
+});
 
-export const livePreviewGauge =
-  (register.getSingleMetric("hygraph_live_preview_sessions") as client.Gauge) ??
-  new client.Gauge({
-    name: "hygraph_live_preview_sessions",
-    help: "Number of currently active Hygraph live preview sessions",
-    registers: [register],
-  });
+export const isrRevalidationCounter = meter.createCounter('isr_revalidation_total', {
+  description: 'Number of ISR revalidation events',
+});
 
-export { register };
+export const cacheCounter = meter.createCounter('nextjs_cache_total', {
+  description: 'Next.js fetch cache HIT and MISS events',
+});
+
+export const hygraphLivePreviewSessions = meter.createUpDownCounter('hygraph_live_preview_sessions', {
+  description: 'Number of currently active Hygraph live preview sessions',
+});
+
+export { meterProvider };
