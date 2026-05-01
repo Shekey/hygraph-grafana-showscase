@@ -3,7 +3,8 @@ resource "google_cloud_run_v2_service" "app" {
   name     = var.service_name
   location = var.region
 
-  ingress = "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER"
+  # OVO JE KLJUČNO: Dozvoljava pristup direktno preko .run.app URL-a
+  ingress = "INGRESS_TRAFFIC_ALL" 
 
   template {
     service_account = var.nextjs_run_sa_email
@@ -63,10 +64,10 @@ resource "google_cloud_run_v2_service" "app" {
         }
       }
 
-      # Liveness probe
+      # Liveness probe - postavljen na "/" radi sigurnosti
       liveness_probe {
         http_get {
-          path = "/api/metrics"
+          path = "/" 
           port = var.app_port
         }
         initial_delay_seconds = 5
@@ -75,10 +76,10 @@ resource "google_cloud_run_v2_service" "app" {
         timeout_seconds       = 3
       }
 
-      # Startup probe
+      # Startup probe - postavljen na "/" radi sigurnosti
       startup_probe {
         http_get {
-          path = "/api/metrics"
+          path = "/"
           port = var.app_port
         }
         initial_delay_seconds = 2
@@ -96,4 +97,13 @@ resource "google_cloud_run_v2_service" "app" {
   }
 
   depends_on = [var.depends_on_secrets]
+}
+
+# --- NOVI DEO KOJI REŠAVA 403 ERROR ---
+# Ovaj resurs daje dozvolu celom internetu (allUsers) da "pozove" tvoj servis.
+resource "google_cloud_run_v2_service_iam_member" "public_access" {
+  location = google_cloud_run_v2_service.app.location
+  name     = google_cloud_run_v2_service.app.name
+  role     = "roles/run.invoker"
+  member   = "allUsers"
 }

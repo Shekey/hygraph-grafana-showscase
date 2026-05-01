@@ -31,7 +31,7 @@ variable "image_tag" {
 
 variable "app_port" {
   type        = number
-  default     = 3000
+  default     = 8080
   description = "Application port"
 }
 
