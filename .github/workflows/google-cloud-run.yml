@@ -86,6 +86,14 @@ jobs:
             NODE_ENV=production
             GCP_PROJECT_ID=${{ secrets.GCP_PROJECT_ID }}
 
+      - name: Deploy to Terraform-managed service (production only)
+        if: github.ref == 'refs/heads/main'
+        run: |
+          gcloud run deploy hygraph-showcase \
+            --region=europe-west3 \
+            --image=europe-west3-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/hygraph-showcase/nextjs:${{ github.sha }} \
+            --no-gen2
+
       - name: Update Cloud Run Service Configuration
         run: |
           # Set service account
