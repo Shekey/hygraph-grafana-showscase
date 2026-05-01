@@ -1,0 +1,20 @@
+apiVersion: 1
+
+datasources:
+  - name: Prometheus (GMP)
+    type: prometheus
+    uid: prometheus
+    url: https://monitoring.googleapis.com/v1/projects/${GCP_PROJECT_ID}/location/global/prometheus
+    isDefault: true
+    jsonData:
+      httpMethod: POST
+      timeInterval: "30s"
+    secureJsonData: {}
+
+  - name: Cloud Logging
+    type: stackdriver
+    uid: cloud-logging
+    jsonData:
+      authenticationType: gce
+      defaultProject: ${GCP_PROJECT_ID}
+    secureJsonData: {}

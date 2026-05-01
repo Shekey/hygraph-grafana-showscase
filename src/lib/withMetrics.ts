@@ -5,13 +5,23 @@ type RouteHandler = (req: NextRequest, ctx?: unknown) => Promise<Response | Next
 
 export function withMetrics(route: string, handler: RouteHandler): RouteHandler {
   return async (req, ctx) => {
-    const endTimer = httpRequestDuration.startTimer({ method: req.method, route });
+    const t0 = performance.now();
     try {
       const response = await handler(req, ctx);
-      endTimer({ status_code: String(response.status) });
+      const durationMs = (performance.now() - t0) / 1000;
+      httpRequestDuration.record(durationMs, {
+        method: req.method,
+        route,
+        status_code: String(response.status),
+      });
       return response;
     } catch (err) {
-      endTimer({ status_code: "500" });
+      const durationMs = (performance.now() - t0) / 1000;
+      httpRequestDuration.record(durationMs, {
+        method: req.method,
+        route,
+        status_code: "500",
+      });
       throw err;
     }
   };

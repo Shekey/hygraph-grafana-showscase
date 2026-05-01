@@ -4,18 +4,18 @@ on:
   push:
     branches: [ "main" ]
   pull_request:
-    branches: [ "main" ] # Covers any feature branch targeting main
+    branches: [ "main" ]
 
 permissions:
   contents: 'read'
-  id-token: 'write'      # Required for Workload Identity Federation
-  pull-requests: 'write' # Required to post the preview URL comment
+  id-token: 'write'      
+  pull-requests: 'write' 
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    # This logic selects 'production' for main branch, otherwise 'development'
     environment: ${{ github.ref == 'refs/heads/main' && 'production' || 'development' }}
+    
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -24,9 +24,8 @@ jobs:
         id: auth
         uses: 'google-github-actions/auth@v2'
         with:
-          # Use your standardized Secret names here
-          workload_identity_provider: 'projects/${{ secrets.GCP_PROJECT_NUMBER }}/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
-          service_account: 'cloud-build-deployer@${{ secrets.GCP_PROJECT_ID }}.iam.gserviceaccount.com'
+          workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
+          service_account: ${{ secrets.GCP_SA_EMAIL }}
 
       - name: Set up Cloud SDK
         uses: 'google-github-actions/setup-gcloud@v2'
@@ -36,16 +35,16 @@ jobs:
 
       - name: Build and Push Container
         run: |-
-          # Define the image name to avoid repetition
           IMAGE_NAME="europe-west3-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/hygraph-showcase/nextjs:${{ github.sha }}"
           
           docker build \
             --secret id=sentry_auth_token,src=<(echo "${{ secrets.SENTRY_AUTH_TOKEN }}") \
             --build-arg NEXT_PUBLIC_HYGRAPH_CONTENT_ENDPOINT="${{ secrets.NEXT_PUBLIC_HYGRAPH_CONTENT_ENDPOINT }}" \
+            --build-arg NEXT_PUBLIC_HYGRAPH_ALWAYS_DRAFT="${{ secrets.NEXT_PUBLIC_HYGRAPH_ALWAYS_DRAFT }}" \
             --build-arg NEXT_PUBLIC_SITE_URL="${{ secrets.NEXT_PUBLIC_SITE_URL }}" \
+            --build-arg NEXT_PUBLIC_SENTRY_DSN="${{ secrets.NEXT_PUBLIC_SENTRY_DSN }}" \
             -t $IMAGE_NAME .
           
-          # CRITICAL: You must push the image to the registry!
           docker push $IMAGE_NAME
 
       - name: Deploy to Cloud Run
@@ -57,10 +56,13 @@ jobs:
           image: 'europe-west3-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/hygraph-showcase/nextjs:${{ github.sha }}'
           tag: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.number) || '' }}
           no_traffic: ${{ github.event_name == 'pull_request' }}
-          # ADD THE ENV VARS HERE
+          # Slanje varijabli u RUNTIME (da server ne pukne pri startu)
           env_vars: |
-            LOKI_ENABLE=false
             NODE_ENV=production
+            GCP_PROJECT_ID=${{ secrets.GCP_PROJECT_ID }}
+            NEXT_PUBLIC_HYGRAPH_CONTENT_ENDPOINT=${{ secrets.NEXT_PUBLIC_HYGRAPH_CONTENT_ENDPOINT }}
+            NEXT_PUBLIC_HYGRAPH_ALWAYS_DRAFT=${{ secrets.NEXT_PUBLIC_HYGRAPH_ALWAYS_DRAFT }}
+            NEXT_PUBLIC_SITE_URL=${{ secrets.NEXT_PUBLIC_SITE_URL }}
 
       - name: Post PR Preview Comment
         if: github.event_name == 'pull_request'
@@ -68,13 +70,14 @@ jobs:
         with:
           script: |
             const url = '${{ steps.deploy.outputs.url }}';
-            const prNumber = context.issue.number;
-            // Constructs the unique preview URL: https://TAG---SERVICE-HASH.REGION.run.app
-            const previewUrl = url.replace('https://', `https://pr-${prNumber}---`);
-            
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: `🚀 **Preview Deployment Ready for Feature Review!**\n\n**URL:** ${previewUrl}\n**Revision:** ${{ steps.deploy.outputs.revision_name }}`
-            })
+            if (url) {
+              const prNumber = context.issue.number;
+              const previewUrl = url.replace('https://', `https://pr-${prNumber}---`);
+              
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: `🚀 **Preview Deployment Ready!**\n\n**URL:** ${previewUrl}\n**Revision:** ${{ steps.deploy.outputs.revision_name }}`
+              });
+            }

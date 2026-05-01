@@ -13,6 +13,7 @@ import AnnouncementBanner from "@/components/ui/AnnouncementBanner";
 import { SegmentProvider } from "@/lib/context/SegmentContext";
 import { SiteSettingsProvider } from "@/lib/context/SiteSettingsContext";
 import SegmentSwitcher from "@/components/ui/SegmentSwitcher";
+import ChatWidget from "@/components/ui/ChatWidget";
 import { hygraphRequest } from "@/lib/hygraph/client";
 import {
   GetSiteSettingsDocument,
@@ -77,6 +78,7 @@ export default async function LocaleLayout({
             <Suspense>
               <SegmentSwitcher segments={segments} />
             </Suspense>
+            <ChatWidget />
           </div>
         </SegmentProvider>
       </Suspense>
