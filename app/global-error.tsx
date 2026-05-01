@@ -2,7 +2,6 @@
 
 import "@/styles/globals.css";
 import ErrorCard from "@/components/ErrorCard";
-import { captureException } from "@sentry/nextjs";
 import { useEffect } from "react";
 
 interface GlobalErrorProps {
@@ -12,7 +11,7 @@ interface GlobalErrorProps {
 
 export default function GlobalError({ error, reset }: GlobalErrorProps) {
   useEffect(() => {
-    captureException(error);
+    console.error(error);
   }, [error]);
 
   return (
