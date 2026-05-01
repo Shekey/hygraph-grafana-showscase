@@ -80,12 +80,17 @@ jobs:
           region: 'europe-west3'
           image: 'europe-west3-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/hygraph-showcase/nextjs:${{ github.sha }}'
           ingress: ${{ steps.env.outputs.ingress }}
-          service_account: 'nextjs-run-sa@${{ secrets.GCP_PROJECT_ID }}.iam.gserviceaccount.com'
           tag: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.number) || 'stable' }}
           no_traffic: ${{ github.event_name == 'pull_request' }}
           env_vars: |
             NODE_ENV=production
             GCP_PROJECT_ID=${{ secrets.GCP_PROJECT_ID }}
+
+      - name: Set Cloud Run Service Account
+        run: |
+          gcloud run services update ${{ steps.env.outputs.service }} \
+            --region=europe-west3 \
+            --service-account=nextjs-run-sa@${{ secrets.GCP_PROJECT_ID }}.iam.gserviceaccount.com
 
       - name: Output Deployment Summary
         if: github.event_name != 'pull_request'
