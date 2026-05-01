@@ -16,6 +16,21 @@ resource "google_compute_managed_ssl_certificate" "app_cert" {
   }
 }
 
+# Health Check for backend service
+resource "google_compute_health_check" "app" {
+  name = "${var.service_name}-hc"
+
+  https_health_check {
+    port         = 443
+    request_path = "/api/health"
+  }
+
+  check_interval_sec  = 30
+  timeout_sec         = 10
+  healthy_threshold   = 2
+  unhealthy_threshold = 2
+}
+
 # Serverless NEG (Network Endpoint Group)
 resource "google_compute_region_network_endpoint_group" "cloudrun_neg" {
   name                  = "${var.service_name}-neg"
@@ -34,6 +49,7 @@ resource "google_compute_backend_service" "app" {
   load_balancing_scheme = "EXTERNAL_MANAGED"
   timeout_sec           = 30
   security_policy       = var.armor_policy_id
+  health_checks         = [google_compute_health_check.app.id]
 
   backend {
     group = google_compute_region_network_endpoint_group.cloudrun_neg.id
