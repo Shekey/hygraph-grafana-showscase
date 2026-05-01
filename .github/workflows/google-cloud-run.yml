@@ -4,7 +4,7 @@ on:
   push:
     branches: [ "main", "staging", "develop" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "staging", "develop" ]
 
 permissions:
   contents: 'read'
@@ -86,6 +86,14 @@ jobs:
             NODE_ENV=production
             GCP_PROJECT_ID=${{ secrets.GCP_PROJECT_ID }}
 
+      - name: Deploy to Terraform-managed service (production only)
+        if: github.ref == 'refs/heads/main'
+        run: |
+          gcloud run deploy hygraph-showcase \
+            --region=europe-west3 \
+            --image=europe-west3-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/hygraph-showcase/nextjs:${{ github.sha }} \
+            --no-gen2
+
       - name: Update Cloud Run Service Configuration
         run: |
           # Set service account
@@ -119,13 +127,10 @@ jobs:
           script: |
             const url = '${{ steps.deploy.outputs.url }}';
             if (url) {
-              const prNumber = context.issue.number;
-              const previewUrl = url.replace('https://', `https://pr-${prNumber}---`);
-
               github.rest.issues.createComment({
                 issue_number: context.issue.number,
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                body: `🚀 **Preview Deployment Ready!**\n\n**URL:** ${previewUrl}\n**Service:** hygraph-showcase-dev\n**Revision:** ${{ steps.deploy.outputs.revision_name }}`
+                body: `🚀 **Preview Deployment Ready!**\n\n**URL:** ${url}\n**Service:** ${{ steps.env.outputs.service }}\n**Revision:** ${{ steps.deploy.outputs.revision_name }}`
               });
             }
