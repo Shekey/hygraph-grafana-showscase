@@ -1,6 +1,6 @@
 output "lb_ip_address" {
-  value       = module.load_balancer.lb_ip_address
-  description = "Static IP of the Global HTTPS Load Balancer — point your DNS A record here"
+  value       = var.enable_load_balancer ? module.load_balancer[0].lb_ip_address : null
+  description = "Static IP of the Global HTTPS Load Balancer — point your DNS A record here (only for prod)"
 }
 
 output "cloud_run_url" {
@@ -25,6 +25,6 @@ output "cloud_build_deployer_sa_email" {
 }
 
 output "ssl_cert_name" {
-  value       = module.load_balancer.ssl_cert_name
-  description = "SSL certificate name (check provisioning status in Cloud Console)"
+  value       = var.enable_load_balancer ? module.load_balancer[0].ssl_cert_name : null
+  description = "SSL certificate name (check provisioning status in Cloud Console, only for prod)"
 }

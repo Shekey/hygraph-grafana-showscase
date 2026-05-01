@@ -87,3 +87,9 @@ variable "depends_on_secrets" {
   default     = []
   description = "Depends on secrets being created first"
 }
+
+variable "ingress_mode" {
+  type        = string
+  default     = "INGRESS_TRAFFIC_ALL"
+  description = "Cloud Run ingress mode (INGRESS_TRAFFIC_ALL or INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER)"
+}

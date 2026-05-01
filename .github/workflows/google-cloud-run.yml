@@ -2,23 +2,44 @@ name: Deploy to Cloud Run
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "staging", "develop" ]
   pull_request:
     branches: [ "main" ]
 
 permissions:
   contents: 'read'
-  id-token: 'write'      
-  pull-requests: 'write' 
+  id-token: 'write'
+  pull-requests: 'write'
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: ${{ github.ref == 'refs/heads/main' && 'production' || 'development' }}
-    
+    environment: ${{ github.ref == 'refs/heads/main' && 'production' || (github.ref == 'refs/heads/staging' && 'staging' || 'development') }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Determine environment and service name
+        id: env
+        run: |
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            echo "environment=development" >> $GITHUB_OUTPUT
+            echo "service=hygraph-showcase-dev" >> $GITHUB_OUTPUT
+            echo "env_label=Preview (dev)" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "environment=production" >> $GITHUB_OUTPUT
+            echo "service=hygraph-showcase-prod" >> $GITHUB_OUTPUT
+            echo "env_label=Production" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref }}" == "refs/heads/staging" ]]; then
+            echo "environment=staging" >> $GITHUB_OUTPUT
+            echo "service=hygraph-showcase-staging" >> $GITHUB_OUTPUT
+            echo "env_label=Staging" >> $GITHUB_OUTPUT
+          else
+            echo "environment=development" >> $GITHUB_OUTPUT
+            echo "service=hygraph-showcase-dev" >> $GITHUB_OUTPUT
+            echo "env_label=Development" >> $GITHUB_OUTPUT
+          fi
 
       - name: Google Auth
         id: auth
@@ -36,7 +57,7 @@ jobs:
       - name: Build and Push Container
         run: |-
           IMAGE_NAME="europe-west3-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/hygraph-showcase/nextjs:${{ github.sha }}"
-          
+
           docker build \
             --secret id=sentry_auth_token,src=<(echo "${{ secrets.SENTRY_AUTH_TOKEN }}") \
             --build-arg NEXT_PUBLIC_HYGRAPH_CONTENT_ENDPOINT="${{ secrets.NEXT_PUBLIC_HYGRAPH_CONTENT_ENDPOINT }}" \
@@ -44,14 +65,14 @@ jobs:
             --build-arg NEXT_PUBLIC_SITE_URL="${{ secrets.NEXT_PUBLIC_SITE_URL }}" \
             --build-arg NEXT_PUBLIC_SENTRY_DSN="${{ secrets.NEXT_PUBLIC_SENTRY_DSN }}" \
             -t $IMAGE_NAME .
-          
+
           docker push $IMAGE_NAME
 
       - name: Deploy to Cloud Run
         id: deploy
         uses: 'google-github-actions/deploy-cloudrun@v2'
         with:
-          service: 'hygraph-showcase'
+          service: ${{ steps.env.outputs.service }}
           region: 'europe-west3'
           image: 'europe-west3-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/hygraph-showcase/nextjs:${{ github.sha }}'
           tag: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.number) || 'stable' }}
@@ -60,16 +81,19 @@ jobs:
             NODE_ENV=production
             GCP_PROJECT_ID=${{ secrets.GCP_PROJECT_ID }}
 
-      - name: Output Rollback Instructions
+      - name: Output Deployment Summary
         if: github.event_name != 'pull_request'
         run: |
-          echo "✅ Production deployment complete"
+          echo "✅ ${{ steps.env.outputs.env_label }} deployment complete"
           echo ""
+          echo "Service: ${{ steps.env.outputs.service }}"
           echo "Revision: ${{ steps.deploy.outputs.revision_name }}"
-          echo "Service URL: ${{ steps.deploy.outputs.url }}"
+          echo "URL: ${{ steps.deploy.outputs.url }}"
           echo ""
-          echo "To rollback to previous revision:"
-          echo "gcloud run services update-traffic hygraph-showcase --to-revisions=PREVIOUS=100 --region=europe-west3"
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "To rollback to previous revision:"
+            echo "gcloud run services update-traffic ${{ steps.env.outputs.service }} --to-revisions=PREVIOUS=100 --region=europe-west3"
+          fi
 
       - name: Post PR Preview Comment
         if: github.event_name == 'pull_request'
@@ -80,11 +104,11 @@ jobs:
             if (url) {
               const prNumber = context.issue.number;
               const previewUrl = url.replace('https://', `https://pr-${prNumber}---`);
-              
+
               github.rest.issues.createComment({
                 issue_number: context.issue.number,
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                body: `🚀 **Preview Deployment Ready!**\n\n**URL:** ${previewUrl}\n**Revision:** ${{ steps.deploy.outputs.revision_name }}`
+                body: `🚀 **Preview Deployment Ready!**\n\n**URL:** ${previewUrl}\n**Service:** hygraph-showcase-dev\n**Revision:** ${{ steps.deploy.outputs.revision_name }}`
               });
             }

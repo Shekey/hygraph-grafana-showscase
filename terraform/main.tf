@@ -53,11 +53,13 @@ module "cloud_run" {
   timeout_seconds     = var.cloud_run_timeout_seconds
   secret_ids          = module.secrets.secret_ids
   depends_on_secrets  = [module.secrets]
+  ingress_mode        = var.ingress_mode
 
   depends_on = [module.iam, module.secrets]
 }
 
 module "armor" {
+  count  = var.enable_armor ? 1 : 0
   source = "./modules/armor"
 
   service_name        = var.service_name
@@ -66,6 +68,7 @@ module "armor" {
 }
 
 module "load_balancer" {
+  count  = var.enable_load_balancer ? 1 : 0
   source = "./modules/load-balancer"
 
   region                 = var.region
@@ -74,12 +77,13 @@ module "load_balancer" {
   domain                 = var.domain
   cloud_run_service_name = module.cloud_run.service_name
   enable_cdn             = var.enable_cdn
-  armor_policy_id        = var.enable_armor ? module.armor.policy_id : ""
+  armor_policy_id        = var.enable_armor ? module.armor[0].policy_id : ""
 
   depends_on = [module.cloud_run, module.armor]
 }
 
 module "monitoring" {
+  count  = var.enable_load_balancer ? 1 : 0
   source = "./modules/monitoring"
 
   project_id   = var.project_id
@@ -91,11 +95,12 @@ module "monitoring" {
 }
 
 module "dns" {
+  count  = var.enable_load_balancer ? 1 : 0
   source = "./modules/dns"
 
   enable_dns    = var.enable_dns
   domain        = var.domain
-  lb_ip_address = module.load_balancer.lb_ip_address
+  lb_ip_address = module.load_balancer[0].lb_ip_address
 
   depends_on = [module.load_balancer]
 }

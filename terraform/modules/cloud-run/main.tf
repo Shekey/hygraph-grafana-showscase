@@ -3,7 +3,7 @@ resource "google_cloud_run_v2_service" "app" {
   name     = var.service_name
   location = var.region
 
-  ingress = "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER"
+  ingress = var.ingress_mode
 
   template {
     service_account = var.nextjs_run_sa_email

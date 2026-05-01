@@ -60,6 +60,18 @@ variable "enable_geo_blocking" {
   description = "Enable geo-blocking for CN/RU regions in Cloud Armor"
 }
 
+variable "enable_load_balancer" {
+  type        = bool
+  default     = false
+  description = "Enable Load Balancer (set to true for prod only)"
+}
+
+variable "ingress_mode" {
+  type        = string
+  default     = "INGRESS_TRAFFIC_ALL"
+  description = "Cloud Run ingress mode (INGRESS_TRAFFIC_ALL for dev/staging, INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER for prod)"
+}
+
 variable "github_org" {
   type        = string
   default     = "Shekey"
