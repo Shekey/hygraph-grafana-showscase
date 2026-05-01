@@ -86,11 +86,17 @@ jobs:
             NODE_ENV=production
             GCP_PROJECT_ID=${{ secrets.GCP_PROJECT_ID }}
 
-      - name: Set Cloud Run Service Account
+      - name: Update Cloud Run Service Configuration
         run: |
+          # Set service account
           gcloud run services update ${{ steps.env.outputs.service }} \
             --region=europe-west3 \
             --service-account=nextjs-run-sa@${{ secrets.GCP_PROJECT_ID }}.iam.gserviceaccount.com
+
+          # Set ingress
+          gcloud run services update ${{ steps.env.outputs.service }} \
+            --region=europe-west3 \
+            --ingress=${{ steps.env.outputs.ingress }}
 
       - name: Output Deployment Summary
         if: github.event_name != 'pull_request'
