@@ -27,18 +27,22 @@ jobs:
             echo "environment=development" >> $GITHUB_OUTPUT
             echo "service=hygraph-showcase-dev" >> $GITHUB_OUTPUT
             echo "env_label=Preview (dev)" >> $GITHUB_OUTPUT
+            echo "ingress=all" >> $GITHUB_OUTPUT
           elif [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
             echo "environment=production" >> $GITHUB_OUTPUT
             echo "service=hygraph-showcase-prod" >> $GITHUB_OUTPUT
             echo "env_label=Production" >> $GITHUB_OUTPUT
+            echo "ingress=internal" >> $GITHUB_OUTPUT
           elif [[ "${{ github.ref }}" == "refs/heads/staging" ]]; then
             echo "environment=staging" >> $GITHUB_OUTPUT
             echo "service=hygraph-showcase-staging" >> $GITHUB_OUTPUT
             echo "env_label=Staging" >> $GITHUB_OUTPUT
+            echo "ingress=all" >> $GITHUB_OUTPUT
           else
             echo "environment=development" >> $GITHUB_OUTPUT
             echo "service=hygraph-showcase-dev" >> $GITHUB_OUTPUT
             echo "env_label=Development" >> $GITHUB_OUTPUT
+            echo "ingress=all" >> $GITHUB_OUTPUT
           fi
 
       - name: Google Auth
@@ -75,11 +79,24 @@ jobs:
           service: ${{ steps.env.outputs.service }}
           region: 'europe-west3'
           image: 'europe-west3-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/hygraph-showcase/nextjs:${{ github.sha }}'
+          ingress: ${{ steps.env.outputs.ingress }}
           tag: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.number) || 'stable' }}
           no_traffic: ${{ github.event_name == 'pull_request' }}
           env_vars: |
             NODE_ENV=production
             GCP_PROJECT_ID=${{ secrets.GCP_PROJECT_ID }}
+
+      - name: Update Cloud Run Service Configuration
+        run: |
+          # Set service account
+          gcloud run services update ${{ steps.env.outputs.service }} \
+            --region=europe-west3 \
+            --service-account=nextjs-run-sa@${{ secrets.GCP_PROJECT_ID }}.iam.gserviceaccount.com
+
+          # Set ingress
+          gcloud run services update ${{ steps.env.outputs.service }} \
+            --region=europe-west3 \
+            --ingress=${{ steps.env.outputs.ingress }}
 
       - name: Output Deployment Summary
         if: github.event_name != 'pull_request'
