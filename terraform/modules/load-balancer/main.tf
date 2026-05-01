@@ -34,6 +34,7 @@ resource "google_compute_backend_service" "app" {
   load_balancing_scheme = "EXTERNAL_MANAGED"
   timeout_sec           = 30
   security_policy       = var.armor_policy_id
+  enable_cdn            = var.enable_cdn
 
   backend {
     group = google_compute_region_network_endpoint_group.cloudrun_neg.id
