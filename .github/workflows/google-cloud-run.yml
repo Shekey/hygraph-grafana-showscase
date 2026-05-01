@@ -63,7 +63,6 @@ jobs:
             NEXT_PUBLIC_HYGRAPH_CONTENT_ENDPOINT=${{ secrets.NEXT_PUBLIC_HYGRAPH_CONTENT_ENDPOINT }}
             NEXT_PUBLIC_HYGRAPH_ALWAYS_DRAFT=${{ secrets.NEXT_PUBLIC_HYGRAPH_ALWAYS_DRAFT }}
             NEXT_PUBLIC_SITE_URL=${{ secrets.NEXT_PUBLIC_SITE_URL }}
-            PORT=8080
 
       - name: Post PR Preview Comment
         if: github.event_name == 'pull_request'
