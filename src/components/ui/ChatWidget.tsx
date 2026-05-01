@@ -18,6 +18,42 @@ interface Message {
   content: string;
 }
 
+// Simple markdown link parser: [text](url) -> <a>text</a>
+function renderMarkdownLinks(text: string) {
+  const parts: (string | { text: string; url: string })[] = [];
+  const regex = /\[([^\]]+)\]\(([^)]+)\)/g;
+  let lastIndex = 0;
+  let match;
+
+  while ((match = regex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push(text.slice(lastIndex, match.index));
+    }
+    parts.push({ text: match[1], url: match[2] });
+    lastIndex = regex.lastIndex;
+  }
+
+  if (lastIndex < text.length) {
+    parts.push(text.slice(lastIndex));
+  }
+
+  return parts.map((part, i) =>
+    typeof part === "string" ? (
+      <span key={i}>{part}</span>
+    ) : (
+      <a
+        key={i}
+        href={part.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 underline"
+      >
+        {part.text}
+      </a>
+    )
+  );
+}
+
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -130,6 +166,8 @@ export default function ChatWidget() {
       });
     } finally {
       setIsStreaming(false);
+      // Auto-focus input after reply finishes
+      setTimeout(() => inputRef.current?.focus(), 100);
     }
   }, [input, messages, isStreaming]);
 
@@ -194,11 +232,11 @@ export default function ChatWidget() {
           </div>
 
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-3">
+          <div className="flex-1 overflow-y-auto p-4 space-y-4">
             {messages.length === 0 && (
               <p
                 className="text-muted text-center pt-8"
-                style={{ fontSize: "0.8rem", lineHeight: 1.6 }}
+                style={{ fontSize: "0.8rem", lineHeight: 1.8 }}
               >
                 Hi! I'm your HyBike AI Advisor. Ask me anything about our e-bikes — range, models, specs, or help choosing the right ride.
               </p>
@@ -211,7 +249,7 @@ export default function ChatWidget() {
               >
                 <div
                   className={`
-                    max-w-[85%] px-3 py-2
+                    max-w-[85%] px-4 py-3
                     ${msg.role === "user"
                       ? "bg-brand text-white"
                       : isDark
@@ -219,9 +257,9 @@ export default function ChatWidget() {
                         : "bg-gray-100 text-primary border border-primary/10"
                     }
                   `}
-                  style={{ fontSize: "0.82rem", lineHeight: 1.55 }}
+                  style={{ fontSize: "0.82rem", lineHeight: 1.7, wordBreak: "break-word" }}
                 >
-                  {msg.content || (
+                  {msg.content ? renderMarkdownLinks(msg.content) : (
                     // Streaming cursor
                     <span className="inline-block w-2 h-3 bg-current animate-pulse" />
                   )}
@@ -242,12 +280,12 @@ export default function ChatWidget() {
               rows={1}
               disabled={isStreaming}
               className={`
-                flex-1 px-4 py-3 resize-none bg-transparent
+                flex-1 px-4 py-4 resize-none bg-transparent
                 placeholder-muted/50
                 focus:outline-none
                 disabled:opacity-50
               `}
-              style={{ fontSize: "0.82rem", maxHeight: "96px" }}
+              style={{ fontSize: "0.82rem", maxHeight: "96px", lineHeight: 1.6 }}
             />
             <button
               onClick={sendMessage}
