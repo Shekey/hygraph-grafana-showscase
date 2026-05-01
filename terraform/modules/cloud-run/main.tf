@@ -4,7 +4,7 @@ resource "google_cloud_run_v2_service" "app" {
   location = var.region
 
   # OVO JE KLJUČNO: Dozvoljava pristup direktno preko .run.app URL-a
-  ingress = "INGRESS_TRAFFIC_ALL" 
+  ingress = "INGRESS_TRAFFIC_ALL"
 
   template {
     service_account = var.nextjs_run_sa_email
@@ -67,7 +67,7 @@ resource "google_cloud_run_v2_service" "app" {
       # Liveness probe - postavljen na "/" radi sigurnosti
       liveness_probe {
         http_get {
-          path = "/" 
+          path = "/"
           port = var.app_port
         }
         initial_delay_seconds = 5
