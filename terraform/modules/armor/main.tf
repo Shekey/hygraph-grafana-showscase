@@ -85,9 +85,9 @@ resource "google_compute_security_policy" "app_policy" {
       }
     }
     rate_limit_options {
-      conform_action = "allow"
-      exceed_action  = "deny(429)"
-      enforce_on_key = "IP"
+      conform_action   = "allow"
+      exceed_action    = "deny(429)"
+      enforce_on_key   = "IP"
       ban_duration_sec = 600
       rate_limit_threshold {
         count        = 1000
@@ -106,7 +106,7 @@ resource "google_compute_security_policy" "app_policy" {
         expression = "origin.region_code == 'CN' || origin.region_code == 'RU'"
       }
     }
-    preview = true
+    preview     = true
     description = "Preview: Block requests from CN/RU (disabled by default)"
   }
 

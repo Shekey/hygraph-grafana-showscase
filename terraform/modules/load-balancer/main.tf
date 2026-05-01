@@ -42,10 +42,10 @@ resource "google_compute_backend_service" "app" {
   dynamic "cdn_policy" {
     for_each = var.enable_cdn ? [1] : []
     content {
-      cache_mode = "USE_ORIGIN_HEADERS"
-      client_ttl = 3600
+      cache_mode  = "USE_ORIGIN_HEADERS"
+      client_ttl  = 3600
       default_ttl = 3600
-      max_ttl    = 86400
+      max_ttl     = 86400
 
       cache_key_policy {
         include_host         = true
@@ -53,7 +53,7 @@ resource "google_compute_backend_service" "app" {
         include_query_string = false
       }
 
-      negative_caching = true
+      negative_caching  = true
       serve_while_stale = 86400
     }
   }
