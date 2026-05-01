@@ -60,8 +60,9 @@ module "cloud_run" {
 module "armor" {
   source = "./modules/armor"
 
-  service_name = var.service_name
-  environment  = var.environment
+  service_name        = var.service_name
+  environment         = var.environment
+  enable_geo_blocking = var.enable_geo_blocking
 }
 
 module "load_balancer" {

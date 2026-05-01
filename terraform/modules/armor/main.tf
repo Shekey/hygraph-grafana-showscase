@@ -97,7 +97,7 @@ resource "google_compute_security_policy" "app_policy" {
     description = "Rate limit: 1000 req/min per IP, ban 10min if exceeded"
   }
 
-  # Rule 8: Block known bot patterns
+  # Rule 8: Geo-blocking (CN/RU)
   rule {
     action   = "deny(403)"
     priority = 2100
@@ -106,8 +106,8 @@ resource "google_compute_security_policy" "app_policy" {
         expression = "origin.region_code == 'CN' || origin.region_code == 'RU'"
       }
     }
-    preview     = true
-    description = "Preview: Block requests from CN/RU (disabled by default)"
+    preview     = !var.enable_geo_blocking
+    description = "Geo-blocking: CN/RU regions"
   }
 
   # Default: allow all

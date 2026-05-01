@@ -7,3 +7,9 @@ variable "environment" {
   type        = string
   description = "Environment (prod or staging)"
 }
+
+variable "enable_geo_blocking" {
+  type        = bool
+  description = "Enable geo-blocking for CN/RU regions"
+  default     = false
+}

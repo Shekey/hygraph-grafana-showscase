@@ -54,6 +54,12 @@ variable "enable_armor" {
   description = "Enable Cloud Armor WAF protection"
 }
 
+variable "enable_geo_blocking" {
+  type        = bool
+  default     = false
+  description = "Enable geo-blocking for CN/RU regions in Cloud Armor"
+}
+
 variable "github_org" {
   type        = string
   default     = "Shekey"

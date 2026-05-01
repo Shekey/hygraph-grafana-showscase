@@ -43,3 +43,9 @@ yarn-error.log*
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
+
+# Terraform
+terraform/tfplan
+terraform/tfplan.txt
+terraform/.terraform/
+terraform/.terraform.lock.hcl

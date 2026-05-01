@@ -54,15 +54,22 @@ jobs:
           service: 'hygraph-showcase'
           region: 'europe-west3'
           image: 'europe-west3-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/hygraph-showcase/nextjs:${{ github.sha }}'
-          tag: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.number) || '' }}
+          tag: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.number) || 'stable' }}
           no_traffic: ${{ github.event_name == 'pull_request' }}
-          # Slanje varijabli u RUNTIME (da server ne pukne pri startu)
           env_vars: |
             NODE_ENV=production
             GCP_PROJECT_ID=${{ secrets.GCP_PROJECT_ID }}
-            NEXT_PUBLIC_HYGRAPH_CONTENT_ENDPOINT=${{ secrets.NEXT_PUBLIC_HYGRAPH_CONTENT_ENDPOINT }}
-            NEXT_PUBLIC_HYGRAPH_ALWAYS_DRAFT=${{ secrets.NEXT_PUBLIC_HYGRAPH_ALWAYS_DRAFT }}
-            NEXT_PUBLIC_SITE_URL=${{ secrets.NEXT_PUBLIC_SITE_URL }}
+
+      - name: Output Rollback Instructions
+        if: github.event_name != 'pull_request'
+        run: |
+          echo "✅ Production deployment complete"
+          echo ""
+          echo "Revision: ${{ steps.deploy.outputs.revision_name }}"
+          echo "Service URL: ${{ steps.deploy.outputs.url }}"
+          echo ""
+          echo "To rollback to previous revision:"
+          echo "gcloud run services update-traffic hygraph-showcase --to-revisions=PREVIOUS=100 --region=europe-west3"
 
       - name: Post PR Preview Comment
         if: github.event_name == 'pull_request'
