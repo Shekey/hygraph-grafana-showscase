@@ -2,7 +2,6 @@ locals {
   secret_names = [
     "HYGRAPH_PREVIEW_TOKEN",
     "HYGRAPH_PREVIEW_SECRET",
-    "NEXT_PUBLIC_SENTRY_DSN",
     "SENTRY_AUTH_TOKEN",
   ]
 }

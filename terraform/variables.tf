@@ -21,8 +21,7 @@ variable "environment" {
 
 variable "service_name" {
   type        = string
-  default     = "hygraph-showcase"
-  description = "Cloud Run service name"
+  description = "Cloud Run service name (hygraph-showcase-dev/staging/prod)"
 }
 
 variable "app_port" {
@@ -135,4 +134,14 @@ variable "image_tag" {
   type        = string
   default     = "latest"
   description = "Container image tag (overridden by CI/CD)"
+}
+
+variable "hygraph_endpoint" {
+  type        = string
+  description = "Hygraph GraphQL API endpoint"
+}
+
+variable "sentry_dsn" {
+  type        = string
+  description = "Sentry DSN for error tracking (public)"
 }

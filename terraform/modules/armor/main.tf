@@ -2,6 +2,18 @@ resource "google_compute_security_policy" "app_policy" {
   name        = "${var.service_name}-armor-${var.environment}"
   description = "Cloud Armor security policy for ${var.service_name}"
 
+  # Rule 0: Allow Next.js image optimization
+  rule {
+    action   = "allow"
+    priority = 100
+    match {
+      expr {
+        expression = "request.path.contains('_next/image')"
+      }
+    }
+    description = "Allow Next.js image optimization requests"
+  }
+
   # Rule 1: XSS protection
   rule {
     action   = "deny(403)"
