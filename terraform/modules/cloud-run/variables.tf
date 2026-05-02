@@ -93,3 +93,13 @@ variable "ingress_mode" {
   default     = "INGRESS_TRAFFIC_ALL"
   description = "Cloud Run ingress mode (INGRESS_TRAFFIC_ALL or INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER)"
 }
+
+variable "hygraph_endpoint" {
+  type        = string
+  description = "Hygraph GraphQL API endpoint"
+}
+
+variable "sentry_dsn" {
+  type        = string
+  description = "Sentry DSN for error tracking"
+}

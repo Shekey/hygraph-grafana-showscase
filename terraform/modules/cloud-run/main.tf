@@ -49,6 +49,16 @@ resource "google_cloud_run_v2_service" "app" {
         value = var.region
       }
 
+      env {
+        name  = "NEXT_PUBLIC_HYGRAPH_CONTENT_ENDPOINT"
+        value = var.hygraph_endpoint
+      }
+
+      env {
+        name  = "NEXT_PUBLIC_SENTRY_DSN"
+        value = var.sentry_dsn
+      }
+
       # Secret-backed environment variables
       dynamic "env" {
         for_each = var.secret_ids
@@ -97,7 +107,7 @@ resource "google_cloud_run_v2_service" "app" {
 }
 
 resource "google_cloud_run_service_iam_binding" "public_access" {
-  count = var.ingress_mode == "INGRESS_TRAFFIC_ALL" ? 1 : 0
+  count = (var.ingress_mode == "INGRESS_TRAFFIC_ALL" || var.ingress_mode == "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER") ? 1 : 0
 
   service  = google_cloud_run_v2_service.app.name
   location = google_cloud_run_v2_service.app.location

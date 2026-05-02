@@ -119,6 +119,12 @@ jobs:
             echo "gcloud run services update-traffic ${{ steps.env.outputs.service }} --to-revisions=PREVIOUS=100 --region=europe-west3"
           fi
 
+      - name: Purge CDN Cache (Production only)
+        if: github.ref == 'refs/heads/main'
+        run: |
+          gcloud compute url-maps invalidate-cdn-cache hygraph-showcase-prod-url-map --path="/*"
+          echo "✅ CDN cache purged for production"
+
       - name: Post PR Preview Comment
         if: github.event_name == 'pull_request'
         uses: actions/github-script@v7

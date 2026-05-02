@@ -88,6 +88,8 @@ jobs:
         run: |
           terraform plan \
             -var-file="environments/${{ steps.env.outputs.name }}.tfvars" \
+            -var="hygraph_endpoint=${{ secrets.NEXT_PUBLIC_HYGRAPH_CONTENT_ENDPOINT }}" \
+            -var="sentry_dsn=${{ secrets.NEXT_PUBLIC_SENTRY_DSN }}" \
             -out=tfplan \
             -no-color
           echo "success=true" >> $GITHUB_OUTPUT
@@ -127,3 +129,6 @@ ${truncatedPlan}
           terraform apply \
             -auto-approve \
             tfplan
+        env:
+          TF_VAR_hygraph_endpoint: ${{ secrets.NEXT_PUBLIC_HYGRAPH_CONTENT_ENDPOINT }}
+          TF_VAR_sentry_dsn: ${{ secrets.NEXT_PUBLIC_SENTRY_DSN }}
