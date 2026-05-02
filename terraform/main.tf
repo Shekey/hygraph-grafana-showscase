@@ -54,6 +54,8 @@ module "cloud_run" {
   secret_ids          = module.secrets.secret_ids
   depends_on_secrets  = [module.secrets]
   ingress_mode        = var.ingress_mode
+  hygraph_endpoint    = var.hygraph_endpoint
+  sentry_dsn          = var.sentry_dsn
 
   depends_on = [module.iam, module.secrets]
 }
