@@ -5,6 +5,7 @@
 import { notFound } from 'next/navigation';
 import { isValidLocale } from '@/lib/utils/locale';
 import { hygraphRequest } from '@/lib/hygraph/client';
+import { recordPageRequest } from '@/lib/otel-custom-metrics';
 import {
   GetJobDocument,
   GetJobsDocument,
@@ -46,10 +47,14 @@ export default async function JobPage({ params }: JobPageProps) {
     notFound();
   }
 
+  const t0 = performance.now();
+
   const [jobData, allJobsData] = await Promise.all([
     hygraphRequest<GetJobQuery>(GetJobDocument, { slug } as GetJobQueryVariables),
     hygraphRequest<GetJobsQuery>(GetJobsDocument, {}),
   ]);
+
+  recordPageRequest(`/[locale]/careers/[slug]`, Math.round(performance.now() - t0), 200);
 
   const job = jobData.job;
   if (!job) {

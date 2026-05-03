@@ -5,6 +5,7 @@
 import { notFound } from "next/navigation";
 import { isValidLocale } from "@/lib/utils/locale";
 import { hygraphRequest } from "@/lib/hygraph/client";
+import { recordPageRequest } from "@/lib/otel-custom-metrics";
 import {
   GetProductBySlugDocument,
   GetProductsDocument,
@@ -49,6 +50,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
     notFound();
   }
 
+  const t0 = performance.now();
+
   const [productData, allProductsData] = await Promise.all([
     hygraphRequest<GetProductBySlugQuery>(GetProductBySlugDocument, {
       slug,
@@ -58,6 +61,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
       locale,
     } as GetProductsQueryVariables),
   ]);
+
+  recordPageRequest(`/[locale]/product/[slug]`, Math.round(performance.now() - t0), 200);
 
   const bike = productData.product;
   if (!bike) {

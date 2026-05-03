@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { withMetrics } from "@/lib/withMetrics";
 import mockProducts from "./products.json";
 
 const PRODUCTS = mockProducts as Record<string, Record<string, unknown>>;
 
-async function handler(request: NextRequest) {
+export async function GET(request: NextRequest) {
   const productIdStr = request.nextUrl.searchParams.get("id");
 
   if (!productIdStr) {
@@ -30,5 +29,3 @@ async function handler(request: NextRequest) {
     },
   });
 }
-
-export const GET = withMetrics("/catalog/products", handler);

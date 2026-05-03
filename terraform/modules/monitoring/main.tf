@@ -81,3 +81,43 @@ resource "google_monitoring_alert_policy" "lb_5xx" {
 
   notification_channels = [google_monitoring_notification_channel.email.id]
 }
+
+# Log-based metric: Cloud Run request latency distribution
+resource "google_logging_metric" "cloud_run_request_latency" {
+  name            = "cloud_run_request_latency"
+  description     = "Distribution of Cloud Run request latencies extracted from httpRequest.latency"
+  filter          = "resource.type=\"cloud_run_revision\" AND logName=~\"run.googleapis.com%2Frequests\""
+  metric_descriptor {
+    metric_kind = "DELTA"
+    value_type  = "DISTRIBUTION"
+    unit        = "s"
+    labels {
+      key         = "http_method"
+      value_type  = "STRING"
+      description = "HTTP request method"
+    }
+    labels {
+      key         = "status"
+      value_type  = "INT64"
+      description = "HTTP response status code"
+    }
+    labels {
+      key         = "route"
+      value_type  = "STRING"
+      description = "Request route (first two path segments)"
+    }
+  }
+  label_extractors = {
+    "http_method" = "EXTRACT(httpRequest.requestMethod)"
+    "status"      = "CAST(REGEXP_EXTRACT(httpRequest.status, \"([0-9]{3})\") AS INT64)"
+    "route"       = "REGEXP_EXTRACT(httpRequest.requestUrl, \"https?://[^/]+(/_next/static|/_next/image|/api/[^/?]+|/[^/]+/[^/?]+)\")"
+  }
+  value_extractor = "EXTRACT(httpRequest.latency)"
+  bucket_options {
+    exponential_buckets {
+      num_finite_buckets = 64
+      growth_factor      = 2
+      scale              = 0.001 # 1ms
+    }
+  }
+}

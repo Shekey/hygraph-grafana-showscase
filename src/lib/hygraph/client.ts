@@ -113,8 +113,7 @@ export async function hygraphRequest<T>(
   try {
     const result = await client.request<T>(queryString, variables);
     const durationMs = Math.round(performance.now() - t0);
-    const durationSec = durationMs / 1000;
-    hygraphFetchDuration.record(durationSec, { query_name: queryName, locale, status: 'success' });
+    hygraphFetchDuration.record(durationMs, { query_name: queryName, locale, status: 'success' });
     logger.info('hygraph_fetch', {
       query_name: queryName,
       locale,
@@ -124,8 +123,7 @@ export async function hygraphRequest<T>(
     return result;
   } catch (err) {
     const durationMs = Math.round(performance.now() - t0);
-    const durationSec = durationMs / 1000;
-    hygraphFetchDuration.record(durationSec, { query_name: queryName, locale, status: 'error' });
+    hygraphFetchDuration.record(durationMs, { query_name: queryName, locale, status: 'error' });
     logger.error('hygraph_fetch_error', {
       query_name: queryName,
       locale,

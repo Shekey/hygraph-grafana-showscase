@@ -14,6 +14,7 @@ import { SegmentProvider } from "@/lib/context/SegmentContext";
 import { SiteSettingsProvider } from "@/lib/context/SiteSettingsContext";
 import SegmentSwitcher from "@/components/ui/SegmentSwitcher";
 import ChatWidget from "@/components/ui/ChatWidget";
+import { WebVitals } from "@/components/WebVitals";
 import { hygraphRequest } from "@/lib/hygraph/client";
 import {
   GetSiteSettingsDocument,
@@ -32,6 +33,16 @@ interface LocaleLayoutProps {
   }>;
 }
 
+async function fetchLayoutData(locale: string) {
+  return Promise.all([
+    hygraphRequest<GetSiteSettingsQuery>(GetSiteSettingsDocument, {
+      locale,
+    } as GetSiteSettingsQueryVariables),
+    hygraphRequest<GetSegmentsQuery>(GetSegmentsDocument, {}),
+    hygraphRequest<GetProductCategoriesQuery>(GetProductCategoriesDocument, {}),
+  ]);
+}
+
 export default async function LocaleLayout({
   children,
   params,
@@ -43,13 +54,7 @@ export default async function LocaleLayout({
     notFound();
   }
 
-  const [siteSettingsData, segmentsData, categoriesData] = await Promise.all([
-    hygraphRequest<GetSiteSettingsQuery>(GetSiteSettingsDocument, {
-      locale,
-    } as GetSiteSettingsQueryVariables),
-    hygraphRequest<GetSegmentsQuery>(GetSegmentsDocument, {}),
-    hygraphRequest<GetProductCategoriesQuery>(GetProductCategoriesDocument, {}),
-  ]);
+  const [siteSettingsData, segmentsData, categoriesData] = await fetchLayoutData(locale);
 
   const siteSettings = siteSettingsData.allSiteSettings?.[0] ?? null;
   const segments = segmentsData.segments ?? [];
@@ -79,6 +84,7 @@ export default async function LocaleLayout({
               <SegmentSwitcher segments={segments} />
             </Suspense>
             <ChatWidget />
+            <WebVitals />
           </div>
         </SegmentProvider>
       </Suspense>

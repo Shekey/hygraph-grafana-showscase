@@ -9,6 +9,7 @@ import {
   createComponentChainLink,
 } from "@hygraph/preview-sdk/core";
 import { hygraphRequest } from "@/lib/hygraph/client";
+import { recordPageRequest } from "@/lib/otel-custom-metrics";
 import {
   GetPageDocument,
   type GetPageQuery,
@@ -163,6 +164,8 @@ export default async function Page({ params, searchParams }: PageProps) {
   const { locale, slug } = await params;
   const { segment: segmentIdFromUrl } = await searchParams;
 
+  const t0 = performance.now();
+
   // URL param takes precedence (iframe/preview); fall back to cookie (standalone)
   const cookieStore = await cookies();
   const segmentId =
@@ -173,6 +176,8 @@ export default async function Page({ params, searchParams }: PageProps) {
     locale,
     segmentId,
   } as GetPageQueryVariables);
+
+  recordPageRequest(`/[locale]/[slug]`, Math.round(performance.now() - t0), 200);
 
   const page = data?.pages?.[0];
 
