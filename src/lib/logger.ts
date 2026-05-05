@@ -1,32 +1,47 @@
-import winston from "winston";
+type LogLevel = 'info' | 'warn' | 'error' | 'debug';
 
-const isProduction = process.env.NODE_ENV === "production";
-
-const transports: winston.transport[] = [
-  new winston.transports.Console({
-    format: isProduction
-      ? winston.format.json()
-      : winston.format.combine(winston.format.colorize(), winston.format.simple()),
-  }),
-];
-
-// Add Cloud Logging transport in production
-if (isProduction) {
-  try {
-    const { LoggingWinston } = require("@google-cloud/logging-winston");
-    const cloudLogging = new LoggingWinston({
-      projectId: process.env.GCP_PROJECT_ID,
-      labels: { app: "hybike" },
-      resourceType: "cloud_run_revision",
-    });
-    transports.push(cloudLogging);
-  } catch (err) {
-    console.error("[logger] Failed to initialize Cloud Logging transport:", err instanceof Error ? err.message : String(err));
-  }
+interface LogContext {
+  [key: string]: string | number | boolean | undefined;
 }
 
-export const logger = winston.createLogger({
-  level: isProduction ? "info" : "debug",
-  defaultMeta: { app: "hybike", env: process.env.NODE_ENV ?? "development" },
-  transports,
-});
+function formatLog(level: LogLevel, message: string, context: LogContext = {}) {
+  const timestamp = new Date().toISOString();
+  const contextStr = Object.keys(context).length > 0 ? JSON.stringify(context) : '';
+  return `[${timestamp}] ${level.toUpperCase()} ${message} ${contextStr}`.trim();
+}
+
+export const logger = {
+  info: (message: string, context?: LogContext) => {
+    const formatted = formatLog('info', message, context);
+    console.log(formatted);
+  },
+
+  warn: (message: string, context?: LogContext) => {
+    const formatted = formatLog('warn', message, context);
+    console.warn(formatted);
+  },
+
+  error: (message: string, context?: LogContext) => {
+    const formatted = formatLog('error', message, context);
+    console.error(formatted);
+  },
+
+  debug: (message: string, context?: LogContext) => {
+    if (process.env.NODE_ENV === 'development') {
+      const formatted = formatLog('debug', message, context);
+      console.debug(formatted);
+    }
+  },
+
+  // Structured logging for HTTP requests
+  httpRequest: (route: string, method: string, statusCode: number, durationMs: number) => {
+    logger.info('http_request', {
+      route,
+      method,
+      status_code: statusCode,
+      duration_ms: Math.round(durationMs),
+      env: process.env.NODE_ENV || 'development',
+      app: 'hygike',
+    });
+  },
+};

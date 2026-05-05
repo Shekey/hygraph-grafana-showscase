@@ -1,6 +1,11 @@
 variable "region" {
   type        = string
-  description = "GCP region"
+  description = "Primary GCP region (for backwards compatibility, not used for multi-region)"
+}
+
+variable "regions" {
+  type        = list(string)
+  description = "List of GCP regions for multi-region NEG setup"
 }
 
 variable "service_name" {
@@ -20,7 +25,7 @@ variable "domain" {
 
 variable "cloud_run_service_name" {
   type        = string
-  description = "Cloud Run service name"
+  description = "Cloud Run service name (same across all regions)"
 }
 
 variable "enable_cdn" {

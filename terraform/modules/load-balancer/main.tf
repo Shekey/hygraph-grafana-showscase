@@ -16,11 +16,13 @@ resource "google_compute_managed_ssl_certificate" "app_cert" {
   }
 }
 
-# Serverless NEG (Network Endpoint Group)
+# Serverless NEGs (Network Endpoint Groups) — one per region
 resource "google_compute_region_network_endpoint_group" "cloudrun_neg" {
-  name                  = "${var.service_name}-neg"
+  for_each = toset(var.regions)
+
+  name                  = "${var.service_name}-neg-${each.value}"
   network_endpoint_type = "SERVERLESS"
-  region                = var.region
+  region                = each.value
 
   cloud_run {
     service = var.cloud_run_service_name
@@ -36,8 +38,11 @@ resource "google_compute_backend_service" "app" {
   security_policy       = var.armor_policy_id
   enable_cdn            = var.enable_cdn
 
-  backend {
-    group = google_compute_region_network_endpoint_group.cloudrun_neg.id
+  dynamic "backend" {
+    for_each = google_compute_region_network_endpoint_group.cloudrun_neg
+    content {
+      group = backend.value.id
+    }
   }
 
   dynamic "cdn_policy" {

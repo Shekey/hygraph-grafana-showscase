@@ -72,8 +72,9 @@ jobs:
 
           docker push $IMAGE_NAME
 
-      - name: Deploy to Cloud Run
+      - name: Deploy to Cloud Run (Single Region)
         id: deploy
+        if: github.ref != 'refs/heads/main'
         uses: 'google-github-actions/deploy-cloudrun@v2'
         with:
           service: ${{ steps.env.outputs.service }}
@@ -82,28 +83,62 @@ jobs:
           ingress: ${{ steps.env.outputs.ingress }}
           tag: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.number) || 'stable' }}
           no_traffic: ${{ github.event_name == 'pull_request' }}
-          env_vars: |
-            NODE_ENV=production
-            GCP_PROJECT_ID=${{ secrets.GCP_PROJECT_ID }}
 
-      - name: Deploy to Terraform-managed service (production only)
+      - name: Deploy to Cloud Run (Multi-Region Production)
         if: github.ref == 'refs/heads/main'
         run: |
-          gcloud run deploy hygraph-showcase \
-            --region=europe-west3 \
-            --image=europe-west3-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/hygraph-showcase/nextjs:${{ github.sha }}
+          REGIONS=("europe-west3" "us-central1" "asia-southeast1" "australia-southeast1")
+          SERVICE="${{ steps.env.outputs.service }}"
+          IMAGE="europe-west3-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/hygraph-showcase/nextjs:${{ github.sha }}"
+          TAG="stable"
+
+          for REGION in "${REGIONS[@]}"; do
+            echo "Deploying to $REGION..."
+            gcloud run deploy "$SERVICE" \
+              --region="$REGION" \
+              --image="$IMAGE" \
+              --tag="$TAG" \
+              --no-traffic=false \
+              --platform=managed \
+              --quiet
+            echo "✅ Deployment to $REGION complete"
+          done
+
+      - name: Deploy to Terraform-managed service (production only, multi-region)
+        if: github.ref == 'refs/heads/main'
+        run: |
+          REGIONS=("europe-west3" "us-central1" "asia-southeast1" "australia-southeast1")
+          IMAGE="europe-west3-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/hygraph-showcase/nextjs:${{ github.sha }}"
+
+          for REGION in "${REGIONS[@]}"; do
+            echo "Deploying hygraph-showcase to $REGION..."
+            gcloud run deploy hygraph-showcase \
+              --region="$REGION" \
+              --image="$IMAGE" \
+              --platform=managed \
+              --quiet
+            echo "✅ Terraform-managed service deployed to $REGION"
+          done
 
       - name: Update Cloud Run Service Configuration
         run: |
-          # Set service account
-          gcloud run services update ${{ steps.env.outputs.service }} \
-            --region=europe-west3 \
-            --service-account=nextjs-run-sa@${{ secrets.GCP_PROJECT_ID }}.iam.gserviceaccount.com
+          SERVICE="${{ steps.env.outputs.service }}"
+          SA="nextjs-run-sa@${{ secrets.GCP_PROJECT_ID }}.iam.gserviceaccount.com"
+          INGRESS="${{ steps.env.outputs.ingress }}"
 
-          # Set ingress
-          gcloud run services update ${{ steps.env.outputs.service }} \
-            --region=europe-west3 \
-            --ingress=${{ steps.env.outputs.ingress }}
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            REGIONS=("europe-west3" "us-central1" "asia-southeast1" "australia-southeast1")
+          else
+            REGIONS=("europe-west3")
+          fi
+
+          for REGION in "${REGIONS[@]}"; do
+            gcloud run services update "$SERVICE" \
+              --region="$REGION" \
+              --service-account="$SA" \
+              --ingress="$INGRESS" \
+              --quiet
+          done
 
       - name: Output Deployment Summary
         if: github.event_name != 'pull_request'
@@ -111,12 +146,16 @@ jobs:
           echo "✅ ${{ steps.env.outputs.env_label }} deployment complete"
           echo ""
           echo "Service: ${{ steps.env.outputs.service }}"
-          echo "Revision: ${{ steps.deploy.outputs.revision_name }}"
-          echo "URL: ${{ steps.deploy.outputs.url }}"
-          echo ""
-          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+          if [[ "${{ github.ref }}" != "refs/heads/main" ]]; then
+            echo "Revision: ${{ steps.deploy.outputs.revision_name }}"
+            echo "URL: ${{ steps.deploy.outputs.url }}"
+            echo ""
             echo "To rollback to previous revision:"
             echo "gcloud run services update-traffic ${{ steps.env.outputs.service }} --to-revisions=PREVIOUS=100 --region=europe-west3"
+          else
+            echo "Regions: europe-west3, us-central1, asia-southeast1, australia-southeast1"
+            echo "To rollback a specific region, run:"
+            echo "gcloud run services update-traffic \$SERVICE --to-revisions=PREVIOUS=100 --region=\$REGION"
           fi
 
       - name: Purge CDN Cache (Production only)
