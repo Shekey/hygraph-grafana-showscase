@@ -4,7 +4,7 @@ output "lb_ip_address" {
 }
 
 output "cloud_run_url" {
-  value       = module.cloud_run.service_url
+  value       = module.cloud_run[var.region].service_url
   description = "Internal Cloud Run service URL (not publicly accessible)"
 }
 

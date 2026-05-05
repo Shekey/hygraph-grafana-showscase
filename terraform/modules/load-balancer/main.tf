@@ -20,7 +20,7 @@ resource "google_compute_managed_ssl_certificate" "app_cert" {
 resource "google_compute_region_network_endpoint_group" "cloudrun_neg" {
   for_each = toset(var.regions)
 
-  name                  = "${var.service_name}-neg-${each.value}"
+  name                  = each.value == var.region ? "${var.service_name}-neg" : "${var.service_name}-neg-${each.value}"
   network_endpoint_type = "SERVERLESS"
   region                = each.value
 

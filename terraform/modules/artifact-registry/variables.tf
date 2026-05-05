@@ -5,7 +5,12 @@ variable "project_id" {
 
 variable "region" {
   type        = string
-  description = "GCP region for the artifact registry"
+  description = "Primary GCP region (for backwards compatibility)"
+}
+
+variable "regions" {
+  type        = list(string)
+  description = "List of GCP regions for multi-region artifact registries"
 }
 
 variable "service_name" {
