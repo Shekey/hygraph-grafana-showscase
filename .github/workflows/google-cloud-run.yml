@@ -2,9 +2,9 @@ name: Deploy to Cloud Run
 
 on:
   push:
-    branches: [ "main", "staging", "develop" ]
+    branches: [ "main", "develop" ]
   pull_request:
-    branches: [ "main", "staging", "develop" ]
+    branches: [ "main", "develop" ]
 
 permissions:
   contents: 'read'
@@ -14,7 +14,7 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: ${{ github.ref == 'refs/heads/main' && 'production' || (github.ref == 'refs/heads/staging' && 'staging' || 'development') }}
+    environment: ${{ github.ref == 'refs/heads/main' && 'production' || 'development' }}
 
     steps:
       - name: Checkout
@@ -33,11 +33,6 @@ jobs:
             echo "service=hygraph-showcase-prod" >> $GITHUB_OUTPUT
             echo "env_label=Production" >> $GITHUB_OUTPUT
             echo "ingress=internal" >> $GITHUB_OUTPUT
-          elif [[ "${{ github.ref }}" == "refs/heads/staging" ]]; then
-            echo "environment=staging" >> $GITHUB_OUTPUT
-            echo "service=hygraph-showcase-staging" >> $GITHUB_OUTPUT
-            echo "env_label=Staging" >> $GITHUB_OUTPUT
-            echo "ingress=all" >> $GITHUB_OUTPUT
           else
             echo "environment=development" >> $GITHUB_OUTPUT
             echo "service=hygraph-showcase-dev" >> $GITHUB_OUTPUT
@@ -96,7 +91,6 @@ jobs:
             --region="europe-west3" \
             --image="$IMAGE" \
             --tag="$TAG" \
-            --no-traffic=false \
             --platform=managed \
             --quiet
           echo "✅ Deployment to europe-west3 complete"
@@ -127,7 +121,6 @@ jobs:
             --quiet
 
       - name: Output Deployment Summary
-        if: github.event_name != 'pull_request'
         run: |
           echo "✅ ${{ steps.env.outputs.env_label }} deployment complete"
           echo ""
