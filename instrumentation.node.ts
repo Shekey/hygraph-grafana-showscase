@@ -1,6 +1,8 @@
 import { NodeSDK } from '@opentelemetry/sdk-node';
 import { getNodeAutoInstrumentations } from '@opentelemetry/auto-instrumentations-node';
 import { PeriodicExportingMetricReader } from '@opentelemetry/sdk-metrics';
+import { Resource } from '@opentelemetry/resources';
+import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
 import type { ExportResult } from '@opentelemetry/core';
 import type { ResourceMetrics, PushMetricExporter } from '@opentelemetry/sdk-metrics';
 
@@ -94,9 +96,19 @@ export function initializeOpenTelemetry() {
     console.log(`[OpenTelemetry] Configured for local OTLP (endpoint: ${endpoint})`);
   }
 
+  // Add environment as a resource attribute for filtering metrics by env in Grafana
+  const environment = process.env.APP_ENV || process.env.NODE_ENV || 'unknown';
+  const resource = Resource.default().merge(
+    new Resource({
+      [SemanticResourceAttributes.DEPLOYMENT_ENVIRONMENT]: environment,
+      environment, // Also add as plain 'environment' for easier querying
+    }),
+  );
+
   const sdk = new NodeSDK({
     traceExporter,
     metricReader,
+    resource,
     instrumentations: [getNodeAutoInstrumentations()],
   });
 

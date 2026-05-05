@@ -65,7 +65,7 @@
       },
       "targets": [
         {
-          "expr": "page_requests_total",
+          "expr": "page_requests_total{environment=~\"${environment}\"}",
           "legendFormat": "{{http_route}}",
           "refId": "A"
         }
@@ -147,7 +147,7 @@
       },
       "targets": [
         {
-          "expr": "rate(http_server_duration_milliseconds_count[1m])",
+          "expr": "rate(http_server_duration_milliseconds_count{environment=~\"${environment}\"}[1m])",
           "legendFormat": "{{http_method}} {{http_status_code}}",
           "refId": "A"
         }
@@ -229,7 +229,7 @@
       },
       "targets": [
         {
-          "expr": "histogram_quantile(0.95, sum by (http_route, le) (rate(page_request_duration_ms_bucket[1m])))",
+          "expr": "histogram_quantile(0.95, sum by (http_route, le) (rate(page_request_duration_ms_bucket{environment=~\"${environment}\"}[1m])))",
           "legendFormat": "{{http_route}} p95",
           "refId": "A"
         }
@@ -311,7 +311,7 @@
       },
       "targets": [
         {
-          "expr": "rate(http_server_duration_milliseconds_count{http_status_code=~\"[45]..\"}[1m]) / rate(http_server_duration_milliseconds_count[1m])",
+          "expr": "rate(http_server_duration_milliseconds_count{environment=~\"${environment}\",http_status_code=~\"[45]..\"}[1m]) / rate(http_server_duration_milliseconds_count{environment=~\"${environment}\"}[1m])",
           "legendFormat": "error rate",
           "refId": "A"
         }
@@ -393,7 +393,7 @@
       },
       "targets": [
         {
-          "expr": "histogram_quantile(0.75, sum by (le, route) (rate(web_vital_value_bucket{metric_name=\"LCP\"}[5m])))",
+          "expr": "histogram_quantile(0.75, sum by (le, route) (rate(web_vital_value_bucket{environment=~\"${environment}\",metric_name=\"LCP\"}[5m])))",
           "legendFormat": "{{route}} LCP",
           "refId": "A"
         }
@@ -475,7 +475,7 @@
       },
       "targets": [
         {
-          "expr": "histogram_quantile(0.75, sum by (le, route) (rate(web_vital_value_bucket{metric_name=\"TTFB\"}[5m])))",
+          "expr": "histogram_quantile(0.75, sum by (le, route) (rate(web_vital_value_bucket{environment=~\"${environment}\",metric_name=\"TTFB\"}[5m])))",
           "legendFormat": "{{route}} TTFB",
           "refId": "A"
         }
@@ -526,7 +526,7 @@
       },
       "targets": [
         {
-          "expr": "sum by (metric_name, rating) (increase(web_vital_requests_total[1h]))",
+          "expr": "sum by (metric_name, rating) (increase(web_vital_requests_total{environment=~\"${environment}\"}[1h]))",
           "legendFormat": "{{metric_name}} - {{rating}}",
           "refId": "A"
         }
@@ -608,12 +608,12 @@
       },
       "targets": [
         {
-          "expr": "histogram_quantile(0.75, sum by (le) (rate(page_request_duration_ms_bucket[5m])))",
+          "expr": "histogram_quantile(0.75, sum by (le) (rate(page_request_duration_ms_bucket{environment=~\"${environment}\"}[5m])))",
           "legendFormat": "Server Render p75",
           "refId": "A"
         },
         {
-          "expr": "histogram_quantile(0.75, sum by (le) (rate(web_vital_value_bucket{metric_name=\"LCP\"}[5m])))",
+          "expr": "histogram_quantile(0.75, sum by (le) (rate(web_vital_value_bucket{environment=~\"${environment}\",metric_name=\"LCP\"}[5m])))",
           "legendFormat": "Client LCP p75",
           "refId": "B"
         }
@@ -627,7 +627,47 @@
   "style": "dark",
   "tags": ["otel", "gcp", "production"],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": "All",
+          "value": ".*"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Environment",
+        "multi": false,
+        "name": "environment",
+        "options": [
+          {
+            "selected": true,
+            "text": "All",
+            "value": ".*"
+          },
+          {
+            "selected": false,
+            "text": "development",
+            "value": "development"
+          },
+          {
+            "selected": false,
+            "text": "staging",
+            "value": "staging"
+          },
+          {
+            "selected": false,
+            "text": "production",
+            "value": "production"
+          }
+        ],
+        "query": "All,development,staging,production",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "custom"
+      }
+    ]
   },
   "time": {
     "from": "now-30m",
@@ -637,6 +677,6 @@
   "timezone": "browser",
   "title": "Request Overview - OTel (Local & GCP)",
   "uid": "request-overview",
-  "version": 4,
+  "version": 5,
   "weekStart": ""
 }
