@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import { cookies } from "next/headers";
 import { isValidLocale } from "@/lib/utils/locale";
 import { hygraphRequest } from "@/lib/hygraph/client";
+import { recordPageRequest } from "@/lib/otel-custom-metrics";
 import {
   GetArticleDocument,
   GetArticlesDocument,
@@ -56,6 +57,8 @@ export default async function ArticlePage({
     notFound();
   }
 
+  const t0 = performance.now();
+
   const cookieStore = await cookies();
   const segmentId =
     segmentIdFromUrl ?? cookieStore.get("hybike-segment")?.value ?? undefined;
@@ -68,6 +71,8 @@ export default async function ArticlePage({
     } as GetArticleQueryVariables),
     hygraphRequest<GetArticlesQuery>(GetArticlesDocument, { locale }),
   ]);
+
+  recordPageRequest(`/[locale]/blog/[slug]`, Math.round(performance.now() - t0), 200);
 
   const rawArticle = articleData.article;
   if (!rawArticle) {

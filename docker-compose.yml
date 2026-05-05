@@ -1,5 +1,20 @@
 version: "3.8"
 services:
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.98.0
+    command: [--config=/etc/otel-collector-config.yaml]
+    volumes:
+      - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml:ro
+    ports:
+      - "4327:4317"   # OTLP gRPC receiver
+      - "4328:4318"   # OTLP HTTP receiver
+      - "9411:9411"   # Zipkin
+      - "8890:8889"   # Prometheus metrics
+    environment:
+      - GOGC=80
+    depends_on:
+      - prometheus
+
   prometheus:
     image: prom/prometheus:v2.51.0
     volumes:
@@ -15,7 +30,8 @@ services:
       - "3001:3000"
     volumes:
       - grafana-data:/var/lib/grafana
-      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/provisioning/datasources/datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml:ro
+      - ./grafana/provisioning/dashboards/dashboards.yml:/etc/grafana/provisioning/dashboards/dashboards.yml:ro
       - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
@@ -23,17 +39,6 @@ services:
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
     depends_on:
       - prometheus
-      - loki
-
-  loki:
-    image: grafana/loki:3.0.0
-    ports:
-      - "3100:3100"
-    volumes:
-      - ./loki/loki-config.yaml:/etc/loki/local-config.yaml:ro
-      - loki-data:/loki
-    command: -config.file=/etc/loki/local-config.yaml
 
 volumes:
   grafana-data:
-  loki-data:

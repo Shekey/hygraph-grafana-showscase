@@ -9,7 +9,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import type { Part, FunctionCallPart, Content } from "@google-cloud/vertexai";
 import { VertexAI } from "@google-cloud/vertexai";
-import { withMetrics } from "@/lib/withMetrics";
 import {
   HYGRAPH_TOOLS,
   executeHygraphTool,
@@ -240,7 +239,4 @@ async function handler(request: NextRequest): Promise<Response> {
   });
 }
 
-// withMetrics wraps the entire handler.
-// Note: for a streaming response, response.status is 200 by the time the timer
-// stops, which is correct — measures time-to-first-byte.
-export const POST = withMetrics("/api/chat", handler);
+export const POST = handler;

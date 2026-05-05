@@ -5,7 +5,6 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { PREVIEW_COOKIE_NAME } from '@/lib/utils/preview';
-import { withMetrics } from '@/lib/withMetrics';
 import {
   HYGRAPH_ENDPOINT_COOKIE_NAME,
   parseAndValidateHygraphEndpoint,
@@ -64,4 +63,4 @@ async function handler(request: NextRequest) {
   return response;
 }
 
-export const GET = withMetrics("/api/preview", handler);
+export const GET = handler;

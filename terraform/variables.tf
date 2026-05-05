@@ -11,7 +11,13 @@ variable "project_number" {
 variable "region" {
   type        = string
   default     = "europe-west3"
-  description = "GCP region (Frankfurt)"
+  description = "Primary GCP region (Frankfurt) — kept for backwards compatibility"
+}
+
+variable "regions" {
+  type        = list(string)
+  default     = ["europe-west3"]
+  description = "List of GCP regions for multi-region deployment (prod only)"
 }
 
 variable "environment" {

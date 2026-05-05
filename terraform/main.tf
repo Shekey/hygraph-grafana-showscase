@@ -35,10 +35,12 @@ module "secrets" {
 }
 
 module "cloud_run" {
+  for_each = toset(var.regions)
+
   source = "./modules/cloud-run"
 
   project_id          = var.project_id
-  region              = var.region
+  region              = each.value
   environment         = var.environment
   service_name        = var.service_name
   image_uri           = module.artifact_registry.repository_url
@@ -74,10 +76,11 @@ module "load_balancer" {
   source = "./modules/load-balancer"
 
   region                 = var.region
+  regions                = var.regions
   service_name           = var.service_name
   environment            = var.environment
   domain                 = var.domain
-  cloud_run_service_name = module.cloud_run.service_name
+  cloud_run_service_name = var.service_name
   enable_cdn             = var.enable_cdn
   armor_policy_id        = var.enable_armor ? module.armor[0].policy_id : ""
 
