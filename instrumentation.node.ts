@@ -1,7 +1,8 @@
 import { NodeSDK } from '@opentelemetry/sdk-node';
 import { getNodeAutoInstrumentations } from '@opentelemetry/auto-instrumentations-node';
 import { PeriodicExportingMetricReader } from '@opentelemetry/sdk-metrics';
-import { Resource } from '@opentelemetry/resources';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { Resource } = require('@opentelemetry/resources');
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
 import type { ExportResult } from '@opentelemetry/core';
 import type { ResourceMetrics, PushMetricExporter } from '@opentelemetry/sdk-metrics';
