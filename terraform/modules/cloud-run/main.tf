@@ -107,8 +107,6 @@ resource "google_cloud_run_v2_service" "app" {
 }
 
 resource "google_cloud_run_service_iam_binding" "public_access" {
-  count = (var.ingress_mode == "INGRESS_TRAFFIC_ALL" || var.ingress_mode == "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER") ? 1 : 0
-
   service  = google_cloud_run_v2_service.app.name
   location = google_cloud_run_v2_service.app.location
   role     = "roles/run.invoker"

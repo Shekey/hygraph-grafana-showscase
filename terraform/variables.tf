@@ -73,7 +73,7 @@ variable "enable_load_balancer" {
 
 variable "ingress_mode" {
   type        = string
-  default     = "INGRESS_TRAFFIC_ALL"
+  default     = "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER"
   description = "Cloud Run ingress mode (INGRESS_TRAFFIC_ALL for dev/staging, INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER for prod)"
 }
 

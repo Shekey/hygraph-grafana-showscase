@@ -1,5 +1,7 @@
 resource "google_artifact_registry_repository" "nextjs" {
-  location      = var.region
+  for_each = toset(var.regions)
+
+  location      = each.value
   repository_id = "hygraph-showcase"
   format        = "DOCKER"
   description   = "Docker images for ${var.service_name} Next.js application"
@@ -10,9 +12,5 @@ resource "google_artifact_registry_repository" "nextjs" {
     most_recent_versions {
       keep_count = 10
     }
-  }
-
-  lifecycle {
-    prevent_destroy = true
   }
 }
