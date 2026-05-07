@@ -24,17 +24,14 @@ jobs:
         id: env
         run: |
           if [[ "${{ github.event_name }}" == "pull_request" ]]; then
-            echo "environment=development" >> $GITHUB_OUTPUT
             echo "service=hygraph-showcase-dev" >> $GITHUB_OUTPUT
             echo "env_label=Preview (dev)" >> $GITHUB_OUTPUT
             echo "ingress=all" >> $GITHUB_OUTPUT
           elif [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            echo "environment=production" >> $GITHUB_OUTPUT
             echo "service=hygraph-showcase-prod" >> $GITHUB_OUTPUT
             echo "env_label=Production" >> $GITHUB_OUTPUT
             echo "ingress=internal" >> $GITHUB_OUTPUT
           else
-            echo "environment=development" >> $GITHUB_OUTPUT
             echo "service=hygraph-showcase-dev" >> $GITHUB_OUTPUT
             echo "env_label=Development" >> $GITHUB_OUTPUT
             echo "ingress=all" >> $GITHUB_OUTPUT
@@ -53,7 +50,7 @@ jobs:
       - name: Authorize Docker
         run: gcloud auth configure-docker europe-west3-docker.pkg.dev
 
-      - name: Build and Push Container
+      - name: Build and Push Next.js image
         run: |-
           IMAGE_NAME="europe-west3-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/hygraph-showcase/nextjs:${{ github.sha }}"
 
@@ -67,7 +64,18 @@ jobs:
 
           docker push $IMAGE_NAME
 
-      - name: Deploy to Cloud Run (Single Region)
+      - name: Build and Push Grafana image
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
+        run: |
+          IMAGE_NAME="europe-west3-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/hygraph-showcase/grafana:${{ github.sha }}"
+          LATEST="europe-west3-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/hygraph-showcase/grafana:latest"
+
+          docker build -f grafana/Dockerfile -t $IMAGE_NAME -t $LATEST .
+
+          docker push $IMAGE_NAME
+          docker push $LATEST
+
+      - name: Deploy Next.js to Cloud Run (dev / PRs)
         id: deploy
         if: github.ref != 'refs/heads/main'
         uses: 'google-github-actions/deploy-cloudrun@v2'
@@ -79,62 +87,28 @@ jobs:
           tag: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.number) || 'stable' }}
           no_traffic: ${{ github.event_name == 'pull_request' }}
 
-      - name: Deploy to Cloud Run (Production - Single Region)
+      - name: Deploy Next.js to Cloud Run (production)
         if: github.ref == 'refs/heads/main'
         run: |
-          SERVICE="${{ steps.env.outputs.service }}"
-          IMAGE="europe-west3-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/hygraph-showcase/nextjs:${{ github.sha }}"
-          TAG="stable"
-
-          echo "Deploying to europe-west3..."
-          gcloud run deploy "$SERVICE" \
+          gcloud run deploy "${{ steps.env.outputs.service }}" \
             --region="europe-west3" \
-            --image="$IMAGE" \
-            --tag="$TAG" \
+            --image="europe-west3-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/hygraph-showcase/nextjs:${{ github.sha }}" \
+            --tag="stable" \
             --platform=managed \
             --quiet
-          echo "✅ Deployment to europe-west3 complete"
-
-      - name: Deploy to Terraform-managed service (production only, single region)
-        if: github.ref == 'refs/heads/main'
-        run: |
-          IMAGE="europe-west3-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/hygraph-showcase/nextjs:${{ github.sha }}"
-
-          echo "Deploying hygraph-showcase to europe-west3..."
-          gcloud run deploy hygraph-showcase \
-            --region="europe-west3" \
-            --image="$IMAGE" \
-            --platform=managed \
-            --quiet
-          echo "✅ Terraform-managed service deployed to europe-west3"
 
       - name: Update Cloud Run Service Configuration
         run: |
-          SERVICE="${{ steps.env.outputs.service }}"
-          SA="nextjs-run-sa@${{ secrets.GCP_PROJECT_ID }}.iam.gserviceaccount.com"
-          INGRESS="${{ steps.env.outputs.ingress }}"
-
-          gcloud run services update "$SERVICE" \
+          gcloud run services update "${{ steps.env.outputs.service }}" \
             --region="europe-west3" \
-            --service-account="$SA" \
-            --ingress="$INGRESS" \
+            --service-account="nextjs-run-sa@${{ secrets.GCP_PROJECT_ID }}.iam.gserviceaccount.com" \
+            --ingress="${{ steps.env.outputs.ingress }}" \
             --quiet
 
-      - name: Output Deployment Summary
-        run: |
-          echo "✅ ${{ steps.env.outputs.env_label }} deployment complete"
-          echo ""
-          echo "Service: ${{ steps.env.outputs.service }}"
-          echo "Region: europe-west3"
-          echo ""
-          echo "To rollback to previous revision:"
-          echo "gcloud run services update-traffic ${{ steps.env.outputs.service }} --to-revisions=PREVIOUS=100 --region=europe-west3"
-
-      - name: Purge CDN Cache (Production only)
+      - name: Purge CDN Cache (production only)
         if: github.ref == 'refs/heads/main'
         run: |
           gcloud compute url-maps invalidate-cdn-cache hygraph-showcase-prod-url-map --path="/*"
-          echo "✅ CDN cache purged for production"
 
       - name: Post PR Preview Comment
         if: github.event_name == 'pull_request'

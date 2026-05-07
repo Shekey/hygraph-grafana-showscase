@@ -31,6 +31,7 @@ module "secrets" {
   environment                   = var.environment
   nextjs_run_sa_email           = module.iam.nextjs_run_sa_email
   cloud_build_deployer_sa_email = module.iam.cloud_build_deployer_sa_email
+  grafana_run_sa_email          = module.iam.grafana_run_sa_email
 
   depends_on = [module.iam]
 }
@@ -44,7 +45,7 @@ module "cloud_run" {
   region              = each.value
   environment         = var.environment
   service_name        = var.service_name
-  image_uri           = module.artifact_registry.repository_urls[each.value]
+  image_uri           = "${module.artifact_registry.repository_urls[each.value]}/hygraph-showcase"
   image_tag           = var.image_tag
   app_port            = var.app_port
   nextjs_run_sa_email = module.iam.nextjs_run_sa_email
@@ -109,4 +110,20 @@ module "dns" {
   lb_ip_address = module.load_balancer[0].lb_ip_address
 
   depends_on = [module.load_balancer]
+}
+
+module "grafana" {
+  source = "./modules/grafana"
+
+  project_id           = var.project_id
+  region               = var.region
+  environment          = var.environment
+  service_name         = "grafana"
+  image_uri            = "${module.artifact_registry.repository_urls[var.region]}/grafana"
+  image_tag            = var.grafana_image_tag
+  grafana_run_sa_email = module.iam.grafana_run_sa_email
+
+  secret_ids = module.secrets.grafana_secret_ids
+
+  depends_on = [module.iam, module.secrets]
 }

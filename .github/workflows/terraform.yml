@@ -10,16 +10,6 @@ on:
     branches: [main]
     paths:
       - 'terraform/**'
-  workflow_dispatch:
-    inputs:
-      environment:
-        type: choice
-        description: 'Environment to deploy'
-        options:
-          - prod
-          - staging
-          - dev
-        default: prod
 
 permissions:
   contents: read
@@ -32,7 +22,7 @@ env:
 jobs:
   terraform:
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment || (github.ref == 'refs/heads/main' && 'production') || 'development' }}
+    environment: ${{ (github.ref == 'refs/heads/main' && 'production') || 'development' }}
     defaults:
       run:
         working-directory: terraform
@@ -58,9 +48,7 @@ jobs:
       - name: Determine environment
         id: env
         run: |
-          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            ENV="${{ inputs.environment }}"
-          elif [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
             ENV="prod"
           elif [[ "${{ github.ref }}" == "refs/heads/staging" ]]; then
             ENV="staging"
@@ -90,6 +78,7 @@ jobs:
             -var-file="environments/${{ steps.env.outputs.name }}.tfvars" \
             -var="hygraph_endpoint=${{ secrets.NEXT_PUBLIC_HYGRAPH_CONTENT_ENDPOINT }}" \
             -var="sentry_dsn=${{ secrets.NEXT_PUBLIC_SENTRY_DSN }}" \
+            -var="grafana_image_tag=latest" \
             -out=tfplan \
             -no-color
           echo "success=true" >> $GITHUB_OUTPUT
