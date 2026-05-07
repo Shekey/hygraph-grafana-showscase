@@ -58,6 +58,12 @@ resource "google_project_iam_member" "runner_trace_agent" {
   member  = "serviceAccount:${google_service_account.nextjs_run_sa.email}"
 }
 
+resource "google_project_iam_member" "runner_ar_reader" {
+  project = var.project_id
+  role    = "roles/artifactregistry.reader"
+  member  = "serviceAccount:${google_service_account.nextjs_run_sa.email}"
+}
+
 resource "google_project_iam_member" "runner_vertex_ai_user" {
   project = var.project_id
   role    = "roles/aiplatform.user"
@@ -103,5 +109,11 @@ resource "google_project_iam_member" "grafana_metric_viewer" {
 resource "google_project_iam_member" "grafana_trace_agent" {
   project = var.project_id
   role    = "roles/cloudtrace.agent"
+  member  = "serviceAccount:${google_service_account.grafana_run_sa.email}"
+}
+
+resource "google_project_iam_member" "grafana_ar_reader" {
+  project = var.project_id
+  role    = "roles/artifactregistry.reader"
   member  = "serviceAccount:${google_service_account.grafana_run_sa.email}"
 }
