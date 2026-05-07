@@ -87,6 +87,15 @@ jobs:
           tag: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.number) || 'stable' }}
           no_traffic: ${{ github.event_name == 'pull_request' }}
 
+      - name: Deploy Grafana to Cloud Run (production)
+        if: github.ref == 'refs/heads/main'
+        run: |
+          gcloud run deploy grafana \
+            --region="europe-west3" \
+            --image="europe-west3-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/hygraph-showcase/grafana:${{ github.sha }}" \
+            --platform=managed \
+            --quiet
+
       - name: Deploy Next.js to Cloud Run (production)
         if: github.ref == 'refs/heads/main'
         run: |

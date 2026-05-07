@@ -126,11 +126,6 @@ resource "google_cloud_run_v2_service" "grafana" {
     }
   }
 
-  lifecycle {
-    ignore_changes = [
-      template[0].containers[0].image
-    ]
-  }
 }
 
 resource "google_cloud_run_service_iam_binding" "grafana_public" {
