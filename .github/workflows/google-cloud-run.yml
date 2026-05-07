@@ -108,7 +108,11 @@ jobs:
       - name: Purge CDN Cache (production only)
         if: github.ref == 'refs/heads/main'
         run: |
-          gcloud compute url-maps invalidate-cdn-cache hygraph-showcase-prod-url-map --path="/*"
+          if gcloud compute url-maps describe hygraph-showcase-prod-url-map --global --quiet 2>/dev/null; then
+            gcloud compute url-maps invalidate-cdn-cache hygraph-showcase-prod-url-map --path="/*"
+          else
+            echo "URL map not yet provisioned, skipping CDN purge"
+          fi
 
       - name: Post PR Preview Comment
         if: github.event_name == 'pull_request'
