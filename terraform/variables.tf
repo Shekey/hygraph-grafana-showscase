@@ -151,3 +151,9 @@ variable "sentry_dsn" {
   type        = string
   description = "Sentry DSN for error tracking (public)"
 }
+
+variable "grafana_image_tag" {
+  type        = string
+  default     = "latest"
+  description = "Container image tag for Grafana"
+}

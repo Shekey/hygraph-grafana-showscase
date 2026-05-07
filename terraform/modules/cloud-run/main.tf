@@ -1,7 +1,8 @@
 resource "google_cloud_run_v2_service" "app" {
-  provider = google-beta
-  name     = var.service_name
-  location = var.region
+  provider            = google-beta
+  name                = var.service_name
+  location            = var.region
+  deletion_protection = false
 
   ingress = var.ingress_mode
 

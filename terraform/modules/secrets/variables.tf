@@ -12,3 +12,8 @@ variable "cloud_build_deployer_sa_email" {
   type        = string
   description = "Email of the cloud-build-deployer service account"
 }
+
+variable "grafana_run_sa_email" {
+  type        = string
+  description = "Email of the grafana-run-sa service account"
+}

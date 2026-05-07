@@ -13,3 +13,11 @@ output "nextjs_run_sa_name" {
 output "nextjs_run_sa_email" {
   value = google_service_account.nextjs_run_sa.email
 }
+
+output "grafana_run_sa_name" {
+  value = google_service_account.grafana_run_sa.name
+}
+
+output "grafana_run_sa_email" {
+  value = google_service_account.grafana_run_sa.email
+}
