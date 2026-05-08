@@ -66,9 +66,12 @@ resource "google_cloud_run_v2_service" "prometheus" {
   }
 }
 
-resource "google_cloud_run_service_iam_member" "prometheus_otel_invoker" {
+resource "google_cloud_run_service_iam_binding" "prometheus_invokers" {
   location = google_cloud_run_v2_service.prometheus.location
   service  = google_cloud_run_v2_service.prometheus.name
   role     = "roles/run.invoker"
-  member   = "serviceAccount:${var.otel_collector_run_sa_email}"
+  members = [
+    "serviceAccount:${var.otel_collector_run_sa_email}",
+    "serviceAccount:${var.grafana_run_sa_email}"
+  ]
 }
