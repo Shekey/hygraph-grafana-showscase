@@ -104,9 +104,10 @@ resource "google_project_iam_member" "grafana_ar_reader" {
 }
 
 resource "google_service_account" "prometheus_run_sa" {
-  account_id   = "prometheus-run-sa"
-  display_name = "Prometheus Cloud Run Service Account"
-  description  = "Service account used by Prometheus Cloud Run to access GCP services"
+  account_id                      = "prometheus-run-sa"
+  display_name                    = "Prometheus Cloud Run Service Account"
+  description                     = "Service account used by Prometheus Cloud Run to access GCP services"
+  create_ignore_already_exists    = true
 }
 
 resource "google_service_account_iam_binding" "deployer_acts_as_prometheus" {
@@ -122,9 +123,10 @@ resource "google_project_iam_member" "prometheus_log_writer" {
 }
 
 resource "google_service_account" "otel_collector_run_sa" {
-  account_id   = "otel-collector-run-sa"
-  display_name = "OTel Collector Cloud Run Service Account"
-  description  = "Service account used by OTel Collector Cloud Run to access GCP services"
+  account_id                      = "otel-collector-run-sa"
+  display_name                    = "OTel Collector Cloud Run Service Account"
+  description                     = "Service account used by OTel Collector Cloud Run to access GCP services"
+  create_ignore_already_exists    = true
 }
 
 resource "google_service_account_iam_binding" "deployer_acts_as_otel_collector" {
