@@ -27,6 +27,11 @@ resource "google_cloud_run_v2_service" "prometheus" {
         "--storage.tsdb.path=/tmp/prometheus",
       ]
 
+      env {
+        name  = "OTEL_COLLECTOR_HOST"
+        value = var.otel_collector_url != "" ? replace(replace(var.otel_collector_url, "https://", ""), "http://", "") : "otel-collector"
+      }
+
       ports {
         container_port = 9090
         name           = "http1"

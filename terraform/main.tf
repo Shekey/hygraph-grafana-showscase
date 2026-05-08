@@ -86,6 +86,7 @@ module "prometheus" {
   prometheus_run_sa_email     = module.iam.prometheus_run_sa_email
   otel_collector_run_sa_email = module.iam.otel_collector_run_sa_email
   grafana_run_sa_email        = module.iam.grafana_run_sa_email
+  otel_collector_url          = "http://otel-collector:8889"
 
   depends_on = [module.iam]
 }
@@ -99,7 +100,7 @@ module "otel_collector" {
   environment                 = var.environment
   image_uri                   = "${module.artifact_registry.repository_urls[var.region]}/otel-collector"
   image_tag                   = var.otel_collector_image_tag
-  prometheus_url              = module.prometheus[0].service_url
+  prometheus_url              = ""
   otel_collector_run_sa_email = module.iam.otel_collector_run_sa_email
   nextjs_run_sa_email         = module.iam.nextjs_run_sa_email
 
