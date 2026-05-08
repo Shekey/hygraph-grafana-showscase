@@ -60,6 +60,11 @@ resource "google_cloud_run_v2_service" "app" {
         value = var.sentry_dsn
       }
 
+      env {
+        name  = "OTEL_EXPORTER_OTLP_ENDPOINT"
+        value = var.otel_collector_url
+      }
+
       # Secret-backed environment variables
       dynamic "env" {
         for_each = var.secret_ids
@@ -96,12 +101,6 @@ resource "google_cloud_run_v2_service" "app" {
         timeout_seconds       = 3
       }
     }
-  }
-
-  lifecycle {
-    ignore_changes = [
-      template[0].containers[0].image,
-    ]
   }
 
   depends_on = [var.depends_on_secrets]

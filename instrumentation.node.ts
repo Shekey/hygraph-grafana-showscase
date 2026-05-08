@@ -2,50 +2,6 @@ import { NodeSDK } from '@opentelemetry/sdk-node';
 import { getNodeAutoInstrumentations } from '@opentelemetry/auto-instrumentations-node';
 import { PeriodicExportingMetricReader } from '@opentelemetry/sdk-metrics';
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
-import type { ExportResult } from '@opentelemetry/core';
-import type { ResourceMetrics, PushMetricExporter } from '@opentelemetry/sdk-metrics';
-
-// Wraps OTLPMetricExporter to fetch a fresh GCP access token from the Cloud Run
-// metadata server before each export, preventing token expiry after 1 hour.
-class GmpOtlpMetricExporter implements PushMetricExporter {
-  private url: string;
-  private cachedToken: string | null = null;
-  private tokenExpiry: number = 0;
-
-  constructor(url: string) {
-    this.url = url;
-  }
-
-  async export(metrics: ResourceMetrics, resultCallback: (result: ExportResult) => void): Promise<void> {
-    const { ExportResultCode } = await import('@opentelemetry/core');
-    const { OTLPMetricExporter } = await import('@opentelemetry/exporter-metrics-otlp-http');
-
-    try {
-      // Refresh token 60s before expiry
-      if (!this.cachedToken || Date.now() >= this.tokenExpiry - 60_000) {
-        const res = await fetch(
-          'http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token',
-          { headers: { 'Metadata-Flavor': 'Google' } },
-        );
-        const { access_token, expires_in } = await res.json();
-        this.cachedToken = access_token;
-        this.tokenExpiry = Date.now() + expires_in * 1000;
-      }
-
-      const exporter = new OTLPMetricExporter({
-        url: this.url,
-        headers: { Authorization: `Bearer ${this.cachedToken}` },
-      });
-
-      exporter.export(metrics, resultCallback);
-    } catch (err) {
-      resultCallback({ code: ExportResultCode.FAILED, error: err as Error });
-    }
-  }
-
-  async shutdown(): Promise<void> {}
-  async forceFlush(): Promise<void> {}
-}
 
 export function initializeOpenTelemetry() {
   let traceExporter;
@@ -58,19 +14,19 @@ export function initializeOpenTelemetry() {
     if (process.env.NODE_ENV === 'production') {
       // eslint-disable-next-line global-require
       const { TraceExporter } = require('@google-cloud/opentelemetry-cloud-trace-exporter');
+      // eslint-disable-next-line global-require
+      const { OTLPMetricExporter } = require('@opentelemetry/exporter-metrics-otlp-http');
 
-      const projectId = process.env.GCP_PROJECT_ID || process.env.GOOGLE_CLOUD_PROJECT || process.env.GCLOUD_PROJECT;
-      if (!projectId) throw new Error('GCP_PROJECT_ID env var not set');
-
-      const gmpOtlpUrl = `https://monitoring.googleapis.com/v1/projects/${projectId}/location/global/prometheus/api/v1/otlp`;
+      const endpoint = process.env.OTEL_EXPORTER_OTLP_ENDPOINT;
+      if (!endpoint) throw new Error('OTEL_EXPORTER_OTLP_ENDPOINT env var not set');
 
       traceExporter = new TraceExporter();
       metricReader = new PeriodicExportingMetricReader({
-        exporter: new GmpOtlpMetricExporter(gmpOtlpUrl),
+        exporter: new OTLPMetricExporter({ url: `${endpoint}/v1/metrics` }),
         exportIntervalMillis: 60_000,
       });
 
-      console.log(`[OpenTelemetry] Configured for GCP: traces → Cloud Trace, metrics → GMP (${gmpOtlpUrl})`);
+      console.log(`[OpenTelemetry] Configured for GCP: traces → Cloud Trace, metrics → Prometheus (${endpoint})`);
     } else {
       // eslint-disable-next-line global-require
       const { OTLPTraceExporter } = require('@opentelemetry/exporter-trace-otlp-http');

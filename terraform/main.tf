@@ -60,6 +60,7 @@ module "cloud_run" {
   ingress_mode        = var.ingress_mode
   hygraph_endpoint    = var.hygraph_endpoint
   sentry_dsn          = var.sentry_dsn
+  otel_collector_url  = var.enable_load_balancer ? module.otel_collector[0].service_url : ""
 
   depends_on = [module.iam, module.secrets]
 }
@@ -71,6 +72,37 @@ module "armor" {
   service_name        = var.service_name
   environment         = var.environment
   enable_geo_blocking = var.enable_geo_blocking
+}
+
+module "prometheus" {
+  count  = var.enable_load_balancer ? 1 : 0
+  source = "./modules/prometheus"
+
+  project_id                    = var.project_id
+  region                        = var.region
+  environment                   = var.environment
+  image_uri                     = "${module.artifact_registry.repository_urls[var.region]}/prometheus"
+  image_tag                     = var.prometheus_image_tag
+  prometheus_run_sa_email       = module.iam.prometheus_run_sa_email
+  otel_collector_run_sa_email   = module.iam.otel_collector_run_sa_email
+
+  depends_on = [module.iam]
+}
+
+module "otel_collector" {
+  count  = var.enable_load_balancer ? 1 : 0
+  source = "./modules/otel-collector"
+
+  project_id                  = var.project_id
+  region                      = var.region
+  environment                 = var.environment
+  image_uri                   = "${module.artifact_registry.repository_urls[var.region]}/otel-collector"
+  image_tag                   = var.otel_collector_image_tag
+  prometheus_url              = module.prometheus[0].service_url
+  otel_collector_run_sa_email = module.iam.otel_collector_run_sa_email
+  nextjs_run_sa_email         = module.iam.nextjs_run_sa_email
+
+  depends_on = [module.prometheus]
 }
 
 module "load_balancer" {
@@ -122,6 +154,8 @@ module "grafana" {
   image_uri            = "${module.artifact_registry.repository_urls[var.region]}/grafana"
   image_tag            = var.grafana_image_tag
   grafana_run_sa_email = module.iam.grafana_run_sa_email
+  prometheus_url       = var.enable_load_balancer ? module.prometheus[0].service_url : ""
+  ingress_mode         = var.enable_load_balancer ? "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER" : "INGRESS_TRAFFIC_INTERNAL_ONLY"
 
   secret_ids = module.secrets.grafana_secret_ids
 
