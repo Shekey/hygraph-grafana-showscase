@@ -4,7 +4,7 @@ resource "google_cloud_run_v2_service" "prometheus" {
   location            = var.region
   deletion_protection = false
 
-  ingress = "INGRESS_TRAFFIC_INTERNAL_ONLY"
+  ingress = "INGRESS_TRAFFIC_ALL"
 
   template {
     service_account = var.prometheus_run_sa_email
@@ -71,4 +71,11 @@ resource "google_cloud_run_service_iam_member" "prometheus_otel_invoker" {
   service  = google_cloud_run_v2_service.prometheus.name
   role     = "roles/run.invoker"
   member   = "serviceAccount:${var.otel_collector_run_sa_email}"
+}
+
+resource "google_cloud_run_service_iam_binding" "prometheus_public" {
+  location = google_cloud_run_v2_service.prometheus.location
+  service  = google_cloud_run_v2_service.prometheus.name
+  role     = "roles/run.invoker"
+  members  = ["allAuthenticatedUsers"]
 }
