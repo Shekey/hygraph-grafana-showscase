@@ -101,5 +101,5 @@ resource "google_cloud_run_service_iam_binding" "grafana_invoker" {
   location = google_cloud_run_v2_service.grafana.location
   service  = google_cloud_run_v2_service.grafana.name
   role     = "roles/run.invoker"
-  members  = var.ingress_mode == "INGRESS_TRAFFIC_ALL" ? ["allAuthenticatedUsers"] : ["serviceAccount:${var.grafana_run_sa_email}"]
+  members  = ["allAuthenticatedUsers"]
 }
