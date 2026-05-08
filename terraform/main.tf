@@ -86,8 +86,9 @@ module "prometheus" {
   prometheus_run_sa_email     = module.iam.prometheus_run_sa_email
   otel_collector_run_sa_email = module.iam.otel_collector_run_sa_email
   grafana_run_sa_email        = module.iam.grafana_run_sa_email
+  otel_collector_url          = module.otel_collector[0].service_url
 
-  depends_on = [module.iam]
+  depends_on = [module.iam, module.otel_collector]
 }
 
 module "otel_collector" {

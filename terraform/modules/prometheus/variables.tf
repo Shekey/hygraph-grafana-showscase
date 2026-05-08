@@ -38,3 +38,9 @@ variable "grafana_run_sa_email" {
   type        = string
   description = "Email of the Grafana Cloud Run service account"
 }
+
+variable "otel_collector_url" {
+  type        = string
+  description = "URL of the OTel Collector service (for scraping metrics)"
+  default     = ""
+}
