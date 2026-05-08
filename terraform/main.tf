@@ -78,13 +78,13 @@ module "prometheus" {
   count  = var.enable_load_balancer ? 1 : 0
   source = "./modules/prometheus"
 
-  project_id                    = var.project_id
-  region                        = var.region
-  environment                   = var.environment
-  image_uri                     = "${module.artifact_registry.repository_urls[var.region]}/prometheus"
-  image_tag                     = var.prometheus_image_tag
-  prometheus_run_sa_email       = module.iam.prometheus_run_sa_email
-  otel_collector_run_sa_email   = module.iam.otel_collector_run_sa_email
+  project_id                  = var.project_id
+  region                      = var.region
+  environment                 = var.environment
+  image_uri                   = "${module.artifact_registry.repository_urls[var.region]}/prometheus"
+  image_tag                   = var.prometheus_image_tag
+  prometheus_run_sa_email     = module.iam.prometheus_run_sa_email
+  otel_collector_run_sa_email = module.iam.otel_collector_run_sa_email
 
   depends_on = [module.iam]
 }
