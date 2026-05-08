@@ -152,7 +152,7 @@ module "grafana" {
   project_id           = var.project_id
   region               = var.region
   environment          = var.environment
-  service_name         = "grafana"
+  service_name         = "grafana-${var.environment}"
   image_uri            = "${module.artifact_registry.repository_urls[var.region]}/grafana"
   image_tag            = var.grafana_image_tag
   grafana_run_sa_email = module.iam.grafana_run_sa_email
