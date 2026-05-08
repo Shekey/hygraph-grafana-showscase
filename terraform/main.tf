@@ -155,7 +155,7 @@ module "grafana" {
   image_tag            = var.grafana_image_tag
   grafana_run_sa_email = module.iam.grafana_run_sa_email
   prometheus_url       = var.enable_load_balancer ? module.prometheus[0].service_url : ""
-  ingress_mode         = var.enable_load_balancer ? "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER" : "INGRESS_TRAFFIC_INTERNAL_ONLY"
+  ingress_mode         = var.enable_load_balancer ? "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER" : "INGRESS_TRAFFIC_ALL"
 
   secret_ids = module.secrets.grafana_secret_ids
 

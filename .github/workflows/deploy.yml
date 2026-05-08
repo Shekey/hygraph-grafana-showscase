@@ -124,6 +124,9 @@ jobs:
         run: |
           terraform plan \
             -var-file="environments/${{ steps.env.outputs.name }}.tfvars" \
+            -var="project_id=${{ secrets.GCP_PROJECT_ID }}" \
+            -var="project_number=${{ secrets.GCP_PROJECT_NUMBER }}" \
+            -var="alert_notification_email=${{ secrets.ALERT_EMAIL }}" \
             -var="hygraph_endpoint=${{ secrets.NEXT_PUBLIC_HYGRAPH_CONTENT_ENDPOINT }}" \
             -var="sentry_dsn=${{ secrets.NEXT_PUBLIC_SENTRY_DSN }}" \
             -var="image_tag=${{ github.sha }}" \
@@ -133,7 +136,6 @@ jobs:
             -out=tfplan \
             -no-color
           echo "success=true" >> $GITHUB_OUTPUT
-        continue-on-error: true
 
       - name: Generate Plan Output
         if: github.event_name == 'pull_request'

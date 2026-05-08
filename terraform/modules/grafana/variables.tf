@@ -53,9 +53,4 @@ variable "ingress_mode" {
   default     = "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER"
 }
 
-variable "load_balancer_sa_email" {
-  type        = string
-  description = "Email of the load balancer service account (for internal ingress mode)"
-  default     = ""
-}
 
