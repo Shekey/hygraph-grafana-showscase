@@ -75,7 +75,7 @@ resource "google_cloud_run_v2_service" "grafana" {
 
       env {
         name  = "GF_INSTALL_PLUGINS"
-        value = "grafana-piechart-panel,grafana-clock-panel"
+        value = "grafana-clock-panel"
       }
 
       env {
