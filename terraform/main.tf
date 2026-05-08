@@ -85,6 +85,7 @@ module "prometheus" {
   image_tag                   = var.prometheus_image_tag
   prometheus_run_sa_email     = module.iam.prometheus_run_sa_email
   otel_collector_run_sa_email = module.iam.otel_collector_run_sa_email
+  grafana_run_sa_email        = module.iam.grafana_run_sa_email
 
   depends_on = [module.iam]
 }

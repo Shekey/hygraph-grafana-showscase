@@ -33,3 +33,8 @@ variable "otel_collector_run_sa_email" {
   type        = string
   description = "Email of the OTel Collector Cloud Run service account"
 }
+
+variable "grafana_run_sa_email" {
+  type        = string
+  description = "Email of the Grafana Cloud Run service account"
+}
