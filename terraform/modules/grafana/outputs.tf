@@ -7,8 +7,3 @@ output "service_name" {
   description = "Name of the Grafana Cloud Run service"
   value       = google_cloud_run_v2_service.grafana.name
 }
-
-output "bucket_name" {
-  description = "Name of the GCS bucket for Grafana persistence"
-  value       = google_storage_bucket.grafana_data.name
-}
