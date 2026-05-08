@@ -147,12 +147,13 @@ module "dns" {
 }
 
 module "grafana" {
+  count  = var.enable_load_balancer ? 1 : 0
   source = "./modules/grafana"
 
   project_id           = var.project_id
   region               = var.region
   environment          = var.environment
-  service_name         = "grafana-${var.environment}"
+  service_name         = "grafana"
   image_uri            = "${module.artifact_registry.repository_urls[var.region]}/grafana"
   image_tag            = var.grafana_image_tag
   grafana_run_sa_email = module.iam.grafana_run_sa_email
