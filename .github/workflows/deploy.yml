@@ -60,14 +60,14 @@ jobs:
         run: |
           IMAGE_NAME="europe-west3-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/hygraph-showcase/otel-collector:${{ github.sha }}"
 
-          docker build -f otel-collector/Dockerfile otel-collector/ -t $IMAGE_NAME .
+          docker build -f otel-collector/Dockerfile -t $IMAGE_NAME otel-collector/
           docker push $IMAGE_NAME
 
       - name: Build and Push Prometheus image
         run: |
           IMAGE_NAME="europe-west3-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/hygraph-showcase/prometheus:${{ github.sha }}"
 
-          docker build -f prometheus/Dockerfile prometheus/ -t $IMAGE_NAME .
+          docker build -f prometheus/Dockerfile -t $IMAGE_NAME prometheus/
           docker push $IMAGE_NAME
 
   terraform:
