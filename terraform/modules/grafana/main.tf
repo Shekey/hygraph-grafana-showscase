@@ -1,32 +1,3 @@
-resource "google_storage_bucket" "grafana_data" {
-  name          = "${var.project_id}-grafana-data"
-  location      = var.region
-  force_destroy = false
-
-  uniform_bucket_level_access = true
-
-  versioning {
-    enabled = false
-  }
-
-  labels = {
-    environment = var.environment
-    app         = var.service_name
-  }
-
-  lifecycle {
-    ignore_changes = [
-      uniform_bucket_level_access,
-    ]
-  }
-}
-
-resource "google_storage_bucket_iam_member" "grafana_objectadmin" {
-  bucket = google_storage_bucket.grafana_data.name
-  role   = "roles/storage.objectAdmin"
-  member = "serviceAccount:${var.grafana_run_sa_email}"
-}
-
 resource "google_cloud_run_v2_service" "grafana" {
   provider            = google-beta
   name                = var.service_name
@@ -83,6 +54,11 @@ resource "google_cloud_run_v2_service" "grafana" {
         value = var.prometheus_url
       }
 
+      env {
+        name  = "GF_DATABASE_URL"
+        value = "sqlite3://:memory:"
+      }
+
       dynamic "env" {
         for_each = var.secret_ids
         content {
@@ -115,19 +91,6 @@ resource "google_cloud_run_v2_service" "grafana" {
         period_seconds        = 5
         timeout_seconds       = 5
         failure_threshold     = 30
-      }
-
-
-      volume_mounts {
-        name       = "grafana-data"
-        mount_path = "/var/lib/grafana"
-      }
-    }
-
-    volumes {
-      name = "grafana-data"
-      gcs {
-        bucket = google_storage_bucket.grafana_data.name
       }
     }
   }
