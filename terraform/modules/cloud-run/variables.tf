@@ -103,3 +103,9 @@ variable "sentry_dsn" {
   type        = string
   description = "Sentry DSN for error tracking"
 }
+
+variable "otel_collector_url" {
+  type        = string
+  description = "OTel Collector Cloud Run service URL"
+  default     = ""
+}

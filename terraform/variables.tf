@@ -157,3 +157,15 @@ variable "grafana_image_tag" {
   default     = "latest"
   description = "Container image tag for Grafana"
 }
+
+variable "prometheus_image_tag" {
+  type        = string
+  default     = "latest"
+  description = "Container image tag for Prometheus"
+}
+
+variable "otel_collector_image_tag" {
+  type        = string
+  default     = "latest"
+  description = "Container image tag for OTel Collector"
+}

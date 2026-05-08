@@ -84,9 +84,9 @@ resource "google_monitoring_alert_policy" "lb_5xx" {
 
 # Log-based metric: Cloud Run request latency distribution
 resource "google_logging_metric" "cloud_run_request_latency" {
-  name            = "cloud_run_request_latency"
-  description     = "Distribution of Cloud Run request latencies extracted from httpRequest.latency"
-  filter          = "resource.type=\"cloud_run_revision\" AND logName=~\"run.googleapis.com%2Frequests\""
+  name        = "cloud_run_request_latency"
+  description = "Distribution of Cloud Run request latencies extracted from httpRequest.latency"
+  filter      = "resource.type=\"cloud_run_revision\" AND logName=~\"run.googleapis.com%2Frequests\""
   metric_descriptor {
     metric_kind = "DELTA"
     value_type  = "DISTRIBUTION"

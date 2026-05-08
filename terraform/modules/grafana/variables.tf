@@ -41,3 +41,21 @@ variable "secret_ids" {
   default     = {}
 }
 
+variable "prometheus_url" {
+  type        = string
+  description = "Prometheus Cloud Run service URL"
+  default     = ""
+}
+
+variable "ingress_mode" {
+  type        = string
+  description = "Ingress traffic mode for Grafana Cloud Run"
+  default     = "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER"
+}
+
+variable "load_balancer_sa_email" {
+  type        = string
+  description = "Email of the load balancer service account (for internal ingress mode)"
+  default     = ""
+}
+

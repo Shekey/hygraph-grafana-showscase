@@ -33,7 +33,7 @@ resource "google_cloud_run_v2_service" "grafana" {
   location            = var.region
   deletion_protection = false
 
-  ingress = "INGRESS_TRAFFIC_ALL"
+  ingress = var.ingress_mode
 
   template {
     service_account = var.grafana_run_sa_email
@@ -78,6 +78,11 @@ resource "google_cloud_run_v2_service" "grafana" {
         value = "grafana-piechart-panel,grafana-clock-panel"
       }
 
+      env {
+        name  = "PROMETHEUS_URL"
+        value = var.prometheus_url
+      }
+
       dynamic "env" {
         for_each = var.secret_ids
         content {
@@ -99,6 +104,7 @@ resource "google_cloud_run_v2_service" "grafana" {
         initial_delay_seconds = 30
         period_seconds        = 30
         timeout_seconds       = 10
+        failure_threshold     = 3
       }
 
       startup_probe {
@@ -129,10 +135,9 @@ resource "google_cloud_run_v2_service" "grafana" {
 }
 
 resource "google_cloud_run_service_iam_binding" "grafana_public" {
+  count    = var.ingress_mode == "INGRESS_TRAFFIC_ALL" ? 1 : 0
   location = google_cloud_run_v2_service.grafana.location
   service  = google_cloud_run_v2_service.grafana.name
   role     = "roles/run.invoker"
-  members = [
-    "allUsers"
-  ]
+  members  = var.load_balancer_sa_email != "" ? ["serviceAccount:${var.load_balancer_sa_email}"] : []
 }
