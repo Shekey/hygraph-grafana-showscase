@@ -45,7 +45,7 @@ module "cloud_run" {
   region              = each.value
   environment         = var.environment
   service_name        = var.service_name
-  image_uri           = "${module.artifact_registry.repository_urls[each.value]}/hygraph-showcase"
+  image_uri           = "${module.artifact_registry.repository_urls[each.value]}/nextjs"
   image_tag           = var.image_tag
   app_port            = var.app_port
   nextjs_run_sa_email = module.iam.nextjs_run_sa_email
