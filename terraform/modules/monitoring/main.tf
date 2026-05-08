@@ -97,11 +97,6 @@ resource "google_logging_metric" "cloud_run_request_latency" {
       description = "HTTP request method"
     }
     labels {
-      key         = "status"
-      value_type  = "INT64"
-      description = "HTTP response status code"
-    }
-    labels {
       key         = "route"
       value_type  = "STRING"
       description = "Request route (first two path segments)"
@@ -109,7 +104,6 @@ resource "google_logging_metric" "cloud_run_request_latency" {
   }
   label_extractors = {
     "http_method" = "EXTRACT(httpRequest.requestMethod)"
-    "status"      = "CAST(REGEXP_EXTRACT(httpRequest.status, \"([0-9]{3})\") AS INT64)"
     "route"       = "REGEXP_EXTRACT(httpRequest.requestUrl, \"https?://[^/]+(/_next/static|/_next/image|/api/[^/?]+|/[^/]+/[^/?]+)\")"
   }
   value_extractor = "EXTRACT(httpRequest.latency)"
