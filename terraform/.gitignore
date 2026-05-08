@@ -4,7 +4,7 @@
 *.tfstate
 *.tfstate.*
 *.tfvars
-!environments/
+!environments/*.tfvars
 
 # IDE
 .idea/
