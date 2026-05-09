@@ -104,10 +104,9 @@ resource "google_project_iam_member" "grafana_ar_reader" {
 }
 
 resource "google_service_account" "prometheus_run_sa" {
-  account_id                   = "prometheus-run-sa"
-  display_name                 = "Prometheus Cloud Run Service Account"
-  description                  = "Service account used by Prometheus Cloud Run to access GCP services"
-  create_ignore_already_exists = true
+  account_id   = "prometheus-run-sa"
+  display_name = "Prometheus Cloud Run Service Account"
+  description  = "Service account used by Prometheus Cloud Run to access GCP services"
 }
 
 resource "google_service_account_iam_binding" "deployer_acts_as_prometheus" {
@@ -122,11 +121,16 @@ resource "google_project_iam_member" "prometheus_log_writer" {
   member  = "serviceAccount:${google_service_account.prometheus_run_sa.email}"
 }
 
+resource "google_project_iam_member" "prometheus_ar_reader" {
+  project = var.project_id
+  role    = "roles/artifactregistry.reader"
+  member  = "serviceAccount:${google_service_account.prometheus_run_sa.email}"
+}
+
 resource "google_service_account" "otel_collector_run_sa" {
-  account_id                   = "otel-collector-run-sa"
-  display_name                 = "OTel Collector Cloud Run Service Account"
-  description                  = "Service account used by OTel Collector Cloud Run to access GCP services"
-  create_ignore_already_exists = true
+  account_id   = "otel-collector-run-sa"
+  display_name = "OTel Collector Cloud Run Service Account"
+  description  = "Service account used by OTel Collector Cloud Run to access GCP services"
 }
 
 resource "google_service_account_iam_binding" "deployer_acts_as_otel_collector" {
@@ -138,5 +142,11 @@ resource "google_service_account_iam_binding" "deployer_acts_as_otel_collector" 
 resource "google_project_iam_member" "otel_collector_log_writer" {
   project = var.project_id
   role    = "roles/logging.logWriter"
+  member  = "serviceAccount:${google_service_account.otel_collector_run_sa.email}"
+}
+
+resource "google_project_iam_member" "otel_collector_ar_reader" {
+  project = var.project_id
+  role    = "roles/artifactregistry.reader"
   member  = "serviceAccount:${google_service_account.otel_collector_run_sa.email}"
 }
