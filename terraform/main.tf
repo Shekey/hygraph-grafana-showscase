@@ -100,7 +100,7 @@ module "otel_collector" {
   environment                 = var.environment
   image_uri                   = "${module.artifact_registry.repository_urls[var.region]}/otel-collector"
   image_tag                   = var.otel_collector_image_tag
-  prometheus_url              = ""
+  prometheus_url              = var.enable_load_balancer ? module.prometheus[0].service_url : ""
   otel_collector_run_sa_email = module.iam.otel_collector_run_sa_email
   nextjs_run_sa_email         = module.iam.nextjs_run_sa_email
 
