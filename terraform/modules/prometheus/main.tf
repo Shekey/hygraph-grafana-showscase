@@ -59,13 +59,13 @@ resource "google_cloud_run_v2_service" "prometheus" {
 
       startup_probe {
         http_get {
-          path = "/-/ready"
+          path = "/-/healthy"
           port = 9090
         }
-        initial_delay_seconds = 5
-        period_seconds        = 5
-        timeout_seconds       = 5
-        failure_threshold     = 10
+        initial_delay_seconds = 15
+        period_seconds        = 10
+        timeout_seconds       = 10
+        failure_threshold     = 30
       }
     }
   }
