@@ -21,7 +21,7 @@ resource "google_cloud_run_v2_service" "prometheus" {
       name  = "prometheus"
 
       args = [
-        "--config.file=/etc/prometheus/prometheus.yml",
+        "--config.file=/tmp/prometheus.yml",
         "--web.enable-remote-write-receiver",
         "--storage.tsdb.retention.time=7d",
         "--storage.tsdb.path=/tmp/prometheus",
