@@ -100,7 +100,7 @@ module "otel_collector" {
   environment                 = var.environment
   image_uri                   = "${module.artifact_registry.repository_urls[var.region]}/otel-collector"
   image_tag                   = var.otel_collector_image_tag
-  prometheus_url              = var.enable_load_balancer ? module.prometheus[0].service_url : ""
+  prometheus_url              = var.enable_load_balancer ? "http://${module.prometheus[0].service_name}:9090" : ""
   otel_collector_run_sa_email = module.iam.otel_collector_run_sa_email
   nextjs_run_sa_email         = module.iam.nextjs_run_sa_email
 
@@ -157,10 +157,10 @@ module "grafana" {
   image_uri            = "${module.artifact_registry.repository_urls[var.region]}/grafana"
   image_tag            = var.grafana_image_tag
   grafana_run_sa_email = module.iam.grafana_run_sa_email
-  prometheus_url       = var.enable_load_balancer ? module.prometheus[0].service_url : ""
+  prometheus_url       = var.enable_load_balancer ? "http://${module.prometheus[0].service_name}:9090" : ""
   ingress_mode         = "INGRESS_TRAFFIC_ALL"
 
   secret_ids = module.secrets.grafana_secret_ids
 
-  depends_on = [module.iam, module.secrets]
+  depends_on = [module.iam, module.secrets, module.prometheus]
 }
