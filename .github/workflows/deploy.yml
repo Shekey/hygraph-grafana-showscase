@@ -235,8 +235,18 @@ jobs:
         if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop') && steps.plan.outputs.success == 'true'
         run: |
           terraform apply \
+            -var-file="environments/${{ steps.env.outputs.name }}.tfvars" \
+            -var="project_id=${{ secrets.GCP_PROJECT_ID }}" \
+            -var="project_number=${{ secrets.GCP_PROJECT_NUMBER }}" \
+            -var="alert_notification_email=${{ secrets.ALERT_EMAIL }}" \
+            -var="hygraph_endpoint=${{ secrets.NEXT_PUBLIC_HYGRAPH_CONTENT_ENDPOINT }}" \
+            -var="sentry_dsn=${{ secrets.NEXT_PUBLIC_SENTRY_DSN }}" \
+            -var="image_tag=${{ github.sha }}" \
+            -var="grafana_image_tag=${{ github.sha }}" \
+            -var="otel_collector_image_tag=${{ github.sha }}" \
+            -var="prometheus_image_tag=${{ github.sha }}" \
             -auto-approve \
-            tfplan
+            -no-color
 
       - name: Purge CDN Cache (production only)
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
