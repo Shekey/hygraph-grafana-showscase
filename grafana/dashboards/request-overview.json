@@ -625,7 +625,7 @@
   "refresh": "5s",
   "schemaVersion": 38,
   "style": "dark",
-  "tags": ["otel", "gcp", "production"],
+  "tags": ["otel", "gcp"],
   "templating": {
     "list": [
       {
@@ -652,16 +652,11 @@
           },
           {
             "selected": false,
-            "text": "staging",
-            "value": "staging"
-          },
-          {
-            "selected": false,
             "text": "production",
             "value": "production"
           }
         ],
-        "query": "All,development,staging,production",
+        "query": "All,development,production",
         "queryValue": "",
         "skipUrlSync": false,
         "sort": 0,
