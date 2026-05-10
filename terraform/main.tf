@@ -36,6 +36,19 @@ module "secrets" {
   depends_on = [module.iam]
 }
 
+resource "google_vpc_access_connector" "grafana" {
+  count  = var.enable_load_balancer ? 1 : 0
+  name   = "${var.environment}-grafana-vpc-connector"
+  region = var.region
+
+  ip_cidr_range = "10.8.0.0/28"
+  network       = "default"
+
+  min_instances = 2
+  max_instances = 3
+  machine_type  = "f1-micro"
+}
+
 module "cloud_run" {
   for_each = toset(var.regions)
 
@@ -158,6 +171,7 @@ module "grafana" {
   grafana_run_sa_email = module.iam.grafana_run_sa_email
   prometheus_url       = var.enable_load_balancer ? module.prometheus[0].service_url : ""
   ingress_mode         = "INGRESS_TRAFFIC_ALL"
+  vpc_connector        = var.enable_load_balancer ? google_vpc_access_connector.grafana[0].id : null
 
   secret_ids = module.secrets.grafana_secret_ids
 

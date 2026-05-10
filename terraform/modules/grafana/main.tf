@@ -16,6 +16,14 @@ resource "google_cloud_run_v2_service" "grafana" {
 
     timeout = "120s"
 
+    dynamic "vpc_access" {
+      for_each = var.vpc_connector != null ? [1] : []
+      content {
+        connector = var.vpc_connector
+        egress    = "PRIVATE_RANGES_ONLY"
+      }
+    }
+
     containers {
       image = "${var.image_uri}:${var.image_tag}"
       name  = "grafana"
