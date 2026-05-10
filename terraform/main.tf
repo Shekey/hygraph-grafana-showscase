@@ -59,7 +59,6 @@ module "cloud_run" {
   depends_on_secrets  = [module.secrets]
   ingress_mode        = var.ingress_mode
   hygraph_endpoint    = var.hygraph_endpoint
-  sentry_dsn          = var.sentry_dsn
   otel_collector_url  = var.enable_load_balancer ? module.otel_collector[0].service_url : ""
 
   depends_on = [module.iam, module.secrets]

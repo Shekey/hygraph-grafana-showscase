@@ -27,7 +27,6 @@
     "@opentelemetry/sdk-metrics": "^2.7.1",
     "@opentelemetry/sdk-node": "^0.216.0",
     "@opentelemetry/semantic-conventions": "^1.40.0",
-    "@sentry/nextjs": "^10.45.0",
     "graphql": "^16.13.1",
     "graphql-request": "^6.1.0",
     "graphql-tag": "^2.12.6",

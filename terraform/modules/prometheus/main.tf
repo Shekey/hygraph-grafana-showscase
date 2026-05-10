@@ -4,7 +4,7 @@ resource "google_cloud_run_v2_service" "prometheus" {
   location            = var.region
   deletion_protection = false
 
-  ingress = "INGRESS_TRAFFIC_INTERNAL_ONLY"
+  ingress = "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER"
 
   template {
     service_account = var.prometheus_run_sa_email
@@ -76,7 +76,6 @@ resource "google_cloud_run_service_iam_binding" "prometheus_invokers" {
   service  = google_cloud_run_v2_service.prometheus.name
   role     = "roles/run.invoker"
   members = [
-    "serviceAccount:${var.otel_collector_run_sa_email}",
-    "serviceAccount:${var.grafana_run_sa_email}"
+    "allUsers"
   ]
 }
