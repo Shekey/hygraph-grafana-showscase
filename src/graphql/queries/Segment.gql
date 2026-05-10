@@ -1,5 +1,5 @@
 query GetSegments {
-  segments(stage: DRAFT) {
+  segments(stage: PUBLISHED) {
     id
     name
   }

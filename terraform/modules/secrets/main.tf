@@ -2,7 +2,6 @@ locals {
   secret_names = [
     "HYGRAPH_PREVIEW_TOKEN",
     "HYGRAPH_PREVIEW_SECRET",
-    "SENTRY_AUTH_TOKEN",
   ]
   grafana_secret_names = [
     "GF_SECURITY_ADMIN_PASSWORD",

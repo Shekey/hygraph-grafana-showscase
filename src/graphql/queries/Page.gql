@@ -2,7 +2,7 @@ query GetPage($slug: String!, $locale: Locale!, $segmentId: ID) {
   pages(
     where: { slug: $slug }
     locales: [$locale, en]
-    stage: DRAFT
+    stage: PUBLISHED
     first: 1
   ) {
     id
