@@ -53,4 +53,9 @@ variable "ingress_mode" {
   default     = "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER"
 }
 
+variable "vpc_connector" {
+  type        = string
+  description = "Serverless VPC Access Connector ID for Grafana → Prometheus traffic"
+  default     = null
+}
 

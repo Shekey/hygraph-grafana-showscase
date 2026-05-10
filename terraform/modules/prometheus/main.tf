@@ -4,7 +4,7 @@ resource "google_cloud_run_v2_service" "prometheus" {
   location            = var.region
   deletion_protection = false
 
-  ingress = "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER"
+  ingress = "INGRESS_TRAFFIC_INTERNAL_ONLY"
 
   template {
     service_account = var.prometheus_run_sa_email
