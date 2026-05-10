@@ -12,6 +12,10 @@ permissions:
   id-token: write
   pull-requests: write
 
+concurrency:
+  group: terraform-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -118,6 +122,32 @@ jobs:
 
       - name: Terraform Validate
         run: terraform validate
+
+      - name: Clean up stale Terraform locks
+        run: |
+          BUCKET="${{ secrets.GCP_PROJECT_ID }}-terraform-state"
+          LOCK_PATH="terraform/state/${{ steps.env.outputs.name }}/default.tflock"
+
+          # Get lock file creation time
+          LOCK_TIME=$(gsutil stat "gs://${BUCKET}/${LOCK_PATH}" 2>/dev/null | grep "Time created:" | awk '{print $3}' || echo "")
+
+          if [ -z "$LOCK_TIME" ]; then
+            echo "✓ No stale lock found"
+            exit 0
+          fi
+
+          # Parse creation time and check age (remove if older than 2 hours = 7200 seconds)
+          LOCK_EPOCH=$(date -d "$LOCK_TIME" +%s 2>/dev/null || date -jf "%a %b %d %H:%M:%S %Z %Y" "$LOCK_TIME" +%s 2>/dev/null || echo "0")
+          NOW_EPOCH=$(date +%s)
+          AGE=$((NOW_EPOCH - LOCK_EPOCH))
+
+          if [ "$AGE" -gt 7200 ]; then
+            echo "⚠️  Removing stale lock (age: ${AGE}s, older than 2h)"
+            gsutil -m rm "gs://${BUCKET}/${LOCK_PATH}" || echo "Could not remove lock (may already be gone)"
+          else
+            echo "✓ Lock is recent (age: ${AGE}s)"
+          fi
+        continue-on-error: true
 
       - name: Terraform Plan
         id: plan
