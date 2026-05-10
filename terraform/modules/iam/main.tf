@@ -22,6 +22,12 @@ resource "google_project_iam_member" "deployer_ar_writer" {
   member  = "serviceAccount:${google_service_account.cloud_build_deployer.email}"
 }
 
+resource "google_project_iam_member" "deployer_vpc_access" {
+  project = var.project_id
+  role    = "roles/compute.networkAdmin"
+  member  = "serviceAccount:${google_service_account.cloud_build_deployer.email}"
+}
+
 
 resource "google_service_account_iam_binding" "deployer_acts_as_runner" {
   service_account_id = google_service_account.nextjs_run_sa.name
