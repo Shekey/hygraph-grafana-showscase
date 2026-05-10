@@ -183,24 +183,22 @@ jobs:
             -var="otel_collector_image_tag=${{ github.sha }}" \
             -var="prometheus_image_tag=${{ github.sha }}"
 
-          # Populate each secret only if it has no version yet (idempotent)
           populate_secret() {
             local secret_id="$1"
             local value="$2"
-            if ! gcloud secrets versions access latest \
-                --secret="$secret_id" \
-                --project="$PROJECT" &>/dev/null; then
-              printf '%s' "$value" | gcloud secrets versions add "$secret_id" \
-                --data-file=- --project="$PROJECT"
-              echo "Populated: $secret_id"
-            else
-              echo "Already has version: $secret_id"
+
+            if [ -z "$value" ]; then
+              echo "SKIPPED: $secret_id — value is empty"
+              return 0
             fi
+
+            printf '%s' "$value" | gcloud secrets versions add "$secret_id" \
+              --data-file=- --project="$PROJECT"
+            echo "Populated: $secret_id"
           }
 
           populate_secret "${ENV}-HYGRAPH_PREVIEW_TOKEN"       "${{ secrets.HYGRAPH_PREVIEW_TOKEN }}"
           populate_secret "${ENV}-HYGRAPH_PREVIEW_SECRET"      "${{ secrets.HYGRAPH_PREVIEW_SECRET }}"
-          populate_secret "${ENV}-SENTRY_AUTH_TOKEN"           "${{ secrets.SENTRY_AUTH_TOKEN }}"
           populate_secret "${ENV}-GF_SECURITY_ADMIN_PASSWORD"  "${{ secrets.GF_SECURITY_ADMIN_PASSWORD }}"
 
       - name: Terraform Apply

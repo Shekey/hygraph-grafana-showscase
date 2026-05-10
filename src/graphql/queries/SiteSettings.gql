@@ -1,5 +1,5 @@
 query GetSiteSettings($locale: Locale!) {
-  allSiteSettings(locales: [$locale, en], stage: DRAFT, first: 1) {
+  allSiteSettings(locales: [$locale, en], stage: PUBLISHED, first: 1) {
     id
     siteName
     brandColor {

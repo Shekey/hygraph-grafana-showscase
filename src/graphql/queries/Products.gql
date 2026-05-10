@@ -1,5 +1,5 @@
 query GetProducts($locale: Locale!, $first: Int = 20) {
-  products(locales: [$locale, en], stage: DRAFT, first: $first) {
+  products(locales: [$locale, en], stage: PUBLISHED, first: $first) {
     id
     slug
     name
@@ -42,7 +42,7 @@ query GetProducts($locale: Locale!, $first: Int = 20) {
 query GetFeaturedProducts($locale: Locale!) {
   products(
     locales: [$locale, en]
-    stage: DRAFT
+    stage: PUBLISHED
     first: 4
     where: { featured: true }
   ) {
@@ -84,7 +84,7 @@ query GetFeaturedProducts($locale: Locale!) {
 }
 
 query GetProductCategories {
-  products(stage: DRAFT, first: 100) {
+  products(stage: PUBLISHED, first: 100) {
     category {
       value
     }

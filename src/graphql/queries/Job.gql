@@ -1,5 +1,5 @@
 query GetJobs {
-  jobs(stage: DRAFT, first: 20) {
+  jobs(stage: PUBLISHED, first: 20) {
     id
     slug
     title
@@ -11,7 +11,7 @@ query GetJobs {
 }
 
 query GetJob($slug: String!) {
-  job(where: { slug: $slug }, stage: DRAFT) {
+  job(where: { slug: $slug }, stage: PUBLISHED) {
     id
     slug
     title
