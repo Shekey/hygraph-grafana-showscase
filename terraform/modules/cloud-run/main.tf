@@ -56,11 +56,6 @@ resource "google_cloud_run_v2_service" "app" {
       }
 
       env {
-        name  = "NEXT_PUBLIC_SENTRY_DSN"
-        value = var.sentry_dsn
-      }
-
-      env {
         name  = "OTEL_EXPORTER_OTLP_ENDPOINT"
         value = var.otel_collector_url
       }
