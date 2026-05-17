@@ -13,6 +13,10 @@ import {
   HYGRAPH_TOOLS,
   executeHygraphTool,
 } from "@/lib/hygraph/chat-tools";
+import {
+  recordChatRequest,
+  recordToolCall,
+} from "@/lib/otel-chat-metrics";
 
 export const runtime = "nodejs"; // required — Edge runtime has no ADC support
 export const dynamic = "force-dynamic"; // never cache chat responses
@@ -108,6 +112,8 @@ async function handler(request: NextRequest): Promise<Response> {
 
   // --- Streaming response with tool support ---
   const encoder = new TextEncoder();
+  const requestStart = Date.now();
+  let toolRounds = 0;
 
   const stream = new ReadableStream({
     async start(controller) {
@@ -140,6 +146,7 @@ async function handler(request: NextRequest): Promise<Response> {
 
         // If the first turn was pure text, we are done.
         if (streamHadText && accumulatedParts.length === 0) {
+          recordChatRequest('success', Date.now() - requestStart, 0);
           controller.enqueue(done());
           controller.close();
           return;
@@ -154,27 +161,35 @@ async function handler(request: NextRequest): Promise<Response> {
           round < MAX_TOOL_ROUNDS && toolCallParts.length > 0;
           round++
         ) {
+          toolRounds++;
           // Execute all function calls in this round concurrently
           const responseContents: Content[] = [];
 
           await Promise.all(
             toolCallParts.map(async (callPart) => {
               const { name, args } = callPart.functionCall;
-              const result = await executeHygraphTool(
-                name,
-                args as Record<string, unknown>
-              );
-              responseContents.push({
-                role: "tool",
-                parts: [
-                  {
-                    functionResponse: {
-                      name,
-                      response: result as object,
+              const toolStart = Date.now();
+              try {
+                const result = await executeHygraphTool(
+                  name,
+                  args as Record<string, unknown>
+                );
+                recordToolCall(name, Date.now() - toolStart, 'success');
+                responseContents.push({
+                  role: "tool",
+                  parts: [
+                    {
+                      functionResponse: {
+                        name,
+                        response: result as object,
+                      },
                     },
-                  },
-                ],
-              });
+                  ],
+                });
+              } catch (toolErr) {
+                recordToolCall(name, Date.now() - toolStart, 'error');
+                throw toolErr;
+              }
             })
           );
 
@@ -202,6 +217,7 @@ async function handler(request: NextRequest): Promise<Response> {
             if (fullText) {
               controller.enqueue(encode(fullText));
             }
+            recordChatRequest('success', Date.now() - requestStart, toolRounds);
             controller.enqueue(done());
             controller.close();
             return;
@@ -209,6 +225,7 @@ async function handler(request: NextRequest): Promise<Response> {
         }
 
         // Fallback: hit the round cap without getting text
+        recordChatRequest('max_rounds', Date.now() - requestStart, toolRounds);
         controller.enqueue(
           encoder.encode(
             `data: ${JSON.stringify({ error: "Tool loop did not produce a text response" })}\n\n`
@@ -218,6 +235,7 @@ async function handler(request: NextRequest): Promise<Response> {
         controller.close();
       } catch (err) {
         console.error("[chat] Vertex AI error:", err);
+        recordChatRequest('error', Date.now() - requestStart, toolRounds);
         controller.enqueue(
           encoder.encode(
             `data: ${JSON.stringify({ error: "Stream error — please try again" })}\n\n`

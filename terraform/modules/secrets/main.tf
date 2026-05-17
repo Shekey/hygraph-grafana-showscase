@@ -42,3 +42,12 @@ resource "google_secret_manager_secret_iam_member" "grafana_accessor" {
   role      = "roles/secretmanager.secretAccessor"
   member    = "serviceAccount:${var.grafana_run_sa_email}"
 }
+
+resource "google_secret_manager_secret_version" "grafana_admin_password_initial" {
+  secret      = google_secret_manager_secret.app_secrets["GF_SECURITY_ADMIN_PASSWORD"].id
+  secret_data = "ChangeMe123!"
+
+  lifecycle {
+    ignore_changes = [secret_data]
+  }
+}

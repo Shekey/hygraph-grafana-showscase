@@ -9,7 +9,7 @@ export function initializeOpenTelemetry() {
 
   try {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const { resourceFromAttributes } = require('@opentelemetry/sdk-node').resources;
+    const { resourceFromAttributes } = require('@opentelemetry/resources');
 
     if (process.env.NODE_ENV === 'production') {
       // eslint-disable-next-line global-require
