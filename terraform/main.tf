@@ -38,7 +38,7 @@ module "secrets" {
 
 resource "google_vpc_access_connector" "grafana" {
   count  = var.enable_load_balancer ? 1 : 0
-  name   = "${var.environment}-grafana-vpc-connector"
+  name   = "${var.environment}-grafana-connector"
   region = var.region
 
   ip_cidr_range = "10.8.0.0/28"
