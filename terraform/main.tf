@@ -53,6 +53,23 @@ resource "google_vpc_access_connector" "grafana" {
   }
 }
 
+resource "google_vpc_access_connector" "otel_collector" {
+  count  = var.enable_load_balancer ? 1 : 0
+  name   = "${var.environment}-otel-connector"
+  region = var.region
+
+  ip_cidr_range = "10.9.0.0/28"
+  network       = "default"
+
+  min_instances = 2
+  max_instances = 3
+  machine_type  = "f1-micro"
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
 module "cloud_run" {
   for_each = toset(var.regions)
 
@@ -119,6 +136,7 @@ module "otel_collector" {
   prometheus_url              = var.enable_load_balancer ? module.prometheus[0].service_url : ""
   otel_collector_run_sa_email = module.iam.otel_collector_run_sa_email
   nextjs_run_sa_email         = module.iam.nextjs_run_sa_email
+  vpc_connector               = var.enable_load_balancer ? google_vpc_access_connector.otel_collector[0].id : null
 
   depends_on = [module.prometheus]
 }
