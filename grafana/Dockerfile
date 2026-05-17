@@ -9,7 +9,7 @@ COPY grafana/docker-entrypoint.sh /docker-entrypoint.sh
 
 USER root
 RUN chmod +x /docker-entrypoint.sh && \
-    chown -R grafana:grafana /etc/grafana/provisioning/
+    chmod 777 /etc/grafana/provisioning/datasources
 USER grafana
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
