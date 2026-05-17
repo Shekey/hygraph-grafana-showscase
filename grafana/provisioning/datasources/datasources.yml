@@ -1,21 +1,26 @@
 apiVersion: 1
 
+deleteDatasourcesFromJson: true
+
 datasources:
   - name: Prometheus
     type: prometheus
     uid: prometheus
     url: ${PROMETHEUS_URL}
+    access: proxy
     isDefault: true
     jsonData:
       httpMethod: POST
       timeInterval: "15s"
-    secureJsonData: {}
+    editable: true
 
   - name: Cloud Logging
     type: stackdriver
     uid: cloud-logging
+    url: https://monitoring.googleapis.com
+    access: proxy
     isDefault: false
     jsonData:
       authenticationType: gce
       defaultProject: ${GCP_PROJECT_ID}
-    secureJsonData: {}
+    editable: true
