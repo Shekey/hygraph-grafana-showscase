@@ -4,13 +4,13 @@ resource "google_cloud_run_v2_service" "otel_collector" {
   location            = var.region
   deletion_protection = false
 
-  ingress = "INGRESS_TRAFFIC_INTERNAL_ONLY"
+  ingress = "INGRESS_TRAFFIC_ALL"
 
   template {
     service_account = var.otel_collector_run_sa_email
 
     scaling {
-      min_instance_count = 0
+      min_instance_count = 1
       max_instance_count = 3
     }
 
@@ -69,4 +69,11 @@ resource "google_cloud_run_service_iam_member" "otel_collector_nextjs_invoker" {
   service  = google_cloud_run_v2_service.otel_collector.name
   role     = "roles/run.invoker"
   member   = "serviceAccount:${var.nextjs_run_sa_email}"
+}
+
+resource "google_cloud_run_service_iam_member" "otel_collector_public_invoker" {
+  location = google_cloud_run_v2_service.otel_collector.location
+  service  = google_cloud_run_v2_service.otel_collector.name
+  role     = "roles/run.invoker"
+  member   = "allUsers"
 }
