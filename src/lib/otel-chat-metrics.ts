@@ -22,7 +22,9 @@ export function initializeChatMetrics() {
 
   chatToolRounds = meter.createHistogram('chat_tool_rounds_total', {
     description: 'Number of tool rounds executed per chat request',
-    boundaries: [0, 1, 2, 3, 4, 5],
+    advice: {
+      explicitBucketBoundaries: [0, 1, 2, 3, 4, 5],
+    },
   });
 
   chatToolCallCounter = meter.createCounter('chat_tool_calls_total', {
