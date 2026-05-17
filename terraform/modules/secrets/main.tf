@@ -44,7 +44,7 @@ resource "google_secret_manager_secret_iam_member" "grafana_accessor" {
 }
 
 resource "google_secret_manager_secret_version" "grafana_admin_password_initial" {
-  secret      = google_secret_manager_secret.app_secrets["GF_SECURITY_ADMIN_PASSWORD"].id
+  secret_id   = google_secret_manager_secret.app_secrets["GF_SECURITY_ADMIN_PASSWORD"].secret_id
   secret_data = "ChangeMe123!"
 
   lifecycle {
