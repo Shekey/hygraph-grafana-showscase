@@ -24,7 +24,7 @@ resource "google_project_iam_member" "deployer_ar_writer" {
 
 resource "google_project_iam_member" "deployer_vpc_access" {
   project = var.project_id
-  role    = "roles/compute.networkAdmin"
+  role    = "roles/vpcaccess.admin"
   member  = "serviceAccount:${google_service_account.cloud_build_deployer.email}"
 }
 
