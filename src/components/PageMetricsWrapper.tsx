@@ -6,8 +6,8 @@ interface PageMetricsWrapperProps {
 }
 
 export function PageMetricsWrapper({ children, route }: PageMetricsWrapperProps) {
-  // Record page request with OTel custom metrics
-  recordPageRequest(route, 0, 200);
+  const start = Date.now();
+  recordPageRequest(route, Date.now() - start, 200);
 
   return children;
 }

@@ -9,6 +9,14 @@ resource "google_cloud_run_v2_service" "otel_collector" {
   template {
     service_account = var.otel_collector_run_sa_email
 
+    dynamic "vpc_access" {
+      for_each = var.vpc_connector != null ? [1] : []
+      content {
+        connector = var.vpc_connector
+        egress    = "ALL_TRAFFIC"
+      }
+    }
+
     scaling {
       min_instance_count = 1
       max_instance_count = 3

@@ -38,3 +38,9 @@ variable "nextjs_run_sa_email" {
   type        = string
   description = "Email of the Next.js Cloud Run service account"
 }
+
+variable "vpc_connector" {
+  type        = string
+  description = "VPC Access Connector ID for internal Prometheus access"
+  default     = null
+}
