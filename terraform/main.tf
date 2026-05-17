@@ -47,6 +47,10 @@ resource "google_vpc_access_connector" "grafana" {
   min_instances = 2
   max_instances = 3
   machine_type  = "f1-micro"
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 module "cloud_run" {

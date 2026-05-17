@@ -119,6 +119,27 @@ jobs:
       - name: Terraform Validate
         run: terraform validate
 
+      - name: Import existing VPC connector if present
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          # Only attempt import for production (main branch)
+          CONNECTOR_NAME="${{ steps.env.outputs.name }}-grafana-connector"
+          if gcloud compute networks vpc-access connectors describe "$CONNECTOR_NAME" --region=europe-west3 2>/dev/null; then
+            echo "Found existing connector: $CONNECTOR_NAME, importing..."
+            terraform import \
+              -var-file="environments/${{ steps.env.outputs.name }}.tfvars" \
+              -var="project_id=${{ secrets.GCP_PROJECT_ID }}" \
+              -var="project_number=${{ secrets.GCP_PROJECT_NUMBER }}" \
+              -var="alert_notification_email=${{ secrets.ALERT_EMAIL }}" \
+              -var="hygraph_endpoint=${{ secrets.NEXT_PUBLIC_HYGRAPH_CONTENT_ENDPOINT }}" \
+              'google_vpc_access_connector.grafana[0]' \
+              "projects/${{ secrets.GCP_PROJECT_ID }}/locations/europe-west3/connectors/$CONNECTOR_NAME"
+            echo "✓ Import successful"
+          else
+            echo "✓ No existing connector found, will create fresh"
+          fi
+        continue-on-error: true
+
       - name: Clean up stale Terraform locks
         run: |
           BUCKET="${{ secrets.GCP_PROJECT_ID }}-terraform-state"
