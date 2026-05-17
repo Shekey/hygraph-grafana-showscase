@@ -8,7 +8,8 @@ COPY grafana/dashboards /etc/grafana/dashboards
 COPY grafana/docker-entrypoint.sh /docker-entrypoint.sh
 
 USER root
-RUN chmod +x /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh && \
+    chown -R grafana:grafana /etc/grafana/provisioning/
 USER grafana
 
 ENTRYPOINT ["/docker-entrypoint.sh"]

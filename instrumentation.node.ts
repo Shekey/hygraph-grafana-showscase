@@ -9,7 +9,7 @@ export function initializeOpenTelemetry() {
 
   try {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const { Resource } = require('@opentelemetry/resources');
+    const { resourceFromAttributes } = require('@opentelemetry/sdk-node').resources;
 
     if (process.env.NODE_ENV === 'production') {
       // eslint-disable-next-line global-require
@@ -43,12 +43,11 @@ export function initializeOpenTelemetry() {
     }
 
     const environment = process.env.APP_ENV || process.env.NODE_ENV || 'unknown';
-    const resource = Resource.default().merge(
-      new Resource({
-        [SemanticResourceAttributes.DEPLOYMENT_ENVIRONMENT]: environment,
-        environment,
-      }),
-    );
+    const resource = resourceFromAttributes({
+      [SemanticResourceAttributes.SERVICE_NAME]: 'hygraph-showcase',
+      [SemanticResourceAttributes.DEPLOYMENT_ENVIRONMENT]: environment,
+      environment,
+    });
 
     const sdk = new NodeSDK({
       traceExporter,
