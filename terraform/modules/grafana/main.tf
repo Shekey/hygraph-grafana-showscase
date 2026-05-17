@@ -53,11 +53,6 @@ resource "google_cloud_run_v2_service" "grafana" {
       }
 
       env {
-        name  = "GF_INSTALL_PLUGINS"
-        value = "grafana-clock-panel"
-      }
-
-      env {
         name  = "PROMETHEUS_URL"
         value = var.prometheus_url
       }
