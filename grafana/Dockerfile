@@ -8,9 +8,8 @@ COPY grafana/dashboards /etc/grafana/dashboards
 COPY grafana/docker-entrypoint.sh /docker-entrypoint.sh
 
 USER root
-RUN chmod +x /docker-entrypoint.sh && \
-    chmod 777 /etc/grafana/provisioning/datasources && \
-    chmod 666 /etc/grafana/provisioning/datasources/datasources.yml
+RUN apk add --no-cache gettext && \
+    chmod +x /docker-entrypoint.sh
 USER grafana
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
