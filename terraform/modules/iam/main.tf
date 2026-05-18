@@ -97,6 +97,12 @@ resource "google_project_iam_member" "grafana_metric_viewer" {
   member  = "serviceAccount:${google_service_account.grafana_run_sa.email}"
 }
 
+resource "google_project_iam_member" "grafana_log_viewer" {
+  project = var.project_id
+  role    = "roles/logging.viewer"
+  member  = "serviceAccount:${google_service_account.grafana_run_sa.email}"
+}
+
 resource "google_project_iam_member" "grafana_trace_agent" {
   project = var.project_id
   role    = "roles/cloudtrace.agent"

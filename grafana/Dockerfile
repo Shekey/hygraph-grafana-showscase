@@ -1,6 +1,6 @@
 FROM grafana/grafana:11.0.0
 
-RUN grafana-cli plugins install grafana-clock-panel
+RUN grafana-cli --no-update plugins install grafana-clock-panel
 
 COPY grafana/provisioning/datasources/datasources.yml /etc/grafana/provisioning/datasources/datasources.yml
 COPY grafana/provisioning/dashboards /etc/grafana/provisioning/dashboards

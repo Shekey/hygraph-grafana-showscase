@@ -36,7 +36,7 @@ resource "google_cloud_run_v2_service" "grafana" {
       resources {
         limits = {
           cpu    = "1"
-          memory = "512Mi"
+          memory = "1Gi"
         }
         cpu_idle          = true
         startup_cpu_boost = true
@@ -58,8 +58,18 @@ resource "google_cloud_run_v2_service" "grafana" {
       }
 
       env {
-        name  = "GF_DATABASE_URL"
-        value = "sqlite3://:memory:"
+        name  = "GF_DATABASE_TYPE"
+        value = "sqlite3"
+      }
+
+      env {
+        name  = "GF_DATABASE_PATH"
+        value = ":memory:"
+      }
+
+      env {
+        name  = "GF_SERVER_HTTP_PORT"
+        value = "3000"
       }
 
       dynamic "env" {
