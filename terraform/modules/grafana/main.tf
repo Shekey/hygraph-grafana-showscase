@@ -14,7 +14,7 @@ resource "google_cloud_run_v2_service" "grafana" {
       max_instance_count = 1
     }
 
-    timeout = "120s"
+    timeout = "300s"
 
     dynamic "vpc_access" {
       for_each = var.vpc_connector != null ? [1] : []
@@ -90,9 +90,9 @@ resource "google_cloud_run_v2_service" "grafana" {
         tcp_socket {
           port = 3000
         }
-        initial_delay_seconds = 10
-        period_seconds        = 5
-        timeout_seconds       = 5
+        initial_delay_seconds = 30
+        period_seconds        = 10
+        timeout_seconds       = 10
         failure_threshold     = 30
       }
     }
