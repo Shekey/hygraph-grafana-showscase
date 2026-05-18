@@ -64,7 +64,17 @@ resource "google_cloud_run_v2_service" "grafana" {
 
       env {
         name  = "GF_DATABASE_PATH"
-        value = ":memory:"
+        value = "/tmp/grafana.db"
+      }
+
+      env {
+        name  = "GF_PATHS_DATA"
+        value = "/tmp/grafana-data"
+      }
+
+      env {
+        name  = "GF_PATHS_LOGS"
+        value = "/tmp/grafana-logs"
       }
 
       env {
