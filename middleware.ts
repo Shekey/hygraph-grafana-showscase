@@ -11,8 +11,10 @@ export const config = {
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // Skip middleware for static assets and metrics endpoints
   if (
     pathname === '/api/metrics' ||
+    pathname === '/api/vitals' ||
     pathname.startsWith('/_next/') ||
     pathname.startsWith('/static/') ||
     pathname.match(/\.(ico|png|jpg|jpeg|svg|gif|webp|css|js)$/)
