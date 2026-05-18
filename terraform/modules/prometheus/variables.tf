@@ -44,3 +44,9 @@ variable "otel_collector_url" {
   description = "URL of the OTel Collector service (for scraping metrics)"
   default     = ""
 }
+
+variable "vpc_connector" {
+  type        = string
+  description = "VPC Access Connector ID for internal service-to-service communication"
+  default     = null
+}
