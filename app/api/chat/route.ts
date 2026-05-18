@@ -103,10 +103,13 @@ async function handler(request: NextRequest): Promise<Response> {
   });
 
   // Map our message format to Vertex AI Content[]
-  const history = messages.slice(0, -1).map((m) => ({
-    role: m.role, // "user" | "model" — matches Vertex AI's expected values
-    parts: [{ text: m.content }],
-  }));
+  const history = messages
+    .slice(0, -1)
+    .filter((m) => m.content.trim() !== "")
+    .map((m) => ({
+      role: m.role, // "user" | "model" — matches Vertex AI's expected values
+      parts: [{ text: m.content }],
+    }));
 
   const chat = model.startChat({ history });
 

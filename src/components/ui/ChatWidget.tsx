@@ -88,12 +88,10 @@ export default function ChatWidget() {
     const userMessage: Message = { role: "user", content: trimmed };
     const nextMessages = [...messages, userMessage];
 
-    setMessages(nextMessages);
+    // Set messages with both user + empty model in a single update to avoid state snapshot race
+    setMessages([...nextMessages, { role: "model", content: "" }]);
     setInput("");
     setIsStreaming(true);
-
-    // Optimistically add empty model message to stream into
-    setMessages((prev) => [...prev, { role: "model", content: "" }]);
 
     try {
       const response = await fetch("/api/chat", {
