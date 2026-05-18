@@ -28,6 +28,7 @@ module "wif" {
 module "secrets" {
   source = "./modules/secrets"
 
+  project_id                    = var.project_id
   environment                   = var.environment
   nextjs_run_sa_email           = module.iam.nextjs_run_sa_email
   cloud_build_deployer_sa_email = module.iam.cloud_build_deployer_sa_email
