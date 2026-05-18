@@ -9,6 +9,14 @@ resource "google_cloud_run_v2_service" "prometheus" {
   template {
     service_account = var.prometheus_run_sa_email
 
+    dynamic "vpc_access" {
+      for_each = var.vpc_connector != null ? [1] : []
+      content {
+        connector = var.vpc_connector
+        egress    = "INTERNAL_ONLY"
+      }
+    }
+
     scaling {
       min_instance_count = 1
       max_instance_count = 1

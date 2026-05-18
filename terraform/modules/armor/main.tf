@@ -14,6 +14,18 @@ resource "google_compute_security_policy" "app_policy" {
     description = "Allow Next.js image optimization requests"
   }
 
+  # Rule 0.5: Allow metrics endpoints (skip WAF)
+  rule {
+    action   = "allow"
+    priority = 900
+    match {
+      expr {
+        expression = "(request.path == '/api/vitals' || request.path == '/api/metrics') && request.method == 'POST'"
+      }
+    }
+    description = "Allow Web Vitals and metrics POST endpoints (bypass WAF)"
+  }
+
   # Rule 1: XSS protection
   rule {
     action   = "deny(403)"
