@@ -210,7 +210,7 @@ module "grafana" {
   image_uri            = "${module.artifact_registry.repository_urls[var.region]}/grafana"
   image_tag            = var.grafana_image_tag
   grafana_run_sa_email = module.iam.grafana_run_sa_email
-  prometheus_url       = var.enable_load_balancer ? module.prometheus[0].service_url : ""
+  prometheus_url       = var.enable_load_balancer ? "http://prometheus:9090" : ""
   ingress_mode         = "INGRESS_TRAFFIC_ALL"
   vpc_connector        = var.enable_load_balancer ? google_vpc_access_connector.grafana[0].id : null
 
