@@ -1,7 +1,13 @@
+# Production Prometheus Configuration
+# Metrics flow via OTel Collector remote write (push model), not via scrape (pull model)
+# The --web.enable-remote-write-receiver flag enables the /api/v1/write endpoint
+# OTel Collector pushes metrics to http://localhost:9090/api/v1/write
+
 global:
   scrape_interval: 15s
   evaluation_interval: 15s
   external_labels:
     environment: production
 
+# No scrape targets for production - all metrics come via remote write from OTel Collector
 scrape_configs: []

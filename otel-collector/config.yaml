@@ -16,6 +16,12 @@ processors:
 exporters:
   prometheusremotewrite:
     endpoint: ${PROMETHEUS_REMOTE_WRITE_URL}
+    timeout: 30s
+    retry_on_failure:
+      enabled: true
+      initial_interval: 5s
+      max_interval: 30s
+      max_elapsed_time: 300s
 
 service:
   extensions: [health_check]
