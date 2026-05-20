@@ -1,0 +1,280 @@
+name: Alert Investigation Agent
+
+on:
+  workflow_dispatch:
+    inputs:
+      alertname:
+        description: 'Alert name from Grafana'
+        required: true
+        type: string
+      metric_value:
+        description: 'Alert metric value'
+        required: true
+        type: string
+      fired_at:
+        description: 'Alert fired timestamp (ISO 8601)'
+        required: true
+        type: string
+
+jobs:
+  investigate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Checkout repo with full history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run TypeScript check
+        id: tsc
+        run: |
+          npx tsc --noEmit 2>&1 | head -30 > /tmp/tsc_output.txt || true
+          cat /tmp/tsc_output.txt
+
+      - name: Gather git evidence
+        id: evidence
+        run: |
+          echo "=== Recent commits ===" > /tmp/evidence.txt
+          git log --oneline -5 >> /tmp/evidence.txt
+          echo "" >> /tmp/evidence.txt
+          echo "=== Last deploy diff (stat) ===" >> /tmp/evidence.txt
+          git diff HEAD~1 --stat >> /tmp/evidence.txt || echo "No previous commit" >> /tmp/evidence.txt
+          echo "" >> /tmp/evidence.txt
+          echo "=== TSC output ===" >> /tmp/evidence.txt
+          cat /tmp/tsc_output.txt >> /tmp/evidence.txt
+          cat /tmp/evidence.txt
+
+      - name: Fetch alert-relevant source files
+        id: files
+        run: |
+          # Map alertname to relevant files
+          case "${{ inputs.alertname }}" in
+            High5xxRate)
+              FILES="app/api/chat/route.ts src/lib/hygraph/client.ts instrumentation.node.ts"
+              ;;
+            HighP95Latency)
+              FILES="src/lib/hygraph/client.ts instrumentation.node.ts app/api/chat/route.ts"
+              ;;
+            ChatErrorRateHigh)
+              FILES="app/api/chat/route.ts src/lib/chat-tools.ts"
+              ;;
+            ChatMaxRounds)
+              FILES="app/api/chat/route.ts src/lib/chat-tools.ts"
+              ;;
+            *)
+              FILES="app/api/chat/route.ts src/lib/hygraph/client.ts"
+              ;;
+          esac
+
+          echo "=== Source files for ${{ inputs.alertname }} ===" > /tmp/files.txt
+          for file in $FILES; do
+            if [ -f "$file" ]; then
+              echo "" >> /tmp/files.txt
+              echo "--- $file ---" >> /tmp/files.txt
+              head -150 "$file" >> /tmp/files.txt
+            fi
+          done
+
+          cat /tmp/files.txt
+
+      - name: Grep for suspicious patterns
+        id: grep
+        run: |
+          echo "=== Fetch without timeout ===" > /tmp/grep.txt
+          grep -rn "fetch(" src/ app/ --include="*.ts" --include="*.tsx" | grep -v "AbortSignal" | head -10 >> /tmp/grep.txt 2>&1 || echo "None found" >> /tmp/grep.txt
+          echo "" >> /tmp/grep.txt
+          echo "=== Missing try/catch ===" >> /tmp/grep.txt
+          grep -rn "await fetch" src/ app/ --include="*.ts" --include="*.tsx" | grep -v "try" | head -5 >> /tmp/grep.txt 2>&1 || echo "None found" >> /tmp/grep.txt
+          cat /tmp/grep.txt
+
+      - name: Prepare GitHub Models API prompt
+        id: prompt
+        run: |
+          # Combine all evidence
+          cat > /tmp/prompt.txt << 'EOF'
+          You are an expert code reviewer investigating a production alert.
+
+          Alert: ${{ inputs.alertname }}
+          Metric value: ${{ inputs.metric_value }}
+          Fired at: ${{ inputs.fired_at }}
+
+          Evidence:
+
+          === Git History ===
+          EOF
+          cat /tmp/evidence.txt >> /tmp/prompt.txt
+          echo "" >> /tmp/prompt.txt
+          echo "=== Source Files ===" >> /tmp/prompt.txt
+          cat /tmp/files.txt >> /tmp/prompt.txt
+          echo "" >> /tmp/prompt.txt
+          echo "=== Pattern Analysis ===" >> /tmp/prompt.txt
+          cat /tmp/grep.txt >> /tmp/prompt.txt
+
+          cat >> /tmp/prompt.txt << 'EOF'
+
+          Based on the evidence above, identify:
+          1. Root cause of the alert
+          2. The most suspect file/line
+          3. Suggested fix (code snippet)
+          4. Your confidence level (high/medium/low)
+
+          Respond with JSON:
+          {
+            "rootCause": "...",
+            "suspectFile": "path/to/file.ts:line",
+            "fixDescription": "...",
+            "codeChange": "... code snippet ...",
+            "confidence": "high|medium|low"
+          }
+          EOF
+
+          wc -w /tmp/prompt.txt
+          echo "prompt_path=/tmp/prompt.txt" >> $GITHUB_OUTPUT
+
+      - name: Call GitHub Models API
+        id: analysis
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PROMPT=$(cat /tmp/prompt.txt)
+
+          RESPONSE=$(curl -s https://models.inference.ai.azure.com/chat/completions \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"model\": \"gpt-4o-mini\",
+              \"messages\": [
+                {
+                  \"role\": \"user\",
+                  \"content\": $(echo "$PROMPT" | jq -Rs .)
+                }
+              ],
+              \"temperature\": 0.7,
+              \"max_tokens\": 1000
+            }")
+
+          echo "GitHub Models response:"
+          echo "$RESPONSE" | jq .
+
+          # Extract content
+          CONTENT=$(echo "$RESPONSE" | jq -r '.choices[0].message.content // empty')
+
+          if [ -z "$CONTENT" ]; then
+            echo "Failed to get response from GitHub Models API"
+            echo "response=$RESPONSE" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+
+          # Try to parse JSON from response
+          JSON=$(echo "$CONTENT" | jq '.' 2>/dev/null || echo "")
+
+          if [ -z "$JSON" ]; then
+            # Try to extract JSON block
+            JSON=$(echo "$CONTENT" | grep -oP '(?<=```json).*?(?=```)' | jq '.' 2>/dev/null || echo "")
+          fi
+
+          if [ -z "$JSON" ]; then
+            echo "Could not parse JSON from response, using raw content"
+            echo "analysis=$CONTENT" | head -200 >> $GITHUB_OUTPUT
+          else
+            echo "analysis=$JSON" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create draft PR
+        id: pr
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Parse analysis (with fallback)
+          ANALYSIS="${{ steps.analysis.outputs.analysis }}"
+
+          ROOT_CAUSE=$(echo "$ANALYSIS" | jq -r '.rootCause // "Investigate code and tests"' 2>/dev/null || echo "Code investigation needed")
+          SUSPECT_FILE=$(echo "$ANALYSIS" | jq -r '.suspectFile // "unknown"' 2>/dev/null || echo "unknown")
+          FIX_DESC=$(echo "$ANALYSIS" | jq -r '.fixDescription // "See investigation output"' 2>/dev/null || echo "See investigation output")
+          CONFIDENCE=$(echo "$ANALYSIS" | jq -r '.confidence // "medium"' 2>/dev/null || echo "medium")
+
+          # Create PR title
+          TITLE="fix: ${{ inputs.alertname }} — $ROOT_CAUSE"
+
+          # Truncate title to 72 chars for GitHub
+          TITLE=$(echo "$TITLE" | cut -c1-72)
+
+          # Create PR body
+          BODY=$(cat << EOF
+          ## 🤖 Alert Investigation
+
+          **Alert:** ${{ inputs.alertname }}
+          **Metric value:** ${{ inputs.metric_value }}
+          **Fired at:** ${{ inputs.fired_at }}
+
+          ### Root Cause
+          $ROOT_CAUSE
+
+          ### Suspect File
+          \`\`\`
+          $SUSPECT_FILE
+          \`\`\`
+
+          ### Confidence
+          $CONFIDENCE
+
+          ### Suggested Fix
+          $FIX_DESC
+
+          ### Investigation Evidence
+          \`\`\`
+          $(tail -50 /tmp/evidence.txt)
+          \`\`\`
+
+          ⚠️ **This PR was generated by an automated agent. Review carefully before merging.**
+
+          ---
+          *Auto-generated on $(date -u +'%Y-%m-%d %H:%M:%S UTC')*
+          EOF
+          )
+
+          # Create draft PR
+          PR_URL=$(gh pr create --draft \
+            --title "$TITLE" \
+            --body "$BODY" \
+            --repo Shekey/hygraph-grafana-showscase 2>&1 || echo "")
+
+          if [[ $PR_URL == http* ]]; then
+            echo "pr_url=$PR_URL" >> $GITHUB_OUTPUT
+            echo "Created PR: $PR_URL"
+          else
+            echo "Failed to create PR"
+            echo "error=$PR_URL" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+
+      - name: Send investigation complete to Telegram
+        run: |
+          PR_URL="${{ steps.pr.outputs.pr_url }}"
+
+          if [ -z "$PR_URL" ]; then
+            MESSAGE="🔍 *Investigation failed* — could not create PR"
+          else
+            MESSAGE="🔍 *Investigation complete*%0A%0ADraft PR ready for review:%0A$PR_URL"
+          fi
+
+          curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"chat_id\": \"${{ secrets.TELEGRAM_CHAT_ID }}\",
+              \"text\": \"$MESSAGE\",
+              \"parse_mode\": \"Markdown\"
+            }" | jq .

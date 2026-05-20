@@ -213,6 +213,8 @@ module "grafana" {
   prometheus_url       = var.enable_load_balancer ? module.prometheus[0].service_url : ""
   ingress_mode         = "INGRESS_TRAFFIC_ALL"
   vpc_connector        = var.enable_load_balancer ? google_vpc_access_connector.grafana[0].id : null
+  app_url              = "https://${var.domain}"
+  alert_webhook_secret = var.alert_webhook_secret
 
   secret_ids = module.secrets.grafana_secret_ids
 

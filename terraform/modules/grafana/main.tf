@@ -58,6 +58,16 @@ resource "google_cloud_run_v2_service" "grafana" {
       }
 
       env {
+        name  = "NEXT_PUBLIC_APP_URL"
+        value = var.app_url
+      }
+
+      env {
+        name  = "ALERT_WEBHOOK_SECRET"
+        value = var.alert_webhook_secret
+      }
+
+      env {
         name  = "GF_DATABASE_TYPE"
         value = "sqlite3"
       }

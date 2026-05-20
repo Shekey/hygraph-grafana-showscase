@@ -59,3 +59,14 @@ variable "vpc_connector" {
   default     = null
 }
 
+variable "app_url" {
+  type        = string
+  description = "Next.js app URL for alert webhook (e.g., https://example.com)"
+}
+
+variable "alert_webhook_secret" {
+  type        = string
+  description = "Bearer token secret for /api/alerts webhook"
+  sensitive   = true
+}
+

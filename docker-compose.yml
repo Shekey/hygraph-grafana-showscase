@@ -43,7 +43,7 @@ services:
       - PROMETHEUS_URL=http://prometheus:9090
       - GCP_PROJECT_ID=unknown
       - NEXT_PUBLIC_APP_URL=http://localhost:3000
-      - ALERT_WEBHOOK_SECRET=test-secret-local
+      - ALERT_WEBHOOK_SECRET=${ALERT_WEBHOOK_SECRET}
     depends_on:
       - prometheus
 
