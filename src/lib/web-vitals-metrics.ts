@@ -31,16 +31,19 @@ export function recordWebVital(
   }
 
   const finalRating = rating || 'unknown';
+  const environment = process.env.APP_ENV || process.env.NODE_ENV || 'unknown';
 
   webVitalValue.record(value, {
     metric_name: name,
     rating: finalRating,
     route: route,
+    environment,
   });
 
   webVitalRequestsTotal.add(1, {
     metric_name: name,
     rating: finalRating,
     route: route,
+    environment,
   });
 }
