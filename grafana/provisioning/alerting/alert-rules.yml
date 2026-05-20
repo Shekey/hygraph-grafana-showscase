@@ -12,7 +12,7 @@ groups:
 
       - uid: high-5xx-error-rate
         title: High 5xx Error Rate
-        condition: C
+        condition: A
         noDataState: NoData
         execErrState: Alerting
         for: 5m
@@ -21,8 +21,7 @@ groups:
           description: |
             Error rate has exceeded 5% for the last 5 minutes.
             **Current rate:** {{ $value | humanizePercentage }}
-            **Environment:** {{ $labels.environment | default "all" }}
-            **Action:** Check error logs and recent deployments. Investigate root cause if rate continues to climb. Review Cloud Run and backend service logs.
+            **Action:** Check error logs and recent deployments. Investigate root cause if rate continues to climb.
         labels:
           severity: critical
           component: http
@@ -35,26 +34,19 @@ groups:
               to: 0
             datasourceUid: prometheus
             model:
-              expr: 'rate(http_server_duration_milliseconds_count{http_status_code=~"5.."}[5m])'
-              interval: ""
               refId: A
-          - refId: B
-            queryType: ""
-            relativeTimeRange:
-              from: 300
-              to: 0
-            datasourceUid: prometheus
-            model:
-              expr: 'rate(http_server_duration_milliseconds_count[5m])'
+              expr: >
+                (
+                  rate(http_server_duration_milliseconds_count{http_status_code=~"5.."}[5m])
+                  /
+                  rate(http_server_duration_milliseconds_count[5m])
+                ) > 0.05
+              instant: false
+              range: true
               interval: ""
-              refId: B
-          - refId: C
-            queryType: ""
-            expression: "B > 0 ? (A / B) : 0"
-            reducer: last
-            settings:
-              mode: strict
-            mathExpression: "B > 0 ? (A / B) : 0"
+              datasource:
+                type: prometheus
+                uid: prometheus
 
       - uid: high-p95-latency
         title: High P95 Page Latency
@@ -67,8 +59,6 @@ groups:
           description: |
             P95 page latency has exceeded 3 seconds for the last 5 minutes.
             **Current P95:** {{ $value | humanizeDuration }}
-            **Environment:** {{ $labels.environment }}
-            **Route:** {{ $labels.http_route | default "All" }}
             **Action:** Check CloudRun performance, database query times, and external API latencies.
         labels:
           severity: warning
@@ -82,9 +72,15 @@ groups:
               to: 0
             datasourceUid: prometheus
             model:
-              expr: 'histogram_quantile(0.95, sum by (le, http_route, environment) (rate(page_request_duration_ms_bucket[5m]))) > 3000'
-              interval: ""
               refId: A
+              expr: >
+                histogram_quantile(0.95, sum by (le) (rate(page_request_duration_ms_bucket[5m]))) > 3000
+              instant: false
+              range: true
+              interval: ""
+              datasource:
+                type: prometheus
+                uid: prometheus
 
       - uid: page-latency-by-route
         title: High Latency on Specific Route
@@ -93,12 +89,11 @@ groups:
         execErrState: Alerting
         for: 10m
         annotations:
-          summary: "Slow page load on {{ $labels.http_route }} ({{ $value | humanizeDuration }})"
+          summary: "Slow page load ({{ $value | humanizeDuration }})"
           description: |
-            Page latency for **{{ $labels.http_route }}** has exceeded 5 seconds for 10 minutes.
+            Page latency has exceeded 5 seconds for 10 minutes.
             **Current P95:** {{ $value | humanizeDuration }}
-            **Environment:** {{ $labels.environment }}
-            **Action:** Profile this route's data fetch and rendering. Check Hygraph query performance and data loading.
+            **Action:** Profile data fetch and rendering. Check Hygraph query performance.
         labels:
           severity: warning
           component: performance
@@ -111,9 +106,15 @@ groups:
               to: 0
             datasourceUid: prometheus
             model:
-              expr: 'histogram_quantile(0.95, sum by (le, http_route, environment) (rate(page_request_duration_ms_bucket[5m]))) > 5000'
-              interval: ""
               refId: A
+              expr: >
+                histogram_quantile(0.95, sum by (le, http_route) (rate(page_request_duration_ms_bucket[5m]))) > 5000
+              instant: false
+              range: true
+              interval: ""
+              datasource:
+                type: prometheus
+                uid: prometheus
 
       # ============================================================
       # Chat/AI Agent Alerts
@@ -121,7 +122,7 @@ groups:
 
       - uid: chat-high-error-rate
         title: High Chat Error Rate
-        condition: C
+        condition: A
         noDataState: NoData
         execErrState: Alerting
         for: 3m
@@ -130,8 +131,7 @@ groups:
           description: |
             Chat API error rate has exceeded 10% for the last 3 minutes.
             **Current rate:** {{ $value | humanizePercentage }}
-            **Environment:** {{ $labels.environment }}
-            **Action:** Check Vertex AI quota, authentication, or request payload issues. Review /api/chat logs.
+            **Action:** Check Vertex AI quota, authentication, or request payload issues.
         labels:
           severity: critical
           component: chat
@@ -144,26 +144,19 @@ groups:
               to: 0
             datasourceUid: prometheus
             model:
-              expr: 'rate(chat_requests_total{status="error"}[3m])'
-              interval: ""
               refId: A
-          - refId: B
-            queryType: ""
-            relativeTimeRange:
-              from: 180
-              to: 0
-            datasourceUid: prometheus
-            model:
-              expr: 'rate(chat_requests_total[3m])'
+              expr: >
+                (
+                  rate(chat_requests_total{status="error"}[3m])
+                  /
+                  rate(chat_requests_total[3m])
+                ) > 0.10
+              instant: false
+              range: true
               interval: ""
-              refId: B
-          - refId: C
-            queryType: ""
-            expression: "B > 0 ? (A / B) : 0"
-            reducer: last
-            settings:
-              mode: strict
-            mathExpression: "B > 0 ? (A / B) : 0"
+              datasource:
+                type: prometheus
+                uid: prometheus
 
       - uid: chat-max-rounds-exceeded
         title: Chat Conversation Exceeds Max Rounds
@@ -176,8 +169,7 @@ groups:
           description: |
             One or more chat conversations have reached the maximum rounds limit.
             **Count in 5m window:** {{ $value }}
-            **Environment:** {{ $labels.environment }}
-            **Action:** Monitor user experience. Consider increasing max_rounds if legitimate use cases require longer conversations.
+            **Action:** Monitor user experience. Consider increasing max_rounds if needed.
         labels:
           severity: info
           component: chat
@@ -190,9 +182,15 @@ groups:
               to: 0
             datasourceUid: prometheus
             model:
-              expr: 'increase(chat_requests_total{status="max_rounds"}[5m]) > 0'
-              interval: ""
               refId: A
+              expr: >
+                increase(chat_requests_total{status="max_rounds"}[5m]) > 0
+              instant: false
+              range: true
+              interval: ""
+              datasource:
+                type: prometheus
+                uid: prometheus
 
       - uid: chat-high-latency
         title: High Chat Response Latency
@@ -205,8 +203,7 @@ groups:
           description: |
             Chat API p95 response time has exceeded 10 seconds for 5 minutes.
             **Current P95:** {{ $value | humanizeDuration }}
-            **Status:** {{ $labels.status | default "all" }}
-            **Action:** Check Vertex AI latency, token generation speed, and network egress. Consider token limits or prompt optimization.
+            **Action:** Check Vertex AI latency, token generation, and network egress.
         labels:
           severity: warning
           component: chat
@@ -219,9 +216,15 @@ groups:
               to: 0
             datasourceUid: prometheus
             model:
-              expr: 'histogram_quantile(0.95, sum by (le, status) (rate(chat_response_duration_ms_bucket[5m]))) > 10000'
-              interval: ""
               refId: A
+              expr: >
+                histogram_quantile(0.95, sum by (le) (rate(chat_response_duration_ms_bucket[5m]))) > 10000
+              instant: false
+              range: true
+              interval: ""
+              datasource:
+                type: prometheus
+                uid: prometheus
 
       # ============================================================
       # Web Vitals / User Experience Alerts
@@ -238,9 +241,7 @@ groups:
           description: |
             Largest Contentful Paint (LCP) has exceeded 2.5 seconds for 10 minutes.
             **Current P75:** {{ $value | humanizeDuration }}
-            **Route:** {{ $labels.route | default "all" }}
-            **Environment:** {{ $labels.environment | default "all" }}
-            **Action:** Check image optimization, font loading, and server response times. Profile with Lighthouse.
+            **Action:** Check image optimization, font loading, and server response times.
         labels:
           severity: warning
           component: web-vitals
@@ -253,9 +254,15 @@ groups:
               to: 0
             datasourceUid: prometheus
             model:
-              expr: 'histogram_quantile(0.75, sum by (le, route, environment) (rate(web_vital_value_bucket{metric_name="LCP"}[5m]))) > 2500'
-              interval: ""
               refId: A
+              expr: >
+                histogram_quantile(0.75, sum by (le) (rate(web_vital_value_bucket{metric_name="LCP"}[5m]))) > 2500
+              instant: false
+              range: true
+              interval: ""
+              datasource:
+                type: prometheus
+                uid: prometheus
 
       # ============================================================
       # Service Health Alerts
@@ -271,7 +278,7 @@ groups:
           summary: "OTel metrics collection stopped"
           description: |
             No metric data received from the application for 2+ minutes.
-            **Action:** Check: 1) Is Cloud Run service running? 2) Is OTel collector healthy? 3) Is OTEL_EXPORTER_OTLP_ENDPOINT set correctly? 4) Check network connectivity.
+            **Action:** Check Cloud Run service status, OTel collector health, and network connectivity.
         labels:
           severity: critical
           component: infrastructure
@@ -284,12 +291,18 @@ groups:
               to: 0
             datasourceUid: prometheus
             model:
-              expr: 'increase(http_server_duration_milliseconds_count[2m]) == 0'
-              interval: ""
               refId: A
+              expr: >
+                increase(http_server_duration_milliseconds_count[2m]) == 0
+              instant: false
+              range: true
+              interval: ""
+              datasource:
+                type: prometheus
+                uid: prometheus
 
       - uid: zero-traffic-window
-        title: No Application Traffic (5 min window)
+        title: No Application Traffic
         condition: A
         noDataState: NoData
         execErrState: Alerting
@@ -298,8 +311,7 @@ groups:
           summary: "Application receiving no traffic"
           description: |
             No HTTP requests received in the last 5 minutes.
-            **Environment:** {{ $labels.environment }}
-            **Action:** Check load balancer routing, DNS, and firewall rules. Verify Cloud Run service is running and healthy. May be normal for low-traffic environments during maintenance.
+            **Action:** Check load balancer routing, DNS, and firewall rules. May be normal during maintenance.
         labels:
           severity: warning
           component: infrastructure
@@ -312,6 +324,12 @@ groups:
               to: 0
             datasourceUid: prometheus
             model:
-              expr: 'increase(http_server_duration_milliseconds_count[5m]) == 0'
-              interval: ""
               refId: A
+              expr: >
+                increase(http_server_duration_milliseconds_count[5m]) == 0
+              instant: false
+              range: true
+              interval: ""
+              datasource:
+                type: prometheus
+                uid: prometheus

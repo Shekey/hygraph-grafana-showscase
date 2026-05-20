@@ -23,6 +23,9 @@ envsubst '${NEXT_PUBLIC_APP_URL} ${ALERT_WEBHOOK_SECRET}' \
 cp /etc/grafana/provisioning/alerting/notification-policies.yml \
    /tmp/grafana-provisioning/alerting/
 
+cp /etc/grafana/provisioning/alerting/alert-rules.yml \
+   /tmp/grafana-provisioning/alerting/
+
 export GF_PATHS_PROVISIONING=/tmp/grafana-provisioning
 
 exec /run.sh
