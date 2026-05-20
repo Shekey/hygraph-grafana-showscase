@@ -164,9 +164,3 @@ variable "otel_collector_image_tag" {
   default     = "latest"
   description = "Container image tag for OTel Collector"
 }
-
-variable "alert_webhook_secret" {
-  type        = string
-  sensitive   = true
-  description = "Bearer token secret for /api/alerts webhook (Grafana → Next.js)"
-}
