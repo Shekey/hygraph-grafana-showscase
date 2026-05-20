@@ -17,6 +17,8 @@ exporters:
   prometheusremotewrite:
     endpoint: ${PROMETHEUS_REMOTE_WRITE_URL}
     timeout: 30s
+    resource_to_telemetry_conversion:
+      enabled: true
     retry_on_failure:
       enabled: true
       initial_interval: 5s
