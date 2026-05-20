@@ -1,0 +1,11 @@
+apiVersion: 1
+
+policies:
+  - orgId: 1
+    receiver: AI Diagnosis Webhook
+    groupBy:
+      - alertname
+    routes:
+      - receiver: AI Diagnosis Webhook
+        matchRE:
+          alertname: .+

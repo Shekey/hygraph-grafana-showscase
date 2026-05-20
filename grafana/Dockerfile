@@ -4,6 +4,7 @@ RUN grafana-cli plugins install grafana-clock-panel
 
 COPY grafana/provisioning/datasources/datasources.yml /etc/grafana/provisioning/datasources/datasources.yml
 COPY grafana/provisioning/dashboards /etc/grafana/provisioning/dashboards
+COPY grafana/provisioning/alerting /etc/grafana/provisioning/alerting
 COPY grafana/dashboards /etc/grafana/dashboards
 COPY grafana/docker-entrypoint.sh /docker-entrypoint.sh
 

@@ -147,8 +147,8 @@
       },
       "targets": [
         {
-          "expr": "rate(http_server_duration_milliseconds_count{environment=~\"${environment}\"}[1m])",
-          "legendFormat": "{{http_method}} {{http_status_code}}",
+          "expr": "rate(page_requests_total{environment=~\"${environment}\"}[1m])",
+          "legendFormat": "{{http_route}}",
           "refId": "A"
         }
       ],

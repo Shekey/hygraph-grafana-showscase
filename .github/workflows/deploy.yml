@@ -220,6 +220,10 @@ jobs:
           populate_secret "${ENV}-HYGRAPH_PREVIEW_TOKEN"       "${{ secrets.HYGRAPH_PREVIEW_TOKEN }}"
           populate_secret "${ENV}-HYGRAPH_PREVIEW_SECRET"      "${{ secrets.HYGRAPH_PREVIEW_SECRET }}"
           populate_secret "${ENV}-GF_SECURITY_ADMIN_PASSWORD"  "${{ secrets.GF_SECURITY_ADMIN_PASSWORD }}"
+          populate_secret "${ENV}-TELEGRAM_BOT_TOKEN"          "${{ secrets.TELEGRAM_BOT_TOKEN }}"
+          populate_secret "${ENV}-TELEGRAM_CHAT_ID"            "${{ secrets.TELEGRAM_CHAT_ID }}"
+          populate_secret "${ENV}-ALERT_WEBHOOK_SECRET"        "${{ secrets.ALERT_WEBHOOK_SECRET }}"
+          populate_secret "${ENV}-GITHUB_ACTIONS_TOKEN"        "${{ secrets.GITHUB_ACTIONS_TOKEN }}"
 
       - name: Terraform Apply
         if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop') && steps.plan.outputs.success == 'true'

@@ -2,6 +2,10 @@ locals {
   secret_names = [
     "HYGRAPH_PREVIEW_TOKEN",
     "HYGRAPH_PREVIEW_SECRET",
+    "TELEGRAM_BOT_TOKEN",
+    "TELEGRAM_CHAT_ID",
+    "ALERT_WEBHOOK_SECRET",
+    "GITHUB_ACTIONS_TOKEN",
   ]
   grafana_secret_names = [
     "GF_SECURITY_ADMIN_PASSWORD",

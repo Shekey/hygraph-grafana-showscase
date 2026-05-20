@@ -1,0 +1,12 @@
+apiVersion: 1
+
+contactPoints:
+  - orgId: 1
+    name: AI Diagnosis Webhook
+    receivers:
+      - uid: ai-diagnosis-webhook
+        type: webhook
+        settings:
+          url: ${NEXT_PUBLIC_APP_URL}/api/alerts
+          httpMethod: POST
+          authorization: Bearer ${ALERT_WEBHOOK_SECRET}

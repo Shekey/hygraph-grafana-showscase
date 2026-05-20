@@ -177,9 +177,26 @@ export default async function Page({ params, searchParams }: PageProps) {
     segmentId,
   } as GetPageQueryVariables);
 
-  recordPageRequest(`/[locale]/[slug]`, Math.round(performance.now() - t0), 200);
-
   const page = data?.pages?.[0];
+
+  // Determine the route template for metrics
+  let routeTemplate = `/[locale]/[slug]`;
+  if (page) {
+    const hasArticleListSection = page.sections?.some(
+      (section) => section.__typename === 'ArticleList'
+    );
+    const hasProductShowcaseSection = page.sections?.some(
+      (section) => section.__typename === 'ProductShowcase'
+    );
+
+    if (hasArticleListSection && !hasProductShowcaseSection) {
+      routeTemplate = `/[locale]/collection/[slug]`;
+    } else if (hasProductShowcaseSection) {
+      routeTemplate = `/[locale]/product/[slug]`;
+    }
+  }
+
+  recordPageRequest(routeTemplate, Math.round(performance.now() - t0), 200);
 
   if (!page) {
     notFound();

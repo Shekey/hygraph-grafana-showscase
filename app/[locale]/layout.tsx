@@ -15,7 +15,6 @@ import { SiteSettingsProvider } from "@/lib/context/SiteSettingsContext";
 import SegmentSwitcher from "@/components/ui/SegmentSwitcher";
 import ChatWidget from "@/components/ui/ChatWidget";
 import { WebVitals } from "@/components/WebVitals";
-import { PageMetricsWrapper } from "@/components/PageMetricsWrapper";
 import { hygraphRequest } from "@/lib/hygraph/client";
 import {
   GetSiteSettingsDocument,
@@ -67,28 +66,26 @@ export default async function LocaleLayout({
     <SiteSettingsProvider siteSettings={siteSettings}>
       <Suspense fallback={null}>
         <SegmentProvider>
-          <PageMetricsWrapper route={`/${locale}`}>
-            <div className="flex min-h-screen flex-col">
-              {siteSettings?.announcement?.html && (
-                <AnnouncementBanner
-                  html={siteSettings.announcement.html}
-                  entryId={siteSettings.id}
-                />
-              )}
-              <Navigation locale={locale as Locale} siteSettings={siteSettings} />
-              <main className="flex-1">{children}</main>
-            <Footer
-              locale={locale as Locale}
-              siteSettings={siteSettings}
-              bikeCategories={bikeCategories}
-            />
-              <Suspense>
-                <SegmentSwitcher segments={segments} />
-              </Suspense>
-              <ChatWidget />
-              <WebVitals />
-            </div>
-          </PageMetricsWrapper>
+          <div className="flex min-h-screen flex-col">
+            {siteSettings?.announcement?.html && (
+              <AnnouncementBanner
+                html={siteSettings.announcement.html}
+                entryId={siteSettings.id}
+              />
+            )}
+            <Navigation locale={locale as Locale} siteSettings={siteSettings} />
+            <main className="flex-1">{children}</main>
+          <Footer
+            locale={locale as Locale}
+            siteSettings={siteSettings}
+            bikeCategories={bikeCategories}
+          />
+            <Suspense>
+              <SegmentSwitcher segments={segments} />
+            </Suspense>
+            <ChatWidget />
+            <WebVitals />
+          </div>
         </SegmentProvider>
       </Suspense>
     </SiteSettingsProvider>

@@ -1,8 +1,21 @@
 "use client";
 
 import { useReportWebVitals } from "next/web-vitals";
+import { usePathname, useParams } from "next/navigation";
+
+function toRouteTemplate(pathname: string, params: Record<string, string | string[]>): string {
+  let template = pathname;
+  for (const [key, value] of Object.entries(params)) {
+    const val = Array.isArray(value) ? value.join('/') : value;
+    template = template.replace(val, `[${key}]`);
+  }
+  return template;
+}
 
 export function WebVitals() {
+  const pathname = usePathname();
+  const params = useParams();
+
   useReportWebVitals((metric) => {
     console.debug(
       "[WebVitals]",
@@ -12,13 +25,14 @@ export function WebVitals() {
     );
 
     // Forward to OTel via API
+    const route = toRouteTemplate(pathname, params as Record<string, string | string[]>);
     const body = JSON.stringify({
       name: metric.name,
       value: metric.value,
       rating: metric.rating,
       id: metric.id,
       navigationType: metric.navigationType,
-      route: typeof window !== "undefined" ? window.location.pathname : "unknown",
+      route,
     });
 
     if (navigator.sendBeacon) {

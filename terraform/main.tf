@@ -210,11 +210,15 @@ module "grafana" {
   image_uri            = "${module.artifact_registry.repository_urls[var.region]}/grafana"
   image_tag            = var.grafana_image_tag
   grafana_run_sa_email = module.iam.grafana_run_sa_email
-  prometheus_url       = var.enable_load_balancer ? module.prometheus[0].service_url : ""
-  ingress_mode         = "INGRESS_TRAFFIC_ALL"
-  vpc_connector        = var.enable_load_balancer ? google_vpc_access_connector.grafana[0].id : null
+  prometheus_url = var.enable_load_balancer ? module.prometheus[0].service_url : ""
+  ingress_mode   = "INGRESS_TRAFFIC_ALL"
+  vpc_connector  = var.enable_load_balancer ? google_vpc_access_connector.grafana[0].id : null
+  app_url        = "https://${var.domain}"
 
-  secret_ids = module.secrets.grafana_secret_ids
+  secret_ids = merge(
+    module.secrets.grafana_secret_ids,
+    { for k, v in module.secrets.secret_ids : k => v if contains(["ALERT_WEBHOOK_SECRET"], k) }
+  )
 
   depends_on = [module.iam, module.secrets, module.prometheus]
 }
